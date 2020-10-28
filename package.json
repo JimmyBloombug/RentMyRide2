@@ -1,7 +1,7 @@
 {
   "name": "rentmyride",
   "version": "1.0.0",
-  "description": "Online carsharing single page application",
+  "description": "Online carsharing single page applicationcliecc",
   "main": "server.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",

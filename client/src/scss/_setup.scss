@@ -1,0 +1,61 @@
+// ==FONTS==
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&family=Poppins:wght@200;400;500;600;700&display=swap');
+$Montserrat: 'Montserrat Alternates', sans-serif;
+$Poppins: 'Poppins', sans-serif;
+
+.fontAwesome {
+  font-family: 'Helvetica', FontAwesome, sans-serif;
+}
+
+// ==COLORS==
+$AliceBlue: #ebf2ff;
+$White: #fefeff;
+$Byzantine: #a846a0;
+$Velvet: #3a0446;
+
+$successColor: (
+  100: #6ca779,
+  200: #51a764,
+  300: #28a745,
+);
+$infoColor: (
+  100: #6eaeb8,
+  200: #4ca9b8,
+  300: #15a2b8,
+);
+$warningColor: (
+  100: #ffd865,
+  200: #f9d640,
+  300: #ffcb31,
+  400: #ffc008,
+);
+$dangerColor: (
+  100: #dc5c68,
+  200: #dc3545,
+  300: #dc2133,
+);
+
+// ==BOX SHADOW==
+$boxshadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+
+// ==BREAKPOINTS==
+$breakpoints: (
+  xs: 576px,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px,
+);
+
+// ==Z-INDEX==
+$z-index: (
+  10: 10,
+  20: 20,
+  30: 30,
+  40: 40,
+  50: 50,
+  60: 60,
+  70: 70,
+  80: 80,
+  90: 90,
+  100: 100,
+);

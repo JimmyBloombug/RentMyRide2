@@ -1,0 +1,217 @@
+// === 1. SET a rem font size with pixel fallback ===
+
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+// === 2. Breakpoints ===
+
+// respond above defined width
+@mixin respondAbove($breakpoint) {
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    // Write the media query.
+    @media (min-width: $breakpoint-value) {
+      @content;
+    }
+
+    // If the breakpoint doesn't exist in the map.
+  } @else {
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+// respond below defined width
+@mixin respondBelow($breakpoint) {
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    // Write the media query.
+    @media (max-width: ($breakpoint-value - 1)) {
+      @content;
+    }
+
+    // If the breakpoint doesn't exist in the map.
+  } @else {
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+// respond between defined width
+@mixin respondBetween($lower, $upper) {
+  // If both the lower and upper breakpoints exist in the map.
+  @if map-has-key($breakpoints, $lower) and map-has-key($breakpoints, $upper) {
+    // Get the lower and upper breakpoints.
+    $lower-breakpoint: map-get($breakpoints, $lower);
+    $upper-breakpoint: map-get($breakpoints, $upper);
+
+    // Write the media query.
+    @media (min-width: $lower-breakpoint) and (max-width: ($upper-breakpoint - 1)) {
+      @content;
+    }
+
+    // If one or both of the breakpoints don't exist.
+  } @else {
+    // If lower breakpoint is invalid.
+    @if (map-has-key($breakpoints, $lower) == false) {
+      // Log a warning.
+      @warn 'Your lower breakpoint was invalid: #{$lower}.';
+    }
+
+    // If upper breakpoint is invalid.
+    @if (map-has-key($breakpoints, $upper) == false) {
+      // Log a warning.
+      @warn 'Your upper breakpoint was invalid: #{$upper}.';
+    }
+  }
+}
+
+// === 3. Centering Elements ===
+
+@mixin center($position) {
+  position: absolute;
+
+  @if $position == 'vertical' {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  } @else if $position == 'horizontal' {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translate(-50%);
+  } @else if $position == 'both' {
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
+// === 3. Animations and keyframes ===
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};
+}
+
+// === 4. TRANSITIONS ===
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+// === 5. CROSS BROWSER OPACITY ===
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+// === 6. BUTTONS ====
+@mixin btn($type, $style) {
+  font-family: $Poppins;
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 10px;
+
+  @if ($style == 'primary') {
+    color: white;
+    border-radius: 10px;
+  } @else if ($style == 'secondary') {
+    background-color: transparent;
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  @if ($type == 'success' && $style == 'primary') {
+    background-color: map-get($successColor, 300);
+    &:hover {
+      background-color: map-get($successColor, 100);
+    }
+  } @else if ($type == 'success' && $style == 'secondary') {
+    color: map-get($successColor, 300);
+    border-color: map-get($successColor, 300);
+    &:hover {
+      border-color: map-get($successColor, 100);
+      background-color: map-get($successColor, 300);
+    }
+  } @else if ($type == 'warning' && $style == 'primary') {
+    background-color: map-get($warningColor, 300);
+    &:hover {
+      background-color: map-get($warningColor, 100);
+    }
+  } @else if ($type == 'warning' && $style == 'secondary') {
+    color: map-get($warningColor, 300);
+    border-color: map-get($warningColor, 300);
+    &:hover {
+      border-color: map-get($warningColor, 100);
+      background-color: map-get($warningColor, 300);
+    }
+  } @else if ($type == 'danger' && $style == 'primary') {
+    background-color: map-get($dangerColor, 300);
+    &:hover {
+      background-color: map-get($dangerColor, 100);
+    }
+  } @else if ($type == 'danger' && $style == 'secondary') {
+    color: map-get($dangerColor, 300);
+    border-color: map-get($dangerColor, 300);
+    &:hover {
+      border-color: map-get($dangerColor, 100);
+      background-color: map-get($dangerColor, 300);
+    }
+  } @else if ($type == 'info' && $style == 'primary') {
+    background-color: map-get($infoColor, 300);
+    &:hover {
+      background-color: map-get($infoColor, 100);
+    }
+  } @else if ($type == 'info' && $style == 'secondary') {
+    color: map-get($infoColor, 300);
+    border-color: map-get($infoColor, 300);
+    &:hover {
+      border-color: map-get($infoColor, 100);
+      background-color: map-get($infoColor, 300);
+    }
+  }
+}
