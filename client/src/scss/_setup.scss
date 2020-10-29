@@ -1,17 +1,12 @@
 // ==FONTS==
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&family=Poppins:wght@200;400;500;600;700&display=swap');
-$Montserrat: 'Montserrat Alternates', sans-serif;
-$Poppins: 'Poppins', sans-serif;
-
-.fontAwesome {
-  font-family: 'Helvetica', FontAwesome, sans-serif;
-}
+$FontTitle: 'Montserrat Alternates', sans-serif;
+$FontMain: 'Poppins', sans-serif;
 
 // ==COLORS==
-$AliceBlue: #ebf2ff;
-$White: #fefeff;
-$Byzantine: #a846a0;
-$Velvet: #3a0446;
+$ColorBG: rgb(241, 241, 241);
+$ColorLinks: #ac0000c2;
+$ColorH: #ff5555;
 
 $successColor: (
   100: #6ca779,
