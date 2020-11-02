@@ -50,7 +50,7 @@ table {
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #f1f1f1;
+  background-color: #ebf2ff;
 }
 
 h1,
@@ -58,7 +58,7 @@ h2,
 h3,
 h4,
 h5 {
-  color: #ff5555;
+  color: #a846a0;
 }
 
 h1 {
@@ -85,53 +85,36 @@ a {
   color: inherit;
 }
 
-header nav {
+a:hover {
+  color: inherit;
+}
+
+nav {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 30px 10px;
-  margin-top: auto;
 }
 
-header nav .title {
-  z-index: 100;
-  font-size: 1.5em;
+nav .title {
   font-family: "Montserrat Alternates", sans-serif;
-  color: #ff5555;
+  font-size: 1.5em;
+  -webkit-transform: translateY(45%);
+          transform: translateY(45%);
+  color: #a846a0;
 }
 
-header nav .navlink {
-  position: relative;
+nav .navbar {
+  border: none !important;
 }
 
-header nav .navlink:after {
-  -webkit-transition: 0.2s ease-out;
-  transition: 0.2s ease-out;
-  -webkit-transform-origin: center;
-          transform-origin: center;
-  -webkit-transform: scale(0);
-          transform: scale(0);
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 25px;
-  height: 2px;
-  background-color: #ac0000c2;
-  width: 100%;
+nav .navbar .active.item {
+  color: #a846a0 !important;
+  border-color: #a846a0 !important;
 }
 
-header nav .navlink:hover::after {
-  -webkit-transform: scale(1);
-          transform: scale(1);
-}
-
-header nav a {
-  font-weight: 500;
-  color: #ac0000c2;
-  margin-right: 20px;
+nav .navlink {
+  font-size: 1.1em;
+  color: #3a0446 !important;
 }

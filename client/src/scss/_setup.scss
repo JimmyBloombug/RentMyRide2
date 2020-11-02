@@ -4,9 +4,10 @@ $FontTitle: 'Montserrat Alternates', sans-serif;
 $FontMain: 'Poppins', sans-serif;
 
 // ==COLORS==
-$ColorBG: rgb(241, 241, 241);
-$ColorLinks: #ac0000c2;
-$ColorH: #ff5555;
+$ColorBG1: #ebf2ff;
+$ColorBG2: #fefeff;
+$ColorText1: #a846a0;
+$ColorText2: #3a0446;
 
 $successColor: (
   100: #6ca779,
@@ -29,9 +30,6 @@ $dangerColor: (
   200: #dc3545,
   300: #dc2133,
 );
-
-// ==BOX SHADOW==
-$boxshadow: 0 4px 18px rgba(0, 0, 0, 0.2);
 
 // ==BREAKPOINTS==
 $breakpoints: (

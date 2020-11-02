@@ -4,7 +4,7 @@
 
 body {
   font-family: $FontMain;
-  background-color: $ColorBG;
+  background-color: $ColorBG1;
 }
 
 h1,
@@ -12,7 +12,7 @@ h2,
 h3,
 h4,
 h5 {
-  color: $ColorH;
+  color: $ColorText1;
 }
 
 h1 {
@@ -37,48 +37,29 @@ input {
 a {
   text-decoration: none;
   color: inherit;
+  &:hover {
+    color: inherit;
+  }
 }
 
-header {
-  nav {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 30px 10px;
-    margin-top: auto;
-
-    .title {
-      z-index: map-get($z-index, 100);
-      font-size: 1.5em;
-      font-family: $FontTitle;
-      color: $ColorH;
+nav {
+  display: flex;
+  justify-content: space-around;
+  .title {
+    font-family: $FontTitle;
+    font-size: 1.5em;
+    transform: translateY(45%);
+    color: $ColorText1;
+  }
+  .navbar {
+    border: none !important;
+    .active.item {
+      color: $ColorText1 !important;
+      border-color: $ColorText1 !important;
     }
-
-    .navlink {
-      position: relative;
-      &:after {
-        transition: 0.2s ease-out;
-        transform-origin: center;
-        transform: scale(0);
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 25px;
-        height: 2px;
-        background-color: $ColorLinks;
-        width: 100%;
-      }
-      &:hover {
-        &::after {
-          transform: scale(1);
-        }
-      }
-    }
-
-    a {
-      font-weight: 500;
-      color: $ColorLinks;
-      margin-right: 20px;
-    }
+  }
+  .navlink {
+    font-size: 1.1em;
+    color: $ColorText2 !important;
   }
 }

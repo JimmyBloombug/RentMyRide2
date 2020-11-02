@@ -6,6 +6,7 @@ import Home from './components/pages/Home';
 import Navbar from './components/layout/Navbar';
 
 // CSS
+import 'semantic-ui-css/semantic.min.css';
 import './css/App.css';
 
 function App() {

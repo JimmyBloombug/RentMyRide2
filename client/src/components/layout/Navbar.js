@@ -1,30 +1,63 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
 
 const Navbar = ({ title }) => {
+  const [activeItem, setActiveItem] = useState('home');
+
+  const handleOnlick = (e, { name }) => {
+    setActiveItem(name);
+  };
+
   return (
-    <header>
-      <nav>
-        <Link className='title' to='/'>
-          {title}
-        </Link>
-        <div className='navitems'>
-          <Link className='navitem' to='/'>
-            Home
-          </Link>
-          <Link className='navitem' to='/help'>
-            Any Questions
-          </Link>
-          <Link className='navitem' to='/help'>
-            Login
-          </Link>
-          <Link className='navitem ' to='/help'>
-            Get started
-          </Link>
-        </div>
-      </nav>
-    </header>
+    <nav>
+      <div className='title'>
+        <Link to='/'>{title}</Link>
+      </div>
+      <Menu className='navbar' pointing secondary>
+        <Menu.Item
+          className='navlink'
+          name='home'
+          as={Link}
+          to='/'
+          active={activeItem === 'home'}
+          onClick={handleOnlick}
+        />
+        <Menu.Item
+          className='navlink'
+          name='help'
+          as={Link}
+          to='/help'
+          active={activeItem === 'help'}
+          onClick={handleOnlick}
+        />
+        <Menu.Item
+          className='navlink'
+          name='about'
+          as={Link}
+          to='/about'
+          active={activeItem === 'about'}
+          onClick={handleOnlick}
+        />
+        <Menu.Item
+          className='navlink'
+          name='login'
+          as={Link}
+          to='/login'
+          active={activeItem === 'login'}
+          onClick={handleOnlick}
+        />
+        <Menu.Item
+          className='navlink'
+          name='get started'
+          as={Link}
+          to='/register'
+          active={activeItem === 'get started'}
+          onClick={handleOnlick}
+        />
+      </Menu>
+    </nav>
   );
 };
 
