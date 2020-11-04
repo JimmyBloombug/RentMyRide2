@@ -50,7 +50,7 @@ table {
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #ebf2ff;
+  background-color: #0e0b16 !important;
 }
 
 h1,
@@ -58,7 +58,7 @@ h2,
 h3,
 h4,
 h5 {
-  color: #a846a0;
+  color: #e7dfdd;
 }
 
 h1 {
@@ -89,32 +89,10 @@ a:hover {
   color: inherit;
 }
 
-nav {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+.navbar {
+  background-color: transparent;
 }
 
-nav .title {
-  font-family: "Montserrat Alternates", sans-serif;
-  font-size: 1.5em;
-  -webkit-transform: translateY(45%);
-          transform: translateY(45%);
-  color: #a846a0;
-}
-
-nav .navbar {
-  border: none !important;
-}
-
-nav .navbar .active.item {
-  color: #a846a0 !important;
-  border-color: #a846a0 !important;
-}
-
-nav .navlink {
-  font-size: 1.1em;
-  color: #3a0446 !important;
+.title {
+  font-family: "Montserrat Alternates", sans-serif !important;
 }

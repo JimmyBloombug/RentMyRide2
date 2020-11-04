@@ -4,7 +4,7 @@
 
 body {
   font-family: $FontMain;
-  background-color: $ColorBG1;
+  background-color: $ColorBG1 !important;
 }
 
 h1,
@@ -42,24 +42,10 @@ a {
   }
 }
 
-nav {
-  display: flex;
-  justify-content: space-around;
-  .title {
-    font-family: $FontTitle;
-    font-size: 1.5em;
-    transform: translateY(45%);
-    color: $ColorText1;
-  }
-  .navbar {
-    border: none !important;
-    .active.item {
-      color: $ColorText1 !important;
-      border-color: $ColorText1 !important;
-    }
-  }
-  .navlink {
-    font-size: 1.1em;
-    color: $ColorText2 !important;
-  }
+.navbar {
+  background-color: transparent;
+}
+
+.title {
+  font-family: $FontTitle !important;
 }
