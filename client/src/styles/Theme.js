@@ -10,16 +10,32 @@ const getTheme = (theme) => {
     palette: {
       type: theme.paletteType,
       primary: {
-        light: '#34323c',
+        light: '#34eb44',
         main: '#0e0b16',
-        dark: '#000000',
+        dark: '#09070f',
         contrastText: '#ffffff',
       },
       secondary: {
-        light: '#894dff',
+        light: '#6b45f6',
         main: '#4717f4',
-        dark: '#0000c0',
+        dark: '#3110aa',
         contrastText: '#ffffff',
+      },
+      tertiary: {
+        light: '#b460d4',
+        main: '#a239ca',
+        dark: '#71278d',
+        contrastText: '#ffffff',
+      },
+    },
+    typography: {
+      fontFamily: ["'Poppins', sans-serif"].join(','),
+      h1: {
+        fontFamily: "'Montserrat Alternates', sans-serif",
+      },
+      h6: {
+        fontFamily: "'Montserrat Alternates', sans-serif",
+        fontWeight: 'bold',
       },
     },
     breakpoints: {

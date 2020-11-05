@@ -1,44 +1,72 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import Drawer from '@material-ui/core/Drawer';
+import { Link } from 'react-router-dom';
+
 import List from '@material-ui/core/List';
+import Drawer from '@material-ui/core/Drawer';
+import { Typography } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
-// Icons
-import HelpIcon from '@material-ui/icons/Help';
-import DriveEtaIcon from '@material-ui/icons/DriveEta';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import InfoIcon from '@material-ui/icons/Info';
+import { makeStyles } from '@material-ui/core/styles';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
 
+const useStyles = makeStyles((theme) => ({
+  menuCont: {
+    marginRight: theme.spacing(5),
+    width: '100%',
+    height: '100%',
+    backgroundColor: theme.palette.secondary.dark,
+  },
+  heading: {
+    margin: theme.spacing(2, 2, 1),
+  },
+  headingSpan: {
+    color: theme.palette.tertiary.light,
+  },
+}));
+
 const MobileMenu = (props) => {
+  // Context
   const navbarContext = useContext(NavbarContext);
   const { menuOpen, setMenu } = navbarContext;
 
+  // Style
+  const classes = useStyles();
+
   return (
-    <div>
-      <Drawer
-        anchor={props.anchor}
-        open={menuOpen}
-        onClose={() => setMenu(false)}
-        variant='temporary'
-      >
+    <Drawer
+      anchor={props.anchor}
+      open={menuOpen}
+      onClose={() => setMenu(false)}
+      variant='temporary'
+    >
+      <div className={classes.menuCont}>
+        <div className={classes.heading}>
+          <Typography variant='h6'>
+            RentMy<span className={classes.headingSpan}>Ride</span>
+          </Typography>
+        </div>
         <List>
           {props.menuItems.map((item) => {
             return (
-              <ListItem button key={item.value}>
-                {/* <ListItemIcon>{item.icon}</ListItemIcon> */}
+              <ListItem
+                button
+                component={Link}
+                to={item.href}
+                key={item.key}
+                onClick={() => setMenu(false)}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.menuText} />
               </ListItem>
             );
           })}
         </List>
-      </Drawer>
-    </div>
+      </div>
+    </Drawer>
   );
 };
 
@@ -48,13 +76,7 @@ MobileMenu.propTypes = {
 };
 
 MobileMenu.defaultProps = {
-  anchor: 'bottom',
-  menuItems: [
-    { menuText: 'Login', value: 'login', icon: <VpnKeyIcon /> },
-    { menuText: 'Get Started', value: 'register', icon: <DriveEtaIcon /> },
-    { menuText: 'Any Questions', value: 'help', icon: <HelpIcon /> },
-    { menuText: 'About', value: 'about', icon: <InfoIcon /> },
-  ],
+  anchor: 'right',
 };
 
 export default MobileMenu;
