@@ -1,5 +1,7 @@
 import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
+
+// Material UI
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -14,10 +16,10 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import HelpIcon from '@material-ui/icons/Help';
 import InfoIcon from '@material-ui/icons/Info';
 import SearchIcon from '@material-ui/icons/Search';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import DriveEtaIcon from '@material-ui/icons/DriveEta';
 
 // Components
+import Login from '../auth/Login';
+import Register from '../auth/Register';
 import MobileMenu from './MobileMenu';
 
 // Context
@@ -25,7 +27,6 @@ import NavbarContext from '../../context/navbar/navbarContext';
 
 // Logo
 import logoPath from '../../assets/logo/logo.svg';
-import { red } from '@material-ui/core/colors';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -45,19 +46,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   titleSpan: {
-    color: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
   },
 }));
 
 // Menu Items
 const menuItems = [
-  { menuText: 'Login', key: 'login', href: 'login', icon: <VpnKeyIcon /> },
-  {
-    menuText: 'Register',
-    key: 'register',
-    href: 'register',
-    icon: <DriveEtaIcon />,
-  },
   { menuText: 'Search', key: 'search', href: 'search', icon: <SearchIcon /> },
   { menuText: 'How it works', key: 'help', href: 'help', icon: <HelpIcon /> },
   { menuText: 'About', key: 'about', href: 'about', icon: <InfoIcon /> },
@@ -66,7 +60,7 @@ const menuItems = [
 const Navbar = ({ title }) => {
   // Menu Button
   const navbarContext = useContext(NavbarContext);
-  const { setMenu } = navbarContext;
+  const { setMenu, setLoginForm, setRegisterForm } = navbarContext;
 
   // Theme
   const theme = useTheme();
@@ -82,11 +76,13 @@ const Navbar = ({ title }) => {
     <div className={classes.root}>
       <AppBar position='fixed' color='transparent' className={classes.navbar}>
         <Toolbar>
-          <img
-            src={logoPath}
-            alt='rent-my-ride_logo'
-            className={classes.logo}
-          />
+          <Link to='/'>
+            <img
+              src={logoPath}
+              alt='rent-my-ride_logo'
+              className={classes.logo}
+            />
+          </Link>
           <Typography variant='h6' className={`${classes.title} title`}>
             {mdown && (
               <Link to='/'>
@@ -105,17 +101,16 @@ const Navbar = ({ title }) => {
               <Button component={Link} to='/about' color='inherit'>
                 About
               </Button>
-              <Button component={Link} to='/login' color='inherit'>
+              <Button color='inherit' onClick={() => setLoginForm(true)}>
                 Login
               </Button>
               <Box ml={3}>
                 <Button
-                  component={Link}
-                  to='/register'
-                  color='secondary'
+                  onClick={() => setRegisterForm(true)}
+                  color='primary'
                   variant='contained'
                 >
-                  List your car
+                  Register
                 </Button>
               </Box>
             </Fragment>
@@ -133,6 +128,8 @@ const Navbar = ({ title }) => {
         </Toolbar>
       </AppBar>
       <MobileMenu menuItems={menuItems} />
+      <Login />
+      <Register />
     </div>
   );
 };

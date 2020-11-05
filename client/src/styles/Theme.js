@@ -9,22 +9,25 @@ const getTheme = (theme) => {
   return createMuiTheme({
     palette: {
       type: theme.paletteType,
-      primary: {
-        light: '#34eb44',
-        main: '#0e0b16',
-        dark: '#09070f',
-        contrastText: '#ffffff',
+      background: {
+        default: '#0e0b16',
       },
-      secondary: {
+      primary: {
         light: '#6b45f6',
         main: '#4717f4',
         dark: '#3110aa',
         contrastText: '#ffffff',
       },
-      tertiary: {
+      secondary: {
         light: '#b460d4',
         main: '#a239ca',
         dark: '#71278d',
+        contrastText: '#ffffff',
+      },
+      tertiary: {
+        light: '#34eb44',
+        main: '#0e0b16',
+        dark: '#09070f',
         contrastText: '#ffffff',
       },
     },

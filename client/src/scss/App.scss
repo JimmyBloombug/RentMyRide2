@@ -2,50 +2,49 @@
 @import 'setup';
 @import 'mixins';
 
-body {
-  font-family: $FontMain;
-  background-color: $ColorBG1 !important;
-}
+// body {
+//   font-family: $FontMain;
+// }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-  color: $ColorText1;
-}
+// h1,
+// h2,
+// h3,
+// h4,
+// h5 {
+//   color: rgb(14, 11, 22);
+// }
 
-h1 {
-  font-size: 2.8em;
-  font-weight: 600;
-}
+// h1 {
+//   font-size: 2.8em;
+//   font-weight: 600;
+// }
 
-h2 {
-  font-size: 2.2em;
-  font-weight: 500;
-}
+// h2 {
+//   font-size: 2.2em;
+//   font-weight: 500;
+// }
 
-h3 {
-  font-size: 1.8em;
-  font-weight: 400;
-}
+// h3 {
+//   font-size: 1.8em;
+//   font-weight: 400;
+// }
 
-input {
-  font-family: $FontMain;
-}
+// input {
+//   font-family: $FontMain;
+// }
 
-a {
-  text-decoration: none;
-  color: inherit;
-  &:hover {
-    color: inherit;
-  }
-}
+// a {
+//   text-decoration: none;
+//   color: inherit;
+//   &:hover {
+//     color: inherit;
+//   }
+// }
 
-.navbar {
-  background-color: transparent;
-}
+// .navbar {
+//   background-color: transparent;
+// }
 
-.title {
-  font-family: $FontTitle !important;
-}
+// .title {
+//   font-family: $FontTitle !important;
+// }
