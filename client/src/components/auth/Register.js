@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     width: 500,
   },
   mobile: {
-    width: 400,
+    width: 350,
   },
 }));
 
@@ -128,10 +128,11 @@ const Register = () => {
     setSlide,
   } = authContext;
 
+  // Set Slide
   useEffect(() => {
-    console.log('useeffect before loadingSlide');
+    // check for loading slide
     if (!loadingSlide) {
-      console.log('useffect after loadingSlide');
+      // if no errors are detected next slide
       if (
         !userNameErr &&
         !emailErr &&
@@ -139,6 +140,7 @@ const Register = () => {
         !passwordRptErr &&
         userExists
       ) {
+        // set slide
         setSlide();
       }
     }

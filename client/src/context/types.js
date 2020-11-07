@@ -27,3 +27,5 @@ export const SET_CITY_ERR = 'SET_CITY_ERR';
 export const SET_SHOW_PW = 'SET_SHOW_PW';
 
 // Alert
+export const SET_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';

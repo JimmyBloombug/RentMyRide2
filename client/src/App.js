@@ -2,8 +2,9 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Context
-import NavbarState from './context/navbar/NavbarState';
 import AuthState from './context/auth/AuthState';
+import AlertState from './context/alert/AlertState';
+import NavbarState from './context/navbar/NavbarState';
 
 // Components
 import Home from './components/pages/Home';
@@ -13,16 +14,18 @@ function App() {
   return (
     <NavbarState>
       <AuthState>
-        <Router>
-          <Fragment>
-            <Navbar />
-            <div className='container'>
-              <Switch>
-                <Route exact path='/' component={Home} />
-              </Switch>
-            </div>
-          </Fragment>
-        </Router>
+        <AlertState>
+          <Router>
+            <Fragment>
+              <Navbar />
+              <div className='container'>
+                <Switch>
+                  <Route exact path='/' component={Home} />
+                </Switch>
+              </div>
+            </Fragment>
+          </Router>
+        </AlertState>
       </AuthState>
     </NavbarState>
   );
