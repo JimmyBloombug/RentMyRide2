@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 
@@ -7,35 +7,43 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import FilledInput from '@material-ui/core/FilledInput';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+// Material Icons
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import SendIcon from '@material-ui/icons/Send';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
 import AuthContext from '../../context/auth/authContext';
 import {
+  SET_USERNAME,
+  SET_PW,
+  SET_PW_RPT,
   SET_FIRST_NAME,
   SET_LAST_NAME,
   SET_EMAIL,
   SET_STREET,
   SET_ZIP,
   SET_CITY,
-  SET_PASSWORD,
+  SET_USERNAME_ERR,
+  SET_PW_ERR,
+  SET_PW_RPT_ERR,
   SET_FIRST_NAME_ERR,
   SET_LAST_NAME_ERR,
   SET_EMAIL_ERR,
   SET_STREET_ERR,
   SET_ZIP_ERR,
   SET_CITY_ERR,
-  CLEAR_FIRST_NAME_ERR,
-  CLEAR_LAST_NAME_ERR,
-  CLEAR_EMAIL_ERR,
-  CLEAR_STREET_ERR,
-  CLEAR_ZIP_ERR,
-  CLEAR_CITY_ERR,
 } from '../../context/types';
 
 // Define Style
@@ -54,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
     borderRadius: '10px',
     outline: 'none',
+  },
+  button: {
+    marginRight: theme.spacing(2),
   },
   h2: {
     margin: theme.spacing(3, 0, 5),
@@ -88,26 +99,72 @@ const Register = () => {
   // Auth Context
   const authContext = useContext(AuthContext);
   const {
+    loadingSlide,
+    registerSlide,
+    userName,
+    password,
+    passwordRpt,
     firstName,
     lastName,
     email,
     street,
     zip,
     city,
+    userExists,
+    userNameErr,
+    emailErr,
+    passwordErr,
+    passwordRptErr,
     firstNameErr,
     lastNameErr,
-    emailErr,
     streetErr,
     zipErr,
     cityErr,
+    showPw,
+    setShowPw,
     setValue,
     validateRegister,
-    clearError,
+    searchUser,
+    setSlide,
   } = authContext;
 
-  // Handle Foucs
-  const handleFocus = (type) => {
-    clearError(type);
+  useEffect(() => {
+    console.log('useeffect before loadingSlide');
+    if (!loadingSlide) {
+      console.log('useffect after loadingSlide');
+      if (
+        !userNameErr &&
+        !emailErr &&
+        !passwordErr &&
+        !passwordRptErr &&
+        userExists
+      ) {
+        setSlide();
+      }
+    }
+    // eslint-disable-next-line
+  }, [
+    loadingSlide,
+    userNameErr,
+    emailErr,
+    passwordErr,
+    passwordRptErr,
+    userExists,
+  ]);
+
+  // Handle Click
+  const handleOnClick = () => {
+    // Validate User Data
+    if (registerSlide === 1) {
+      validateRegister(SET_USERNAME_ERR);
+      validateRegister(SET_EMAIL_ERR);
+      validateRegister(SET_PW_ERR);
+      validateRegister(SET_PW_RPT_ERR);
+      searchUser();
+    } else if (registerSlide === 2) {
+      // change slide
+      setSlide();
+    }
   };
 
   // Handle Change
@@ -117,7 +174,22 @@ const Register = () => {
 
   // Handle Blur
   const handleBlur = (type) => {
+    // Validate Input Field
     validateRegister(type);
+  };
+
+  // Handle Mouse Down
+  const handlePwMouseDown = (e) => {
+    e.preventDefault();
+  };
+
+  // Handle PW Button
+  const handleShowPw = () => {
+    if (showPw) {
+      setShowPw(false);
+    } else {
+      setShowPw(true);
+    }
   };
 
   // Theme
@@ -155,131 +227,244 @@ const Register = () => {
           )}
         >
           <h2 className={classes.h2}>Register</h2>
-          <Grid container spacing={0}>
-            <Grid item sm={6} xs={12}>
+          {registerSlide === 1 ? (
+            <Fragment>
               <FormControl variant='filled' fullWidth color='secondary'>
                 <InputLabel
-                  htmlFor='firstName'
+                  htmlFor='userName'
                   color='secondary'
-                  error={firstNameErr}
+                  error={userNameErr}
                 >
-                  First Name
+                  Username
                 </InputLabel>
                 <FilledInput
-                  id='firstName'
-                  value={firstName}
+                  id='userName'
+                  value={userName}
                   className={classes.radiusRight}
-                  onFocus={() => handleFocus(CLEAR_FIRST_NAME_ERR)}
-                  onChange={handleChange(SET_FIRST_NAME)}
-                  onBlur={() => handleBlur(SET_FIRST_NAME_ERR)}
-                  error={firstNameErr}
+                  onFocus={handleChange(SET_USERNAME)}
+                  onChange={handleChange(SET_USERNAME)}
+                  onBlur={() => handleBlur(SET_USERNAME_ERR)}
+                  error={userNameErr}
                 />
               </FormControl>
-            </Grid>
-            <Grid item sm={6} xs={12}>
-              <FormControl variant='filled' fullWidth color='secondary'>
-                <InputLabel
-                  htmlFor='lastName'
-                  color='secondary'
-                  error={lastNameErr}
-                >
-                  Last Name
-                </InputLabel>
-                <FilledInput
-                  id='lastName'
-                  value={lastName}
-                  className={classes.radiusLeft}
-                  onFocus={() => handleFocus(CLEAR_LAST_NAME_ERR)}
-                  onChange={handleChange(SET_LAST_NAME)}
-                  onBlur={() => handleBlur(SET_LAST_NAME_ERR)}
-                  error={lastNameErr}
-                />
-              </FormControl>
-            </Grid>
-          </Grid>
-          <FormControl
-            variant='filled'
-            fullWidth
-            color='secondary'
-            className={classes.input}
-          >
-            <InputLabel htmlFor='email' color='secondary' error={emailErr}>
-              Email
-            </InputLabel>
-            <FilledInput
-              id='email'
-              value={email}
-              type='email'
-              onFocus={() => handleFocus(CLEAR_EMAIL_ERR)}
-              onChange={handleChange(SET_EMAIL)}
-              onBlur={() => handleBlur(SET_EMAIL_ERR)}
-              error={emailErr}
-            />
-          </FormControl>
-          <FormControl
-            variant='filled'
-            fullWidth
-            color='secondary'
-            className={classes.input}
-            error={streetErr}
-          >
-            <InputLabel htmlFor='street' color='secondary'>
-              Street
-            </InputLabel>
-            <FilledInput
-              id='street'
-              value={street}
-              onFocus={() => handleFocus(CLEAR_STREET_ERR)}
-              onChange={handleChange(SET_STREET)}
-              onBlur={() => handleBlur(SET_STREET_ERR)}
-              error={streetErr}
-            />
-          </FormControl>
-
-          <Grid container spacing={0} className={clsx(sup && classes.input)}>
-            <Grid item sm={6} xs={12}>
               <FormControl
                 variant='filled'
                 fullWidth
                 color='secondary'
-                error={zipErr}
+                className={classes.input}
               >
-                <InputLabel htmlFor='zip' color='secondary'>
-                  Zip
+                <InputLabel htmlFor='email' color='secondary' error={emailErr}>
+                  Email
                 </InputLabel>
                 <FilledInput
-                  id='zip'
-                  value={zip}
-                  className={classes.radiusRight}
-                  onFocus={() => handleFocus(CLEAR_ZIP_ERR)}
-                  onChange={handleChange(SET_ZIP)}
-                  onBlur={() => handleBlur(SET_ZIP_ERR)}
-                  error={zipErr}
+                  id='email'
+                  value={email}
+                  type='email'
+                  onChange={handleChange(SET_EMAIL)}
+                  onBlur={() => handleBlur(SET_EMAIL_ERR)}
+                  error={emailErr}
                 />
               </FormControl>
-            </Grid>
-            <Grid item sm={6} xs={12}>
-              <FormControl variant='filled' fullWidth color='secondary'>
-                <InputLabel htmlFor='city' color='secondary' error={cityErr}>
-                  City
+              <FormControl
+                variant='filled'
+                fullWidth
+                colors='secondary'
+                className={classes.input}
+              >
+                <InputLabel
+                  htmlFor='password'
+                  color='secondary'
+                  error={passwordErr}
+                >
+                  Password
                 </InputLabel>
                 <FilledInput
-                  id='city'
-                  value={city}
-                  className={classes.radiusLeft}
-                  onFocus={() => handleFocus(CLEAR_CITY_ERR)}
-                  onChange={handleChange(SET_CITY)}
-                  onBlur={() => handleBlur(SET_CITY_ERR)}
-                  error={cityErr}
+                  id='password'
+                  type={showPw ? 'text' : 'password'}
+                  value={password}
+                  onFocus={handleChange(SET_PW)}
+                  onChange={handleChange(SET_PW)}
+                  onBlur={() => handleBlur(SET_PW_ERR)}
+                  error={passwordErr}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleShowPw}
+                        onMouseDown={handlePwMouseDown}
+                        edge='end'
+                      >
+                        {showPw ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  color='secondary'
                 />
               </FormControl>
-            </Grid>
-          </Grid>
-          <Box mt={5} mb={3}>
-            <Button color='primary' variant='contained'>
-              Send
-            </Button>
-          </Box>
+              <FormControl
+                variant='filled'
+                fullWidth
+                colors='secondary'
+                className={classes.input}
+              >
+                <InputLabel
+                  htmlFor='passwordRpt'
+                  color='secondary'
+                  error={passwordRptErr}
+                >
+                  Repeat Password
+                </InputLabel>
+                <FilledInput
+                  id='passwordRpt'
+                  type='password'
+                  color='secondary'
+                  value={passwordRpt}
+                  onFocus={handleChange(SET_PW_RPT)}
+                  onChange={handleChange(SET_PW_RPT)}
+                  onBlur={() => handleBlur(SET_PW_RPT_ERR)}
+                  error={passwordRptErr}
+                />
+              </FormControl>
+              <Box mt={3}>
+                <Button
+                  size='large'
+                  color='primary'
+                  variant='contained'
+                  onClick={() => handleOnClick()}
+                  endIcon={<ArrowForwardIcon />}
+                >
+                  Next
+                </Button>
+              </Box>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <Grid container spacing={0}>
+                <Grid item sm={6} xs={12}>
+                  <FormControl variant='filled' fullWidth color='secondary'>
+                    <InputLabel
+                      htmlFor='firstName'
+                      color='secondary'
+                      error={firstNameErr}
+                    >
+                      First Name
+                    </InputLabel>
+                    <FilledInput
+                      id='firstName'
+                      value={firstName}
+                      className={classes.radiusRight}
+                      onChange={handleChange(SET_FIRST_NAME)}
+                      onBlur={() => handleBlur(SET_FIRST_NAME_ERR)}
+                      error={firstNameErr}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <FormControl variant='filled' fullWidth color='secondary'>
+                    <InputLabel
+                      htmlFor='lastName'
+                      color='secondary'
+                      error={lastNameErr}
+                    >
+                      Last Name
+                    </InputLabel>
+                    <FilledInput
+                      id='lastName'
+                      value={lastName}
+                      className={classes.radiusLeft}
+                      onChange={handleChange(SET_LAST_NAME)}
+                      onBlur={() => handleBlur(SET_LAST_NAME_ERR)}
+                      error={lastNameErr}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <FormControl
+                variant='filled'
+                fullWidth
+                color='secondary'
+                className={classes.input}
+                error={streetErr}
+              >
+                <InputLabel htmlFor='street' color='secondary'>
+                  Street
+                </InputLabel>
+                <FilledInput
+                  id='street'
+                  value={street}
+                  onChange={handleChange(SET_STREET)}
+                  onBlur={() => handleBlur(SET_STREET_ERR)}
+                  error={streetErr}
+                />
+              </FormControl>
+
+              <Grid
+                container
+                spacing={0}
+                className={clsx(sup && classes.input)}
+              >
+                <Grid item sm={6} xs={12}>
+                  <FormControl
+                    variant='filled'
+                    fullWidth
+                    color='secondary'
+                    error={zipErr}
+                  >
+                    <InputLabel htmlFor='zip' color='secondary'>
+                      Zip
+                    </InputLabel>
+                    <FilledInput
+                      id='zip'
+                      value={zip}
+                      className={classes.radiusRight}
+                      onChange={handleChange(SET_ZIP)}
+                      onBlur={() => handleBlur(SET_ZIP_ERR)}
+                      error={zipErr}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <FormControl variant='filled' fullWidth color='secondary'>
+                    <InputLabel
+                      htmlFor='city'
+                      color='secondary'
+                      error={cityErr}
+                    >
+                      City
+                    </InputLabel>
+                    <FilledInput
+                      id='city'
+                      value={city}
+                      className={classes.radiusLeft}
+                      onChange={handleChange(SET_CITY)}
+                      onBlur={() => handleBlur(SET_CITY_ERR)}
+                      error={cityErr}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Box mt={3}>
+                <Button
+                  className={classes.button}
+                  startIcon={<ArrowBackIcon />}
+                  size='large'
+                  color='default'
+                  variant='contained'
+                  onClick={() => handleOnClick()}
+                >
+                  Back
+                </Button>
+                <Button
+                  size='large'
+                  color='primary'
+                  variant='contained'
+                  endIcon={<SendIcon />}
+                >
+                  Send
+                </Button>
+              </Box>
+            </Fragment>
+          )}
         </div>
       </motion.div>
     </Modal>

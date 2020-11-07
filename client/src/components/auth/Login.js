@@ -19,7 +19,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
 import AuthContext from '../../context/auth/authContext';
-import { SET_EMAIL, SET_PASSWORD } from '../../context/types';
+import { SET_EMAIL, SET_PW } from '../../context/types';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -74,6 +74,7 @@ const Login = () => {
     e.preventDefault();
   };
 
+  // Handle Show Password
   const handleShowPw = () => {
     if (showPw) {
       setShowPw(false);
@@ -130,7 +131,7 @@ const Login = () => {
               id='password'
               type={showPw ? 'text' : 'password'}
               value={password}
-              onChange={handleChange(SET_PASSWORD)}
+              onChange={handleChange(SET_PW)}
               endAdornment={
                 <InputAdornment position='end'>
                   <IconButton

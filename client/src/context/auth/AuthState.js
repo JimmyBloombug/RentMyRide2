@@ -1,19 +1,28 @@
 import React, { useReducer } from 'react';
+import axios from 'axios';
 
 import AuthContext from './authContext';
 import AuthReducer from './authReducer';
 
-import { SET_SHOW_PW } from '../types';
+import { SET_SHOW_PW, SET_USER_EXISTS, SET_SLIDE } from '../types';
 
 export const AuthState = (props) => {
   const initialState = {
+    loadingSlide: true,
+    registerSlide: 1,
+    userName: '',
+    password: '',
+    passwordRpt: '',
     firstName: '',
     lastName: '',
     email: '',
     street: '',
     zip: '',
     city: '',
-    password: '',
+    userExists: {},
+    userNameErr: false,
+    passwordErr: false,
+    passwordRptErr: false,
     firstNameErr: false,
     lastNameErr: false,
     emailErr: false,
@@ -47,71 +56,58 @@ export const AuthState = (props) => {
     });
   };
 
-  // CLEAR ERROR
-  const clearError = (type) => {
-    dispatch({
-      type: type,
-    });
+  // Search Database
+  const searchUser = async () => {
+    try {
+      const res = await axios.get('/server/users', {
+        headers: {
+          username: state.username,
+          email: state.email,
+        },
+      });
+
+      dispatch({ type: SET_USER_EXISTS, payload: res.data });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // // REGISTER VALIDATION
-  // const validateRegister = (type) => {
-  //   switch (type) {
-  //     case 'firstName':
-  //       if (state.firstName === '') {
-  //         dispatch({
-  //           type: SET_FIRST_NAME_ERR,
-  //         });
-  //       }
-  //     case 'lastName':
-  //       if (state.lastName === '') {
-  //         dispatch({
-  //           type: SET_LAST_NAME_ERR,
-  //         });
-  //       }
-  //     case 'email':
-  //       if (state.email === '' || !state.email.match(emailReg)) {
-  //         dispatch({
-  //           type: SET_EMAIL_ERR,
-  //         });
-  //       }
-  //     case 'street':
-  //       if (state.street === '') {
-  //         dispatch({
-  //           type: SET_STREET_ERR,
-  //         });
-  //       }
-  //     case 'zip':
-  //       if (state.zip === '') {
-  //         dispatch({
-  //           type: SET_ZIP_ERR,
-  //         });
-  //       }
-  //     case 'city':
-  //       if (state.city === '') {
-  //         dispatch({
-  //           type: SET_CITY_ERR,
-  //         });
-  //       }
-
-  //     default:
-  //       return;
-  //   }
-  // };
+  // Set Slide
+  const setSlide = () => {
+    if (state.registerSlide === 1) {
+      dispatch({
+        type: SET_SLIDE,
+        payload: state.registerSlide + 1,
+      });
+    } else if (state.registerSlide === 2) {
+      dispatch({
+        type: SET_SLIDE,
+        payload: state.registerSlide - 1,
+      });
+    }
+  };
 
   return (
     <AuthContext.Provider
       value={{
+        loadingSlide: state.loadingSlide,
+        registerSlide: state.registerSlide,
+        userName: state.userName,
+        email: state.email,
+        password: state.password,
+        passwordRpt: state.passwordRpt,
         firstName: state.firstName,
         lastName: state.lastName,
-        email: state.email,
         street: state.street,
         zip: state.zip,
         city: state.city,
-        password: state.password,
+        userExists: state.userExists,
+        userNameErr: state.userNameErr,
+        emailErr: state.emailErr,
+        passwordErr: state.passwordErr,
+        passwordRptErr: state.passwordRptErr,
         firstNameErr: state.firstNameErr,
         lastNameErr: state.lastNameErr,
-        emailErr: state.emailErr,
         streetErr: state.streetErr,
         zipErr: state.zipErr,
         cityErr: state.cityErr,
@@ -119,7 +115,8 @@ export const AuthState = (props) => {
         setShowPw,
         setValue,
         validateRegister,
-        clearError,
+        searchUser,
+        setSlide,
       }}
     >
       {props.children}

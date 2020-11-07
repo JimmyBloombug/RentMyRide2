@@ -66,7 +66,7 @@ const Navbar = ({ title }) => {
   const theme = useTheme();
 
   // MediaQueries
-  let mdown = useMediaQuery(theme.breakpoints.up('md'));
+  let mup = useMediaQuery(theme.breakpoints.up('md'));
   let xsup = useMediaQuery(theme.breakpoints.up('xs'));
 
   // Style
@@ -84,7 +84,7 @@ const Navbar = ({ title }) => {
             />
           </Link>
           <Typography variant='h6' className={`${classes.title} title`}>
-            {mdown && (
+            {mup && (
               <Link to='/'>
                 RentMy<span className={classes.titleSpan}>Ride</span>
               </Link>

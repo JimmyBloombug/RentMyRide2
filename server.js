@@ -14,7 +14,7 @@ app.get('/', (req, res) =>
 );
 
 // Routes
-// TODO: define route USERS
+app.use('/server/users', require('./routes/users'));
 // TODO: define route CARS
 // TODO: define route AUTH
 
