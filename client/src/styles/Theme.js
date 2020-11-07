@@ -25,9 +25,9 @@ const getTheme = (theme) => {
         contrastText: '#ffffff',
       },
       tertiary: {
-        light: '#34eb44',
-        main: '#0e0b16',
-        dark: '#09070f',
+        light: '#2a2c42',
+        main: '#00001c',
+        dark: '#000000',
         contrastText: '#ffffff',
       },
     },

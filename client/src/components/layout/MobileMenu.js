@@ -18,15 +18,12 @@ import DriveEtaIcon from '@material-ui/icons/DriveEta';
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
 
-// Constants
-import { useColor } from '../../styles/themeConst';
-
 const useStyles = makeStyles((theme) => ({
   menuCont: {
     marginRight: theme.spacing(5),
     width: '100%',
     height: '100%',
-    backgroundColor: useColor('primary', 0.8),
+    backgroundColor: theme.palette.tertiary.light,
   },
   heading: {
     margin: theme.spacing(2, 2, 1),
