@@ -126,20 +126,21 @@ const Register = () => {
     validateRegister,
     searchUser,
     setSlide,
+    registerUser,
   } = authContext;
 
   // Set Slide
   useEffect(() => {
-    // check for loading slide
-    if (!loadingSlide) {
-      // if no errors are detected next slide
-      if (
-        !userNameErr &&
-        !emailErr &&
-        !passwordErr &&
-        !passwordRptErr &&
-        userExists
-      ) {
+    // if no errors check loading
+    if (
+      !userNameErr &&
+      !emailErr &&
+      !passwordErr &&
+      !passwordRptErr &&
+      userExists
+    ) {
+      // if loading false next slide
+      if (!loadingSlide) {
         // set slide
         setSlide();
       }
@@ -154,18 +155,57 @@ const Register = () => {
     userExists,
   ]);
 
+  // Register User
+  useEffect(() => {
+    if (
+      !userNameErr &&
+      !emailErr &&
+      !passwordErr &&
+      !passwordRptErr &&
+      !firstNameErr &&
+      !lastNameErr &&
+      !streetErr &&
+      !zipErr &&
+      !cityErr &&
+      userExists
+    ) {
+      registerUser();
+    }
+    // eslint-disable-next-line
+  }, [
+    userNameErr,
+    emailErr,
+    passwordErr,
+    passwordRptErr,
+    firstNameErr,
+    lastNameErr,
+    streetErr,
+    zipErr,
+    cityErr,
+    userExists,
+  ]);
+
   // Handle Click
-  const handleOnClick = () => {
-    // Validate User Data
-    if (registerSlide === 1) {
-      validateRegister(SET_USERNAME_ERR);
-      validateRegister(SET_EMAIL_ERR);
-      validateRegister(SET_PW_ERR);
-      validateRegister(SET_PW_RPT_ERR);
-      searchUser();
-    } else if (registerSlide === 2) {
-      // change slide
-      setSlide();
+  const handleOnClick = (type) => {
+    if (type === 'slide') {
+      // Validate User Data
+      if (registerSlide === 1) {
+        validateRegister(SET_USERNAME_ERR);
+        validateRegister(SET_EMAIL_ERR);
+        validateRegister(SET_PW_ERR);
+        validateRegister(SET_PW_RPT_ERR);
+        searchUser();
+      } else if (registerSlide === 2) {
+        // change slide
+        setSlide();
+      }
+    } else {
+      // Validate User Data
+      validateRegister(SET_FIRST_NAME_ERR);
+      validateRegister(SET_LAST_NAME_ERR);
+      validateRegister(SET_STREET_ERR);
+      validateRegister(SET_ZIP_ERR);
+      validateRegister(SET_CITY_ERR);
     }
   };
 
@@ -262,6 +302,7 @@ const Register = () => {
                   id='email'
                   value={email}
                   type='email'
+                  onFocus={handleChange(SET_EMAIL)}
                   onChange={handleChange(SET_EMAIL)}
                   onBlur={() => handleBlur(SET_EMAIL_ERR)}
                   error={emailErr}
@@ -332,7 +373,7 @@ const Register = () => {
                   size='large'
                   color='primary'
                   variant='contained'
-                  onClick={() => handleOnClick()}
+                  onClick={() => handleOnClick('slide')}
                   endIcon={<ArrowForwardIcon />}
                 >
                   Next
@@ -452,7 +493,7 @@ const Register = () => {
                   size='large'
                   color='default'
                   variant='contained'
-                  onClick={() => handleOnClick()}
+                  onClick={() => handleOnClick('slide')}
                 >
                   Back
                 </Button>
@@ -460,6 +501,7 @@ const Register = () => {
                   size='large'
                   color='primary'
                   variant='contained'
+                  onClick={() => handleOnClick('register')}
                   endIcon={<SendIcon />}
                 >
                   Send

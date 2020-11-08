@@ -24,6 +24,8 @@ export const SET_EMAIL_ERR = 'SET_EMAIL_ERR';
 export const SET_STREET_ERR = 'SET_STREET_ERR';
 export const SET_ZIP_ERR = 'SET_ZIP_ERR';
 export const SET_CITY_ERR = 'SET_CITY_ERR';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const SET_SHOW_PW = 'SET_SHOW_PW';
 
 // Alert

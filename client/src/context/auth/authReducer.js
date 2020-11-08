@@ -19,6 +19,8 @@ import {
   SET_STREET_ERR,
   SET_ZIP_ERR,
   SET_CITY_ERR,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
   SET_SLIDE,
 } from '../types';
 
@@ -26,7 +28,7 @@ import {
 const emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
 
-const NavbarReducer = (state, action) => {
+const AuthReducer = (state, action) => {
   switch (action.type) {
     case SET_USERNAME:
       return {
@@ -107,24 +109,27 @@ const NavbarReducer = (state, action) => {
             email: 'Email already exists',
             user: 'User already exists',
           },
-          loadingSlide: false,
         };
       } else if (action.payload === { email: true }) {
         return {
           ...state,
           userExists: { email: 'Email already exists', user: '' },
-          loadingSlide: false,
         };
       } else if (action.payload === { user: true }) {
         return {
           ...state,
           userExists: { email: '', user: 'User already exists' },
-          loadingSlide: false,
         };
       } else {
         return {
           ...state,
-          loadingSlide: false,
+          loadingSlide:
+            !state.userNameErr &&
+            !state.emailErr &&
+            !state.passwordErr &&
+            !state.passwordRptErr
+              ? false
+              : true,
         };
       }
     case SET_PW_ERR:
@@ -223,6 +228,18 @@ const NavbarReducer = (state, action) => {
           cityErr: false,
         };
       }
+    case REGISTER_SUCCESS:
+      localStorage.setItem('token', action.payload);
+      return {
+        ...state,
+        ...action.payload,
+        isAuthenticated: true,
+      };
+    case REGISTER_FAIL:
+      return {
+        ...state,
+        authErr: action.payload,
+      };
     case SET_SLIDE:
       return {
         ...state,
@@ -232,4 +249,4 @@ const NavbarReducer = (state, action) => {
   }
 };
 
-export default NavbarReducer;
+export default AuthReducer;
