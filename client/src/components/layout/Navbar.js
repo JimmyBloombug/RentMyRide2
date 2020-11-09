@@ -16,11 +16,9 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import HelpIcon from '@material-ui/icons/Help';
 import InfoIcon from '@material-ui/icons/Info';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import DriveEtaIcon from '@material-ui/icons/DriveEta';
 
 // Components
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Login from '../auth/Login';
 import Register from '../auth/Register';
 import MobileMenu from './MobileMenu';
@@ -51,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   titleSpan: {
-    color: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
   },
   navbarLinks: {
     fontWeight: '700',
@@ -126,7 +124,7 @@ const Navbar = ({ title }) => {
                   <Box ml={3}>
                     <Button
                       onClick={() => setRegisterForm(true)}
-                      color='secondary'
+                      color='primary'
                       variant='contained'
                     >
                       Register
@@ -141,7 +139,7 @@ const Navbar = ({ title }) => {
                       to={'/profile'}
                       startIcon={<AccountCircleIcon />}
                       onClick={() => setRegisterForm(true)}
-                      color='secondary'
+                      color='primary'
                       variant='contained'
                     >
                       Profile
@@ -154,7 +152,7 @@ const Navbar = ({ title }) => {
             <IconButton
               edge='start'
               className={classes.menuButton}
-              color='secondary'
+              color='primary'
               aria-label='menu'
               onClick={() => setMenu(true)}
             >
@@ -163,16 +161,7 @@ const Navbar = ({ title }) => {
           )}
         </Toolbar>
       </AppBar>
-      <MobileMenu
-        menuItems={menuItems}
-        NavbarContext={NavbarContext}
-        icons={{
-          profileIcon: <AccountCircleIcon />,
-          loginIcon: <VpnKeyIcon />,
-          registerIcon: <DriveEtaIcon />,
-        }}
-        loggedIn={token ? true : false}
-      />
+      <MobileMenu menuItems={menuItems} loggedIn={token ? true : false} />
       <Login />
       {!token && (
         <Fragment>

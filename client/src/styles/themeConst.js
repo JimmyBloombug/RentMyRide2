@@ -1,16 +1,31 @@
-export const ColorPrimary = 'rgba(71, 23, 244)';
-export const ColorSecondary = 'rgba(162, 57, 202)';
-export const ColorTertiary = 'rgba(0, 0, 26)';
+const colorBG = 'rgba(113, 168, 146, 1)';
+const colorPrimary = 'rgba(192, 15, 85, 1)';
+const colorSecondary = 'rgba(136,255,101, 1)';
+const colorPaper = 'rgba(37, 73, 63, 1)';
 
-export const useColor = (color = 'primary', opacity = 1) => {
+const myColors = (color, opacity = 1) => {
   switch (color) {
+    case 'bg':
+      return colorBG.replace('1)', `${opacity})`);
     case 'primary':
-      return ColorPrimary.replace(')', `, ${opacity})`);
+      return colorPrimary.replace('1)', `${opacity})`);
     case 'secondary':
-      return ColorSecondary.replace(')', `, ${opacity})`);
-    case 'tertiary':
-      return ColorTertiary.replace(')', `, ${opacity})`);
+      return colorSecondary.replace('1)', `${opacity})`);
+    case 'paper':
+      return colorPaper.replace('1)', `${opacity})`);
     default:
-      return ColorPrimary;
+      return colorPrimary;
   }
+};
+
+const makeColor = (color1 = 1, color2 = 1, color3 = 1, opacity = 1) => {
+  return `rgba(${color1},${color2},${color3},${opacity})`;
+};
+
+module.exports = {
+  colorBG,
+  colorPrimary,
+  colorSecondary,
+  myColors,
+  makeColor,
 };

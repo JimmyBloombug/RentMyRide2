@@ -10,25 +10,32 @@ const getTheme = (theme) => {
     palette: {
       type: theme.paletteType,
       background: {
-        default: '#0e0b16',
+        default: '#71a892',
       },
       primary: {
-        light: '#beff97',
-        main: '#88ff65',
-        dark: '#50cb32',
-        contrastText: '#000',
-      },
-      secondary: {
         light: '#f85281',
         main: '#c00f55',
         dark: '#89002d',
         contrastText: '#ffffff',
       },
-      tertiary: {
-        light: '#2a2c42',
-        main: '#00001c',
-        dark: '#000000',
-        contrastText: '#ffffff',
+      secondary: {
+        light: '#beff97',
+        main: '#88ff65',
+        dark: '#50cb32',
+        contrastText: '#000',
+      },
+      background: {
+        paper: '#25493F',
+      },
+      error: {
+        main: '#ff0033',
+      },
+    },
+    overrides: {
+      MuiDrawer: {
+        paper: {
+          backgroundColor: '#25493F',
+        },
       },
     },
     typography: {

@@ -11,21 +11,26 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 
+// Material Icons
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import DriveEtaIcon from '@material-ui/icons/DriveEta';
+
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
+
+// Const
+import { makeColor } from '../../styles/themeConst';
 
 const useStyles = makeStyles((theme) => ({
   menuCont: {
     marginRight: theme.spacing(5),
     width: '100%',
     height: '100%',
-    backgroundColor: theme.palette.tertiary.light,
+    backgroundColor: makeColor('1,1,1', '1'),
   },
   heading: {
     margin: theme.spacing(2, 2, 1),
-  },
-  headingSpan: {
-    color: theme.palette.secondary.light,
   },
 }));
 
@@ -46,9 +51,7 @@ const MobileMenu = (props) => {
     >
       <div className={classes.menuCont}>
         <div className={classes.heading}>
-          <Typography variant='h6'>
-            RentMy<span className={classes.headingSpan}>Ride</span>
-          </Typography>
+          <Typography variant='h6'>RentMyRide</Typography>
         </div>
         <List>
           {props.loggedIn ? (
@@ -62,7 +65,9 @@ const MobileMenu = (props) => {
                   setLoginForm(true);
                 }}
               >
-                <ListItemIcon>{props.icons.profileIcon}</ListItemIcon>
+                <ListItemIcon>
+                  <AccountCircleIcon />
+                </ListItemIcon>
                 <ListItemText primary='Profile' />
               </ListItem>
             </Fragment>
@@ -75,7 +80,9 @@ const MobileMenu = (props) => {
                   setLoginForm(true);
                 }}
               >
-                <ListItemIcon>{props.loginIcon}</ListItemIcon>
+                <ListItemIcon>
+                  <VpnKeyIcon />
+                </ListItemIcon>
                 <ListItemText primary='Login' />
               </ListItem>
               <ListItem
@@ -85,7 +92,9 @@ const MobileMenu = (props) => {
                   setRegisterForm(true);
                 }}
               >
-                <ListItemIcon>{props.registerIcon}</ListItemIcon>
+                <ListItemIcon>
+                  <DriveEtaIcon />
+                </ListItemIcon>
                 <ListItemText primary='Register' />
               </ListItem>
             </Fragment>
@@ -114,7 +123,6 @@ const MobileMenu = (props) => {
 };
 
 MobileMenu.propTypes = {
-  icons: PropTypes.object.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   anchor: PropTypes.string.isRequired,
   menuItems: PropTypes.array.isRequired,

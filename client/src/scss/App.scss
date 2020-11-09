@@ -1,4 +1,3 @@
-@import 'reset';
 @import 'setup';
 @import 'mixins';
 
@@ -14,24 +13,24 @@
 //   color: rgb(14, 11, 22);
 // }
 
-// h1 {
-//   font-size: 2.8em;
-//   font-weight: 600;
-// }
+h1 {
+  font-size: 2.8em;
+  font-weight: 600;
+}
 
-// h2 {
-//   font-size: 2.2em;
-//   font-weight: 500;
-// }
+h2 {
+  font-size: 2.2em;
+  font-weight: 500;
+}
 
-// h3 {
-//   font-size: 1.8em;
-//   font-weight: 400;
-// }
+h3 {
+  font-size: 1.8em;
+  font-weight: 400;
+}
 
-// input {
-//   font-family: $FontMain;
-// }
+input {
+  font-family: $FontMain;
+}
 
 a {
   text-decoration: none;

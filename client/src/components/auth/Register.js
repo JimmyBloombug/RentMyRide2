@@ -18,9 +18,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 // Material Icons
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import SendIcon from '@material-ui/icons/Send';
+
+// Components
+import RegisterSlide1 from '../auth/RegisterSlide1';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     flexDirection: 'column',
     position: 'absolute',
-    backgroundColor: theme.palette.tertiary.light,
+    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(2, 4, 3),
     borderRadius: '10px',
     outline: 'none',
@@ -67,9 +68,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   h2: {
+    color: 'white',
     margin: theme.spacing(3, 0, 5),
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
+  h2Span: {},
   registerInput: {
     width: '100%',
     marginBottom: theme.spacing(3),
@@ -221,20 +224,6 @@ const Register = () => {
     validateRegister(type);
   };
 
-  // Handle Mouse Down
-  const handlePwMouseDown = (e) => {
-    e.preventDefault();
-  };
-
-  // Handle PW Button
-  const handleShowPw = () => {
-    if (showPw) {
-      setShowPw(false);
-    } else {
-      setShowPw(true);
-    }
-  };
-
   // Theme
   const theme = useTheme();
 
@@ -269,128 +258,16 @@ const Register = () => {
             sup ? classes.web : classes.mobile
           )}
         >
-          <h2 className={classes.h2}>Register</h2>
+          <h2 className={classes.h2}>
+            <span className={classes.h2Span}>New</span> Account
+          </h2>
           {registerSlide === 1 ? (
-            <Fragment>
-              <FormControl variant='filled' fullWidth color='secondary'>
-                <InputLabel
-                  htmlFor='userName'
-                  color='secondary'
-                  error={userNameErr || userExists.takenName !== ''}
-                  className={
-                    userExists.takenName !== '' ? classes.errorColor : ''
-                  }
-                >
-                  Username
-                </InputLabel>
-                <FilledInput
-                  id='userName'
-                  value={userName}
-                  onFocus={handleChange(SET_USERNAME)}
-                  onChange={handleChange(SET_USERNAME)}
-                  onBlur={() => handleBlur(SET_USERNAME_ERR)}
-                  error={userNameErr || userExists.takenName !== ''}
-                />
-              </FormControl>
-              <FormControl
-                variant='filled'
-                fullWidth
-                color='secondary'
-                className={classes.input}
-                error={emailErr || userExists.takenEmail !== ''}
-              >
-                <InputLabel
-                  htmlFor='email'
-                  color='secondary'
-                  error={emailErr}
-                  className={
-                    userExists.takenEmail !== '' ? classes.errorColor : ''
-                  }
-                >
-                  Email
-                </InputLabel>
-                <FilledInput
-                  id='email'
-                  value={email}
-                  type='email'
-                  onFocus={handleChange(SET_EMAIL)}
-                  onChange={handleChange(SET_EMAIL)}
-                  onBlur={() => handleBlur(SET_EMAIL_ERR)}
-                  error={emailErr || userExists.takenEmail !== ''}
-                />
-              </FormControl>
-              <FormControl
-                variant='filled'
-                fullWidth
-                colors='secondary'
-                className={classes.input}
-              >
-                <InputLabel
-                  htmlFor='password'
-                  color='secondary'
-                  error={passwordErr}
-                >
-                  Password
-                </InputLabel>
-                <FilledInput
-                  id='password'
-                  type={showPw ? 'text' : 'password'}
-                  value={password}
-                  onFocus={handleChange(SET_PW)}
-                  onChange={handleChange(SET_PW)}
-                  onBlur={() => handleBlur(SET_PW_ERR)}
-                  error={passwordErr}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton
-                        aria-label='toggle password visibility'
-                        onClick={handleShowPw}
-                        onMouseDown={handlePwMouseDown}
-                        edge='end'
-                      >
-                        {showPw ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  color='secondary'
-                />
-              </FormControl>
-              <FormControl
-                variant='filled'
-                fullWidth
-                colors='secondary'
-                className={classes.input}
-              >
-                <InputLabel
-                  htmlFor='passwordRpt'
-                  color='secondary'
-                  error={passwordRptErr}
-                >
-                  Repeat Password
-                </InputLabel>
-                <FilledInput
-                  id='passwordRpt'
-                  type='password'
-                  color='secondary'
-                  value={passwordRpt}
-                  onFocus={handleChange(SET_PW_RPT)}
-                  onChange={handleChange(SET_PW_RPT)}
-                  onBlur={() => handleBlur(SET_PW_RPT_ERR)}
-                  error={passwordRptErr}
-                />
-              </FormControl>
-              <Box mt={3}>
-                <Button
-                  size='large'
-                  color='primary'
-                  variant='contained'
-                  onClick={() => handleOnClick('slide')}
-                  endIcon={<ArrowForwardIcon />}
-                >
-                  Next
-                </Button>
-              </Box>
-            </Fragment>
+            <RegisterSlide1
+              classes={classes}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              onClick={handleOnClick}
+            />
           ) : (
             <Fragment>
               <Grid container spacing={0}>
@@ -497,13 +374,13 @@ const Register = () => {
                   </FormControl>
                 </Grid>
               </Grid>
-              <Box mt={3}>
+              <Box mt={3} flexBasis='end'>
                 <Button
                   className={classes.button}
                   startIcon={<ArrowBackIcon />}
                   size='large'
                   color='default'
-                  variant='contained'
+                  variant='outlined'
                   onClick={() => handleOnClick('slide')}
                 >
                   Back

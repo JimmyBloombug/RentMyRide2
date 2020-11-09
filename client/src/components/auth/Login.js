@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     position: 'absolute',
     width: 400,
-    backgroundColor: theme.palette.tertiary.light,
     padding: theme.spacing(2, 4, 3),
     borderRadius: '10px',
     outline: 'none',
