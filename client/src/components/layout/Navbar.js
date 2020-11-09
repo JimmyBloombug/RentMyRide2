@@ -16,6 +16,9 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import HelpIcon from '@material-ui/icons/Help';
 import InfoIcon from '@material-ui/icons/Info';
 import SearchIcon from '@material-ui/icons/Search';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import DriveEtaIcon from '@material-ui/icons/DriveEta';
 
 // Components
 import Login from '../auth/Login';
@@ -23,6 +26,7 @@ import Register from '../auth/Register';
 import MobileMenu from './MobileMenu';
 
 // Context
+import AuthContext from '../../context/auth/authContext';
 import NavbarContext from '../../context/navbar/navbarContext';
 
 // Logo
@@ -36,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   navbar: {
     boxShadow: 'none',
     color: 'white',
+    padding: theme.spacing(0, 2),
   },
   logo: {
     width: 38,
@@ -46,21 +51,28 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   titleSpan: {
-    color: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
+  },
+  navbarLinks: {
+    fontWeight: '700',
   },
 }));
 
-// Menu Items
+// Menu Items Mobile Menu
 const menuItems = [
-  { menuText: 'Search', key: 'search', href: 'search', icon: <SearchIcon /> },
-  { menuText: 'How it works', key: 'help', href: 'help', icon: <HelpIcon /> },
-  { menuText: 'About', key: 'about', href: 'about', icon: <InfoIcon /> },
+  { menuText: 'Search', key: 'search', href: '/search', icon: <SearchIcon /> },
+  { menuText: 'How it works', key: 'help', href: '/help', icon: <HelpIcon /> },
+  { menuText: 'About', key: 'about', href: '/about', icon: <InfoIcon /> },
 ];
 
 const Navbar = ({ title }) => {
-  // Menu Button
+  // Navbar Context
   const navbarContext = useContext(NavbarContext);
   const { setMenu, setLoginForm, setRegisterForm } = navbarContext;
+
+  // Auth Context
+  const authContext = useContext(AuthContext);
+  const { token } = authContext;
 
   // Theme
   const theme = useTheme();
@@ -95,30 +107,54 @@ const Navbar = ({ title }) => {
               <Button component={Link} to='/help' color='inherit'>
                 How it works
               </Button>
-              <Button component={Link} to='/search' color='inherit'>
+              <Button
+                component={Link}
+                to='/search'
+                color='inherit'
+                size='large'
+              >
                 Search
               </Button>
               <Button component={Link} to='/about' color='inherit'>
                 About
               </Button>
-              <Button color='inherit' onClick={() => setLoginForm(true)}>
-                Login
-              </Button>
-              <Box ml={3}>
-                <Button
-                  onClick={() => setRegisterForm(true)}
-                  color='primary'
-                  variant='contained'
-                >
-                  Register
-                </Button>
-              </Box>
+              {!token ? (
+                <Fragment>
+                  <Button color='inherit' onClick={() => setLoginForm(true)}>
+                    Login
+                  </Button>
+                  <Box ml={3}>
+                    <Button
+                      onClick={() => setRegisterForm(true)}
+                      color='secondary'
+                      variant='contained'
+                    >
+                      Register
+                    </Button>
+                  </Box>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Box ml={3}>
+                    <Button
+                      component={Link}
+                      to={'/profile'}
+                      startIcon={<AccountCircleIcon />}
+                      onClick={() => setRegisterForm(true)}
+                      color='secondary'
+                      variant='contained'
+                    >
+                      Profile
+                    </Button>
+                  </Box>
+                </Fragment>
+              )}
             </Fragment>
           ) : (
             <IconButton
               edge='start'
               className={classes.menuButton}
-              color='inherit'
+              color='secondary'
               aria-label='menu'
               onClick={() => setMenu(true)}
             >
@@ -127,9 +163,23 @@ const Navbar = ({ title }) => {
           )}
         </Toolbar>
       </AppBar>
-      <MobileMenu menuItems={menuItems} />
+      <MobileMenu
+        menuItems={menuItems}
+        NavbarContext={NavbarContext}
+        icons={{
+          profileIcon: <AccountCircleIcon />,
+          loginIcon: <VpnKeyIcon />,
+          registerIcon: <DriveEtaIcon />,
+        }}
+        loggedIn={token ? true : false}
+      />
       <Login />
-      <Register />
+      {!token && (
+        <Fragment>
+          <Login />
+          <Register />
+        </Fragment>
+      )}
     </div>
   );
 };

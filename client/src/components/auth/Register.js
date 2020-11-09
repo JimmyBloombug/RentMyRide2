@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 
@@ -74,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginBottom: theme.spacing(3),
   },
+  errorColor: {
+    color: theme.palette.error.main,
+  },
   input: {
     marginTop: theme.spacing(2),
   },
@@ -99,7 +102,7 @@ const Register = () => {
   // Auth Context
   const authContext = useContext(AuthContext);
   const {
-    loadingSlide,
+    loading,
     registerSlide,
     userName,
     password,
@@ -137,52 +140,46 @@ const Register = () => {
       !emailErr &&
       !passwordErr &&
       !passwordRptErr &&
-      userExists
+      userExists.takenName === '' &&
+      userExists.takenEmail === ''
     ) {
       // if loading false next slide
-      if (!loadingSlide) {
+      if (!loading) {
         // set slide
         setSlide();
       }
     }
     // eslint-disable-next-line
-  }, [
-    loadingSlide,
-    userNameErr,
-    emailErr,
-    passwordErr,
-    passwordRptErr,
-    userExists,
-  ]);
+  }, [loading, userNameErr, emailErr, passwordErr, passwordRptErr, userExists]);
 
-  // Register User
+  // validation is running
+  const [registerLoading, setRegisterLoading] = useState(true);
+
+  // Set register client validation
   useEffect(() => {
     if (
-      !userNameErr &&
-      !emailErr &&
-      !passwordErr &&
-      !passwordRptErr &&
-      !firstNameErr &&
-      !lastNameErr &&
-      !streetErr &&
-      !zipErr &&
-      !cityErr &&
-      userExists
+      firstName !== '' &&
+      lastName !== '' &&
+      street !== '' &&
+      zip !== '' &&
+      city !== ''
     ) {
-      registerUser();
+      if (!firstNameErr && !lastNameErr && !streetErr && !zipErr && !cityErr) {
+        setRegisterLoading(false);
+      }
     }
-    // eslint-disable-next-line
+    // if loading false next slide
   }, [
-    userNameErr,
-    emailErr,
-    passwordErr,
-    passwordRptErr,
+    firstName,
+    lastName,
+    street,
+    zip,
+    city,
     firstNameErr,
     lastNameErr,
     streetErr,
     zipErr,
     cityErr,
-    userExists,
   ]);
 
   // Handle Click
@@ -196,7 +193,7 @@ const Register = () => {
         validateRegister(SET_PW_RPT_ERR);
         searchUser();
       } else if (registerSlide === 2) {
-        // change slide
+        // go back one slide
         setSlide();
       }
     } else {
@@ -206,6 +203,10 @@ const Register = () => {
       validateRegister(SET_STREET_ERR);
       validateRegister(SET_ZIP_ERR);
       validateRegister(SET_CITY_ERR);
+
+      if (registerLoading === false) {
+        registerUser();
+      }
     }
   };
 
@@ -275,18 +276,20 @@ const Register = () => {
                 <InputLabel
                   htmlFor='userName'
                   color='secondary'
-                  error={userNameErr}
+                  error={userNameErr || userExists.takenName !== ''}
+                  className={
+                    userExists.takenName !== '' ? classes.errorColor : ''
+                  }
                 >
                   Username
                 </InputLabel>
                 <FilledInput
                   id='userName'
                   value={userName}
-                  className={classes.radiusRight}
                   onFocus={handleChange(SET_USERNAME)}
                   onChange={handleChange(SET_USERNAME)}
                   onBlur={() => handleBlur(SET_USERNAME_ERR)}
-                  error={userNameErr}
+                  error={userNameErr || userExists.takenName !== ''}
                 />
               </FormControl>
               <FormControl
@@ -294,8 +297,16 @@ const Register = () => {
                 fullWidth
                 color='secondary'
                 className={classes.input}
+                error={emailErr || userExists.takenEmail !== ''}
               >
-                <InputLabel htmlFor='email' color='secondary' error={emailErr}>
+                <InputLabel
+                  htmlFor='email'
+                  color='secondary'
+                  error={emailErr}
+                  className={
+                    userExists.takenEmail !== '' ? classes.errorColor : ''
+                  }
+                >
                   Email
                 </InputLabel>
                 <FilledInput
@@ -305,7 +316,7 @@ const Register = () => {
                   onFocus={handleChange(SET_EMAIL)}
                   onChange={handleChange(SET_EMAIL)}
                   onBlur={() => handleBlur(SET_EMAIL_ERR)}
-                  error={emailErr}
+                  error={emailErr || userExists.takenEmail !== ''}
                 />
               </FormControl>
               <FormControl

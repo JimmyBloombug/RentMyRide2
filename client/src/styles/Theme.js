@@ -13,15 +13,15 @@ const getTheme = (theme) => {
         default: '#0e0b16',
       },
       primary: {
-        light: '#6b45f6',
-        main: '#4717f4',
-        dark: '#3110aa',
-        contrastText: '#ffffff',
+        light: '#beff97',
+        main: '#88ff65',
+        dark: '#50cb32',
+        contrastText: '#000',
       },
       secondary: {
-        light: '#b460d4',
-        main: '#a239ca',
-        dark: '#71278d',
+        light: '#f85281',
+        main: '#c00f55',
+        dark: '#89002d',
         contrastText: '#ffffff',
       },
       tertiary: {

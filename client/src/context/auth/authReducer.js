@@ -11,7 +11,6 @@ import {
   SET_SHOW_PW,
   SET_USERNAME_ERR,
   SET_EMAIL_ERR,
-  SET_USER_EXISTS,
   SET_PW_ERR,
   SET_PW_RPT_ERR,
   SET_FIRST_NAME_ERR,
@@ -21,6 +20,8 @@ import {
   SET_CITY_ERR,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  USER_SUCCESS,
+  USER_FAIL,
   SET_SLIDE,
 } from '../types';
 
@@ -35,6 +36,20 @@ const AuthReducer = (state, action) => {
         ...state,
         userName: action.payload,
         userNameErr: false,
+        userExists: {
+          ...state.userExists,
+          takenName: '',
+        },
+      };
+    case SET_EMAIL:
+      return {
+        ...state,
+        email: action.payload,
+        emailErr: false,
+        userExists: {
+          ...state.userExists,
+          takenEmail: '',
+        },
       };
     case SET_PW:
       return {
@@ -59,12 +74,6 @@ const AuthReducer = (state, action) => {
         ...state,
         lastName: action.payload,
         lastNameErr: false,
-      };
-    case SET_EMAIL:
-      return {
-        ...state,
-        email: action.payload,
-        emailErr: false,
       };
     case SET_STREET:
       return {
@@ -101,35 +110,16 @@ const AuthReducer = (state, action) => {
           userNameErr: false,
         };
       }
-    case SET_USER_EXISTS:
-      if (action.payload === { email: true, user: true }) {
+    case SET_EMAIL_ERR:
+      if (state.email === '' || !state.email.match(emailReg)) {
         return {
           ...state,
-          userExists: {
-            email: 'Email already exists',
-            user: 'User already exists',
-          },
-        };
-      } else if (action.payload === { email: true }) {
-        return {
-          ...state,
-          userExists: { email: 'Email already exists', user: '' },
-        };
-      } else if (action.payload === { user: true }) {
-        return {
-          ...state,
-          userExists: { email: '', user: 'User already exists' },
+          emailErr: true,
         };
       } else {
         return {
           ...state,
-          loadingSlide:
-            !state.userNameErr &&
-            !state.emailErr &&
-            !state.passwordErr &&
-            !state.passwordRptErr
-              ? false
-              : true,
+          emailErr: false,
         };
       }
     case SET_PW_ERR:
@@ -180,18 +170,6 @@ const AuthReducer = (state, action) => {
           lastNameErr: false,
         };
       }
-    case SET_EMAIL_ERR:
-      if (state.email === '' || !state.email.match(emailReg)) {
-        return {
-          ...state,
-          emailErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          emailErr: false,
-        };
-      }
     case SET_STREET_ERR:
       if (state.street === '') {
         return {
@@ -232,20 +210,53 @@ const AuthReducer = (state, action) => {
       localStorage.setItem('token', action.payload);
       return {
         ...state,
-        ...action.payload,
+        token: action.payload,
         isAuthenticated: true,
+        userExists: { takenName: '', takenEmail: '' },
+        firstName: '',
+        userName: '',
+        password: '',
+        passwordRpt: '',
+        lastName: '',
+        email: '',
+        street: '',
+        zip: '',
+        city: '',
+        registerSlide: 1,
       };
     case REGISTER_FAIL:
       return {
         ...state,
-        authErr: action.payload,
+        registerErr: action.payload,
+      };
+    case USER_SUCCESS:
+      return {
+        ...state,
+        userExists: {
+          takenName: '',
+          takenEmail: '',
+        },
+        loading:
+          !state.userNameErr &&
+          !state.emailErr &&
+          !state.passwordErr &&
+          !state.passwordRptErr
+            ? false
+            : true,
+      };
+    case USER_FAIL:
+      return {
+        ...state,
+        userExists: action.payload,
       };
     case SET_SLIDE:
       return {
         ...state,
         registerSlide: action.payload,
-        loadingSlide: true,
+        loading: true,
       };
+    default:
+      return;
   }
 };
 

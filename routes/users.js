@@ -11,6 +11,7 @@ const config = require('config');
 
 // Userschema
 const User = require('../models/User');
+const e = require('express');
 
 // Password Regex
 const pwReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
@@ -19,23 +20,32 @@ const pwReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
 // @desc Get registered users
 // @access Public
 router.get('/', async (req, res) => {
-  const { username, email } = req.query;
+  const { username, email } = req.headers;
 
   try {
     // search db
     const emailRes = await User.findOne({ email });
     const userRes = await User.findOne({ username });
 
-    // set message
+    console.log(emailRes, userRes);
+
+    // if User exists
     if (emailRes && userRes) {
-      res.json({ email: true, user: true });
+      return res.status(400).json({
+        takenName: 'Username is taken',
+        takenEmail: 'Email already exists',
+      });
     } else if (userRes) {
-      res.json({ user: true });
+      return res
+        .status(400)
+        .json({ takenName: 'Username is taken', takenEmail: '' });
     } else if (emailRes) {
-      res.json({ email: true });
-    } else {
-      res.json({ msg: 'Not found' });
+      return res
+        .status(400)
+        .json({ takenEmail: 'Email already exists', takenName: '' });
     }
+
+    return res.json({ msg: 'No such user' });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Internal Server Error');
@@ -108,6 +118,7 @@ router.post(
       // save user
       await user.save();
 
+      // web token payload
       const payload = {
         user: {
           id: user.id,

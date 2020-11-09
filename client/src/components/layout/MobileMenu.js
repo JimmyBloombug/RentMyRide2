@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -10,10 +10,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-
-// Material Icons
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import DriveEtaIcon from '@material-ui/icons/DriveEta';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
@@ -55,30 +51,45 @@ const MobileMenu = (props) => {
           </Typography>
         </div>
         <List>
-          <ListItem
-            button
-            onClick={() => {
-              setMenu(false);
-              setLoginForm(true);
-            }}
-          >
-            <ListItemIcon>
-              <VpnKeyIcon />
-            </ListItemIcon>
-            <ListItemText primary='Login' />
-          </ListItem>
-          <ListItem
-            button
-            onClick={() => {
-              setMenu(false);
-              setRegisterForm(true);
-            }}
-          >
-            <ListItemIcon>
-              <DriveEtaIcon />
-            </ListItemIcon>
-            <ListItemText primary='Register' />
-          </ListItem>
+          {props.loggedIn ? (
+            <Fragment>
+              <ListItem
+                button
+                component={Link}
+                to={'/profile'}
+                onClick={() => {
+                  setMenu(false);
+                  setLoginForm(true);
+                }}
+              >
+                <ListItemIcon>{props.icons.profileIcon}</ListItemIcon>
+                <ListItemText primary='Profile' />
+              </ListItem>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <ListItem
+                button
+                onClick={() => {
+                  setMenu(false);
+                  setLoginForm(true);
+                }}
+              >
+                <ListItemIcon>{props.loginIcon}</ListItemIcon>
+                <ListItemText primary='Login' />
+              </ListItem>
+              <ListItem
+                button
+                onClick={() => {
+                  setMenu(false);
+                  setRegisterForm(true);
+                }}
+              >
+                <ListItemIcon>{props.registerIcon}</ListItemIcon>
+                <ListItemText primary='Register' />
+              </ListItem>
+            </Fragment>
+          )}
         </List>
         <Divider />
         <List>
@@ -103,11 +114,14 @@ const MobileMenu = (props) => {
 };
 
 MobileMenu.propTypes = {
+  icons: PropTypes.object.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
   anchor: PropTypes.string.isRequired,
   menuItems: PropTypes.array.isRequired,
 };
 
 MobileMenu.defaultProps = {
+  loggedIn: false,
   anchor: 'right',
 };
 

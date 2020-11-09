@@ -48,38 +48,6 @@ table {
   border-spacing: 0;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-  background-color: #0e0b16 !important;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-  color: #e7dfdd;
-}
-
-h1 {
-  font-size: 2.8em;
-  font-weight: 600;
-}
-
-h2 {
-  font-size: 2.2em;
-  font-weight: 500;
-}
-
-h3 {
-  font-size: 1.8em;
-  font-weight: 400;
-}
-
-input {
-  font-family: "Poppins", sans-serif;
-}
-
 a {
   text-decoration: none;
   color: inherit;
@@ -89,10 +57,7 @@ a:hover {
   color: inherit;
 }
 
-.navbar {
-  background-color: transparent;
-}
-
-.title {
-  font-family: "Montserrat Alternates", sans-serif !important;
+.container {
+  background: #dfe6e6;
+  background: linear-gradient(45deg, #dfe6e6 10%, #71a892 80%);
 }

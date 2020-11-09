@@ -6,8 +6,9 @@ import AuthReducer from './authReducer';
 
 import {
   SET_SHOW_PW,
-  SET_USER_EXISTS,
   SET_SLIDE,
+  USER_SUCCESS,
+  USER_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
 } from '../types';
@@ -16,8 +17,7 @@ export const AuthState = (props) => {
   const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: false,
-    loadingSlide: true,
-    loadingRegister: true,
+    loading: true,
     registerSlide: 1,
     userName: '',
     password: '',
@@ -28,7 +28,10 @@ export const AuthState = (props) => {
     street: '',
     zip: '',
     city: '',
-    userExists: {},
+    userExists: {
+      takenName: '',
+      takenEmail: '',
+    },
     userNameErr: false,
     passwordErr: false,
     passwordRptErr: false,
@@ -38,7 +41,7 @@ export const AuthState = (props) => {
     streetErr: false,
     zipErr: false,
     cityErr: false,
-    authErr: null,
+    registerErr: '',
     showPw: false,
   };
 
@@ -69,20 +72,21 @@ export const AuthState = (props) => {
 
   // Search Database
   const searchUser = async () => {
+    let config = {
+      headers: {
+        username: state.userName,
+        email: state.email,
+      },
+    };
+
     try {
       // search user
-      const res = await axios.get('/server/users', {
-        headers: {
-          username: state.username,
-          email: state.email,
-        },
-      });
-
-      dispatch({ type: SET_USER_EXISTS, payload: res.data });
+      await axios.get('/server/users', config);
+      dispatch({ type: USER_SUCCESS });
     } catch (error) {
       dispatch({
-        type: REGISTER_FAIL,
-        payload: error.response.data.msg,
+        type: USER_FAIL,
+        payload: error.response.data,
       });
     }
   };
@@ -109,7 +113,6 @@ export const AuthState = (props) => {
         'Content-Type': 'application/json',
       },
     };
-
     const formData = {
       username: state.userName,
       email: state.email,
@@ -120,7 +123,6 @@ export const AuthState = (props) => {
       zip: state.zip,
       city: state.city,
     };
-
     try {
       // register user
       const res = await axios.post('/server/users', formData, config);
@@ -130,6 +132,7 @@ export const AuthState = (props) => {
         payload: res.data.token,
       });
     } catch (error) {
+      console.log(error.message);
       dispatch({
         type: REGISTER_FAIL,
         payload: error.response.data.msg,
@@ -142,8 +145,7 @@ export const AuthState = (props) => {
       value={{
         token: state.token,
         isAuthenticated: state.isAuthenticated,
-        loadingSlide: state.loadingSlide,
-        loadingRegister: state.loadingRegister,
+        loading: state.loading,
         registerSlide: state.registerSlide,
         userName: state.userName,
         email: state.email,
@@ -164,7 +166,7 @@ export const AuthState = (props) => {
         streetErr: state.streetErr,
         zipErr: state.zipErr,
         cityErr: state.cityErr,
-        authErr: state.authErr,
+        registerErr: state.registerErr,
         showPw: state.showPw,
         setShowPw,
         setValue,
