@@ -5,6 +5,7 @@ import {
   SET_PW_RPT,
   SET_FIRST_NAME,
   SET_LAST_NAME,
+  SET_NUM,
   SET_STREET,
   SET_ZIP,
   SET_CITY,
@@ -15,6 +16,7 @@ import {
   SET_PW_RPT_ERR,
   SET_FIRST_NAME_ERR,
   SET_LAST_NAME_ERR,
+  SET_NUM_ERR,
   SET_STREET_ERR,
   SET_ZIP_ERR,
   SET_CITY_ERR,
@@ -23,6 +25,7 @@ import {
   USER_SUCCESS,
   USER_FAIL,
   SET_SLIDE,
+  SET_LOADING,
 } from '../types';
 
 // REGEX
@@ -34,6 +37,7 @@ const AuthReducer = (state, action) => {
     case SET_USERNAME:
       return {
         ...state,
+        registerStage: 1,
         userName: action.payload,
         userNameErr: false,
         userExists: {
@@ -44,6 +48,7 @@ const AuthReducer = (state, action) => {
     case SET_EMAIL:
       return {
         ...state,
+        registerStage: 1,
         email: action.payload,
         emailErr: false,
         userExists: {
@@ -54,42 +59,56 @@ const AuthReducer = (state, action) => {
     case SET_PW:
       return {
         ...state,
+        registerStage: 1,
         password: action.payload,
         passwordErr: false,
       };
     case SET_PW_RPT:
       return {
         ...state,
+        registerStage: 1,
         passwordRpt: action.payload,
         passwordRptErr: false,
       };
     case SET_FIRST_NAME:
       return {
         ...state,
+        registerStage: 2,
         firstName: action.payload,
         firstNameErr: false,
       };
     case SET_LAST_NAME:
       return {
         ...state,
+        registerStage: 2,
         lastName: action.payload,
         lastNameErr: false,
+      };
+    case SET_NUM:
+      return {
+        ...state,
+        registerStage: 2,
+        number: action.payload,
+        numberErr: false,
       };
     case SET_STREET:
       return {
         ...state,
+        registerStage: 2,
         street: action.payload,
         streetErr: false,
       };
     case SET_ZIP:
       return {
         ...state,
+        registerStage: 2,
         zip: action.payload,
         zipErr: false,
       };
     case SET_CITY:
       return {
         ...state,
+        registerStage: 2,
         city: action.payload,
         cityErr: false,
       };
@@ -170,6 +189,20 @@ const AuthReducer = (state, action) => {
           lastNameErr: false,
         };
       }
+    case SET_NUM_ERR:
+      if (state.number.match(/^[0-9]+$/) !== null) {
+        return {
+          ...state,
+          registerStage: 2,
+          numberErr: false,
+        };
+      } else {
+        console.log(action.payload);
+        return {
+          ...state,
+          numberErr: true,
+        };
+      }
     case SET_STREET_ERR:
       if (state.street === '') {
         return {
@@ -232,28 +265,42 @@ const AuthReducer = (state, action) => {
     case USER_SUCCESS:
       return {
         ...state,
+        registerStage: 2,
         userExists: {
           takenName: '',
           takenEmail: '',
         },
-        loading:
-          !state.userNameErr &&
-          !state.emailErr &&
-          !state.passwordErr &&
-          !state.passwordRptErr
-            ? false
-            : true,
       };
     case USER_FAIL:
       return {
         ...state,
         userExists: action.payload,
+        loading: true,
+        registerStage: 1,
       };
     case SET_SLIDE:
+      if (action.payload.type === 'next') {
+        return {
+          ...state,
+          loading: true,
+          registerSlide: action.payload.slide,
+        };
+      } else {
+        return {
+          ...state,
+          registerSlide: action.payload.slide,
+          registerStage: action.payload.stage,
+          firstNameErr: false,
+          lastNameErr: false,
+          streetErr: false,
+          zipErr: false,
+          cityErr: false,
+        };
+      }
+    case SET_LOADING:
       return {
         ...state,
-        registerSlide: action.payload,
-        loading: true,
+        loading: false,
       };
     default:
       return;

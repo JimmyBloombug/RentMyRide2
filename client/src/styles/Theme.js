@@ -3,6 +3,7 @@ import {
   MuiThemeProvider,
   unstable_createMuiStrictModeTheme as createMuiTheme,
 } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 // Theme
 const getTheme = (theme) => {
@@ -10,13 +11,14 @@ const getTheme = (theme) => {
     palette: {
       type: theme.paletteType,
       background: {
-        default: '#71a892',
+        default: '#0A0B10',
+        paper: '#212833',
       },
       primary: {
-        light: '#f85281',
-        main: '#c00f55',
-        dark: '#89002d',
-        contrastText: '#ffffff',
+        light: '#a0ffff',
+        main: '#66fcf1',
+        dark: '#16c8be',
+        contrastText: '#000',
       },
       secondary: {
         light: '#beff97',
@@ -24,20 +26,17 @@ const getTheme = (theme) => {
         dark: '#50cb32',
         contrastText: '#000',
       },
-      background: {
-        paper: '#25493F',
-      },
       error: {
         main: '#ff0033',
       },
     },
-    overrides: {
-      MuiDrawer: {
-        paper: {
-          backgroundColor: '#25493F',
-        },
-      },
-    },
+    // overrides: {
+    //   MuiDrawer: {
+    //     paper: {
+    //       backgroundColor: '#212121',
+    //     },
+    //   },
+    // },
     typography: {
       fontFamily: ["'Poppins', sans-serif"].join(','),
       h1: {
@@ -62,7 +61,7 @@ const getTheme = (theme) => {
 const Theme = (props) => {
   return (
     <MuiThemeProvider theme={getTheme({ paletteType: 'dark' })}>
-      {props.children}
+      <CssBaseline>{props.children}</CssBaseline>
     </MuiThemeProvider>
   );
 };

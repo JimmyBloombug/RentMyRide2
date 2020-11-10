@@ -63,14 +63,11 @@ const RegisterSlide1 = (props) => {
 
   return (
     <Fragment>
-      <FormControl variant='filled' fullWidth color='secondary'>
+      <FormControl variant='filled' fullWidth color='primary'>
         <InputLabel
           htmlFor='userName'
-          color='secondary'
+          color='primary'
           error={userNameErr || userExists.takenName !== ''}
-          className={
-            userExists.takenName !== '' ? props.classes.errorColor : ''
-          }
         >
           Username
         </InputLabel>
@@ -86,18 +83,11 @@ const RegisterSlide1 = (props) => {
       <FormControl
         variant='filled'
         fullWidth
-        color='secondary'
-        className={props.classes.input}
+        color='primary'
+        className={props.classes.inputSlide1}
         error={emailErr || userExists.takenEmail !== ''}
       >
-        <InputLabel
-          htmlFor='email'
-          color='secondary'
-          error={emailErr}
-          className={
-            userExists.takenEmail !== '' ? props.classes.errorColor : ''
-          }
-        >
+        <InputLabel htmlFor='email' color='primary' error={emailErr}>
           Email
         </InputLabel>
         <FilledInput
@@ -113,10 +103,10 @@ const RegisterSlide1 = (props) => {
       <FormControl
         variant='filled'
         fullWidth
-        colors='secondary'
-        className={props.classes.input}
+        colors='primary'
+        className={props.classes.inputSlide1}
       >
-        <InputLabel htmlFor='password' color='secondary' error={passwordErr}>
+        <InputLabel htmlFor='password' color='primary' error={passwordErr}>
           Password
         </InputLabel>
         <FilledInput
@@ -139,26 +129,26 @@ const RegisterSlide1 = (props) => {
               </IconButton>
             </InputAdornment>
           }
-          color='secondary'
+          color='primary'
         />
       </FormControl>
       <FormControl
         variant='filled'
         fullWidth
-        colors='secondary'
+        colors='primary'
         className={props.classes.input}
       >
         <InputLabel
           htmlFor='passwordRpt'
-          color='secondary'
+          color='primary'
           error={passwordRptErr}
         >
           Repeat Password
         </InputLabel>
         <FilledInput
           id='passwordRpt'
-          type='password'
-          color='secondary'
+          type={showPw ? 'text' : 'password'}
+          color='primary'
           value={passwordRpt}
           onFocus={props.onChange(SET_PW_RPT)}
           onChange={props.onChange(SET_PW_RPT)}
@@ -171,7 +161,7 @@ const RegisterSlide1 = (props) => {
           size='large'
           color='primary'
           variant='contained'
-          onClick={() => props.onClick('slide')}
+          onClick={() => props.onClick('next')}
           endIcon={<ArrowForwardIcon />}
         >
           Next

@@ -1,51 +1,18 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
-import clsx from 'clsx';
+import React, { useContext, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import clsx from 'clsx';
 
 // Material UI
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import FilledInput from '@material-ui/core/FilledInput';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-
-// Material Icons
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import SendIcon from '@material-ui/icons/Send';
+import { Modal, makeStyles, useTheme, useMediaQuery } from '@material-ui/core';
 
 // Components
 import RegisterSlide1 from '../auth/RegisterSlide1';
+import RegisterSlide2 from '../auth/RegisterSlide2';
+import Loading from '../loading/Loading';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
 import AuthContext from '../../context/auth/authContext';
-import {
-  SET_USERNAME,
-  SET_PW,
-  SET_PW_RPT,
-  SET_FIRST_NAME,
-  SET_LAST_NAME,
-  SET_EMAIL,
-  SET_STREET,
-  SET_ZIP,
-  SET_CITY,
-  SET_USERNAME_ERR,
-  SET_PW_ERR,
-  SET_PW_RPT_ERR,
-  SET_FIRST_NAME_ERR,
-  SET_LAST_NAME_ERR,
-  SET_EMAIL_ERR,
-  SET_STREET_ERR,
-  SET_ZIP_ERR,
-  SET_CITY_ERR,
-} from '../../context/types';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     position: 'absolute',
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(3, 4, 3),
     borderRadius: '10px',
     outline: 'none',
   },
@@ -69,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   h2: {
     color: 'white',
-    margin: theme.spacing(3, 0, 5),
+    margin: theme.spacing(3, 0, 6),
     fontWeight: '700',
   },
   h2Span: {},
@@ -80,8 +47,11 @@ const useStyles = makeStyles((theme) => ({
   errorColor: {
     color: theme.palette.error.main,
   },
-  input: {
+  inputSlide1: {
     marginTop: theme.spacing(2),
+  },
+  inputSlide2: {
+    marginTop: theme.spacing(1),
   },
   radiusRight: {
     borderTopRightRadius: 0,
@@ -95,9 +65,14 @@ const useStyles = makeStyles((theme) => ({
   mobile: {
     width: 350,
   },
+  loadingGif: {
+    width: '70%',
+    height: '70%',
+  },
 }));
 
 const Register = () => {
+  // ========= CONTEXT ========
   // Navbar Context
   const navbarContext = useContext(NavbarContext);
   const { registerFormOpen, setRegisterForm } = navbarContext;
@@ -106,16 +81,8 @@ const Register = () => {
   const authContext = useContext(AuthContext);
   const {
     loading,
+    registerStage,
     registerSlide,
-    userName,
-    password,
-    passwordRpt,
-    firstName,
-    lastName,
-    email,
-    street,
-    zip,
-    city,
     userExists,
     userNameErr,
     emailErr,
@@ -126,12 +93,10 @@ const Register = () => {
     streetErr,
     zipErr,
     cityErr,
-    showPw,
-    setShowPw,
     setValue,
     validateRegister,
-    searchUser,
     setSlide,
+    searchUser,
     registerUser,
   } = authContext;
 
@@ -147,67 +112,73 @@ const Register = () => {
       userExists.takenEmail === ''
     ) {
       // if loading false next slide
-      if (!loading) {
+      if (!loading && registerStage === 2) {
+        console.log('useeffect 1');
         // set slide
-        setSlide();
+        setSlide('next');
+      }
+    }
+
+    //if no errors check loading
+    if ((!firstNameErr, !lastNameErr, !streetErr, !zipErr, !cityErr)) {
+      // if loading false next slide
+      if (!loading && registerStage === 3) {
+        console.log('useeffect 2');
+        // set slide
+        setSlide('next');
       }
     }
     // eslint-disable-next-line
-  }, [loading, userNameErr, emailErr, passwordErr, passwordRptErr, userExists]);
-
-  // validation is running
-  const [registerLoading, setRegisterLoading] = useState(true);
-
-  // Set register client validation
-  useEffect(() => {
-    if (
-      firstName !== '' &&
-      lastName !== '' &&
-      street !== '' &&
-      zip !== '' &&
-      city !== ''
-    ) {
-      if (!firstNameErr && !lastNameErr && !streetErr && !zipErr && !cityErr) {
-        setRegisterLoading(false);
-      }
-    }
-    // if loading false next slide
   }, [
-    firstName,
-    lastName,
-    street,
-    zip,
-    city,
+    userNameErr,
+    emailErr,
+    passwordErr,
+    passwordRptErr,
+    userExists,
     firstNameErr,
     lastNameErr,
     streetErr,
     zipErr,
     cityErr,
+    loading,
+    registerStage,
   ]);
+
+  // // Set register client validation
+  // useEffect(() => {
+  //   if (
+  //     firstName !== '' &&
+  //     lastName !== '' &&
+  //     street !== '' &&
+  //     zip !== '' &&
+  //     city !== ''
+  //   ) {
+  //     if (!firstNameErr && !lastNameErr && !streetErr && !zipErr && !cityErr) {
+  //       setRegisterLoading(false);
+  //     }
+  //   }
+  //   // if loading false next slide
+  // }, [
+  //   firstName,
+  //   lastName,
+  //   street,
+  //   zip,
+  //   city,
+  //   firstNameErr,
+  //   lastNameErr,
+  //   streetErr,
+  //   zipErr,
+  //   cityErr,
+  // ]);
 
   // Handle Click
   const handleOnClick = (type) => {
-    if (type === 'slide') {
-      // Validate User Data
+    if (type === 'back') {
+      setSlide(type);
+    } else if (type === 'next') {
       if (registerSlide === 1) {
-        validateRegister(SET_USERNAME_ERR);
-        validateRegister(SET_EMAIL_ERR);
-        validateRegister(SET_PW_ERR);
-        validateRegister(SET_PW_RPT_ERR);
         searchUser();
       } else if (registerSlide === 2) {
-        // go back one slide
-        setSlide();
-      }
-    } else {
-      // Validate User Data
-      validateRegister(SET_FIRST_NAME_ERR);
-      validateRegister(SET_LAST_NAME_ERR);
-      validateRegister(SET_STREET_ERR);
-      validateRegister(SET_ZIP_ERR);
-      validateRegister(SET_CITY_ERR);
-
-      if (registerLoading === false) {
         registerUser();
       }
     }
@@ -224,6 +195,8 @@ const Register = () => {
     validateRegister(type);
   };
 
+  // ======= STYLE =========
+
   // Theme
   const theme = useTheme();
 
@@ -232,6 +205,8 @@ const Register = () => {
 
   // Style
   const classes = useStyles();
+
+  // ======= MODUL RETURNS ========
 
   return (
     <Modal
@@ -268,135 +243,17 @@ const Register = () => {
               onBlur={handleBlur}
               onClick={handleOnClick}
             />
+          ) : registerSlide === 2 ? (
+            <RegisterSlide2
+              classes={classes}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              onClick={handleOnClick}
+            />
           ) : (
-            <Fragment>
-              <Grid container spacing={0}>
-                <Grid item sm={6} xs={12}>
-                  <FormControl variant='filled' fullWidth color='secondary'>
-                    <InputLabel
-                      htmlFor='firstName'
-                      color='secondary'
-                      error={firstNameErr}
-                    >
-                      First Name
-                    </InputLabel>
-                    <FilledInput
-                      id='firstName'
-                      value={firstName}
-                      className={classes.radiusRight}
-                      onChange={handleChange(SET_FIRST_NAME)}
-                      onBlur={() => handleBlur(SET_FIRST_NAME_ERR)}
-                      error={firstNameErr}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item sm={6} xs={12}>
-                  <FormControl variant='filled' fullWidth color='secondary'>
-                    <InputLabel
-                      htmlFor='lastName'
-                      color='secondary'
-                      error={lastNameErr}
-                    >
-                      Last Name
-                    </InputLabel>
-                    <FilledInput
-                      id='lastName'
-                      value={lastName}
-                      className={classes.radiusLeft}
-                      onChange={handleChange(SET_LAST_NAME)}
-                      onBlur={() => handleBlur(SET_LAST_NAME_ERR)}
-                      error={lastNameErr}
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <FormControl
-                variant='filled'
-                fullWidth
-                color='secondary'
-                className={classes.input}
-                error={streetErr}
-              >
-                <InputLabel htmlFor='street' color='secondary'>
-                  Street
-                </InputLabel>
-                <FilledInput
-                  id='street'
-                  value={street}
-                  onChange={handleChange(SET_STREET)}
-                  onBlur={() => handleBlur(SET_STREET_ERR)}
-                  error={streetErr}
-                />
-              </FormControl>
-
-              <Grid
-                container
-                spacing={0}
-                className={clsx(sup && classes.input)}
-              >
-                <Grid item sm={6} xs={12}>
-                  <FormControl
-                    variant='filled'
-                    fullWidth
-                    color='secondary'
-                    error={zipErr}
-                  >
-                    <InputLabel htmlFor='zip' color='secondary'>
-                      Zip
-                    </InputLabel>
-                    <FilledInput
-                      id='zip'
-                      value={zip}
-                      className={classes.radiusRight}
-                      onChange={handleChange(SET_ZIP)}
-                      onBlur={() => handleBlur(SET_ZIP_ERR)}
-                      error={zipErr}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item sm={6} xs={12}>
-                  <FormControl variant='filled' fullWidth color='secondary'>
-                    <InputLabel
-                      htmlFor='city'
-                      color='secondary'
-                      error={cityErr}
-                    >
-                      City
-                    </InputLabel>
-                    <FilledInput
-                      id='city'
-                      value={city}
-                      className={classes.radiusLeft}
-                      onChange={handleChange(SET_CITY)}
-                      onBlur={() => handleBlur(SET_CITY_ERR)}
-                      error={cityErr}
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Box mt={3} flexBasis='end'>
-                <Button
-                  className={classes.button}
-                  startIcon={<ArrowBackIcon />}
-                  size='large'
-                  color='default'
-                  variant='outlined'
-                  onClick={() => handleOnClick('slide')}
-                >
-                  Back
-                </Button>
-                <Button
-                  size='large'
-                  color='primary'
-                  variant='contained'
-                  onClick={() => handleOnClick('register')}
-                  endIcon={<SendIcon />}
-                >
-                  Send
-                </Button>
-              </Box>
-            </Fragment>
+            registerSlide === 2 && !loading(<Loading classes={classes} />)
           )}
+          {/* <Loading classes={classes} /> */}
         </div>
       </motion.div>
     </Modal>

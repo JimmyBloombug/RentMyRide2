@@ -11,6 +11,11 @@ import {
   USER_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  SET_LOADING,
+  SET_PW_RPT_ERR,
+  SET_PW_ERR,
+  SET_USERNAME_ERR,
+  SET_EMAIL_ERR,
 } from '../types';
 
 export const AuthState = (props) => {
@@ -18,12 +23,14 @@ export const AuthState = (props) => {
     token: localStorage.getItem('token'),
     isAuthenticated: false,
     loading: true,
-    registerSlide: 1,
+    registerStage: 2,
+    registerSlide: 2,
     userName: '',
     password: '',
     passwordRpt: '',
     firstName: '',
     lastName: '',
+    number: '',
     email: '',
     street: '',
     zip: '',
@@ -37,6 +44,7 @@ export const AuthState = (props) => {
     passwordRptErr: false,
     firstNameErr: false,
     lastNameErr: false,
+    numberErr: false,
     emailErr: false,
     streetErr: false,
     zipErr: false,
@@ -48,12 +56,14 @@ export const AuthState = (props) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   // Set Value
-  const setValue = (type, data) => {
+  const setValue = (type, data = undefined) => {
     dispatch({
       type: type,
       payload: data,
     });
   };
+
+  // ====== REGISTRATION =======
 
   // Set Password Show
   const setShowPw = (showPw) => {
@@ -65,6 +75,7 @@ export const AuthState = (props) => {
 
   // Validate Register
   const validateRegister = (type) => {
+    console.log(type);
     dispatch({
       type: type,
     });
@@ -79,6 +90,15 @@ export const AuthState = (props) => {
       },
     };
 
+    // Set is loading
+    setValue(SET_LOADING);
+
+    // validate all
+    validateRegister(SET_USERNAME_ERR);
+    validateRegister(SET_EMAIL_ERR);
+    validateRegister(SET_PW_ERR);
+    validateRegister(SET_PW_RPT_ERR);
+
     try {
       // search user
       await axios.get('/server/users', config);
@@ -92,16 +112,20 @@ export const AuthState = (props) => {
   };
 
   // Set Slide
-  const setSlide = () => {
-    if (state.registerSlide === 1) {
+  const setSlide = (type) => {
+    if (type === 'next') {
       dispatch({
         type: SET_SLIDE,
-        payload: state.registerSlide + 1,
+        payload: { type: 'next', slide: state.registerSlide + 1 },
       });
-    } else if (state.registerSlide === 2) {
+    } else {
       dispatch({
         type: SET_SLIDE,
-        payload: state.registerSlide - 1,
+        payload: {
+          type: 'back',
+          slide: state.registerSlide - 1,
+          stage: state.registerStage - 1,
+        },
       });
     }
   };
@@ -140,12 +164,16 @@ export const AuthState = (props) => {
     }
   };
 
+  // ======= LOGIN ========
+  // TODO
+
   return (
     <AuthContext.Provider
       value={{
         token: state.token,
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
+        registerStage: state.registerStage,
         registerSlide: state.registerSlide,
         userName: state.userName,
         email: state.email,
@@ -153,6 +181,7 @@ export const AuthState = (props) => {
         passwordRpt: state.passwordRpt,
         firstName: state.firstName,
         lastName: state.lastName,
+        number: state.number,
         street: state.street,
         zip: state.zip,
         city: state.city,
@@ -163,6 +192,7 @@ export const AuthState = (props) => {
         passwordRptErr: state.passwordRptErr,
         firstNameErr: state.firstNameErr,
         lastNameErr: state.lastNameErr,
+        numberErr: state.numberErr,
         streetErr: state.streetErr,
         zipErr: state.zipErr,
         cityErr: state.cityErr,

@@ -27,8 +27,6 @@ router.get('/', async (req, res) => {
     const emailRes = await User.findOne({ email });
     const userRes = await User.findOne({ username });
 
-    console.log(emailRes, userRes);
-
     // if User exists
     if (emailRes && userRes) {
       return res.status(400).json({

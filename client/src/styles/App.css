@@ -26,8 +26,3 @@ a {
 a:hover {
   color: inherit;
 }
-
-.container {
-  background: #dfe6e6;
-  background: linear-gradient(45deg, #dfe6e6 10%, #71a892 80%);
-}
