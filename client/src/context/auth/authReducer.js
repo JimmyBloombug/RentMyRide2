@@ -7,6 +7,7 @@ import {
   SET_LAST_NAME,
   SET_NUM,
   SET_STREET,
+  SET_COUNTRY,
   SET_ZIP,
   SET_CITY,
   SET_SHOW_PW,
@@ -16,6 +17,7 @@ import {
   SET_PW_RPT_ERR,
   SET_FIRST_NAME_ERR,
   SET_LAST_NAME_ERR,
+  SET_COUNTRY_ERR,
   SET_NUM_ERR,
   SET_STREET_ERR,
   SET_ZIP_ERR,
@@ -83,6 +85,13 @@ const AuthReducer = (state, action) => {
         registerStage: 2,
         lastName: action.payload,
         lastNameErr: false,
+      };
+    case SET_COUNTRY:
+      return {
+        ...state,
+        registerStage: 2,
+        country: action.payload,
+        countryErr: false,
       };
     case SET_NUM:
       return {
@@ -189,6 +198,19 @@ const AuthReducer = (state, action) => {
           lastNameErr: false,
         };
       }
+    case SET_COUNTRY_ERR: {
+      if (state.country === undefined || state.country === null) {
+        return {
+          ...state,
+          countryErr: true,
+        };
+      } else {
+        return {
+          ...state,
+          countryErr: false,
+        };
+      }
+    }
     case SET_NUM_ERR:
       if (state.number.match(/^[0-9]+$/) !== null) {
         return {
@@ -197,7 +219,6 @@ const AuthReducer = (state, action) => {
           numberErr: false,
         };
       } else {
-        console.log(action.payload);
         return {
           ...state,
           numberErr: true,
@@ -236,7 +257,7 @@ const AuthReducer = (state, action) => {
       } else {
         return {
           ...state,
-          cityErr: false,
+          cityErr: null,
         };
       }
     case REGISTER_SUCCESS:
@@ -252,31 +273,33 @@ const AuthReducer = (state, action) => {
         passwordRpt: '',
         lastName: '',
         email: '',
+        country: '',
+        number: '',
         street: '',
         zip: '',
         city: '',
-        registerSlide: 1,
+        registerFail: null,
       };
     case REGISTER_FAIL:
       return {
         ...state,
-        registerErr: action.payload,
+        registerFail: action.payload,
+        loading: true,
       };
     case USER_SUCCESS:
       return {
         ...state,
-        registerStage: 2,
         userExists: {
           takenName: '',
           takenEmail: '',
         },
+        loading: true,
       };
     case USER_FAIL:
       return {
         ...state,
         userExists: action.payload,
         loading: true,
-        registerStage: 1,
       };
     case SET_SLIDE:
       if (action.payload.type === 'next') {
@@ -289,12 +312,12 @@ const AuthReducer = (state, action) => {
         return {
           ...state,
           registerSlide: action.payload.slide,
-          registerStage: action.payload.stage,
-          firstNameErr: false,
-          lastNameErr: false,
-          streetErr: false,
-          zipErr: false,
-          cityErr: false,
+          // registerStage: action.payload.stage,
+          // firstNameErr: false,
+          // lastNameErr: false,
+          // streetErr: false,
+          // zipErr: false,
+          // cityErr: false,
         };
       }
     case SET_LOADING:

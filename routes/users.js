@@ -61,6 +61,8 @@ router.post(
     check('password', 'examplePassword#123').matches(pwReg),
     check('firstName', 'Please enter First Name').not().isEmpty(),
     check('lastName', 'Please enter Last Name').not().isEmpty(),
+    check('country', 'Please enter a country').exists({ checkNull: true }),
+    check('number', 'Please enter a valid number').isNumeric(),
     check('street', 'Please enter Street Name').not().isEmpty(),
     check('zip', 'Please enter Zip Code').not().isEmpty(),
     check('city', 'Please enter City').not().isEmpty(),
@@ -71,72 +73,74 @@ router.post(
     // return validation errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
+    } else {
+      return res.json({ msg: 'works' });
     }
 
-    // destructure
-    const {
-      username,
-      email,
-      password,
-      firstName,
-      lastName,
-      street,
-      zip,
-      city,
-    } = req.body;
+    //   // destructure
+    //   const {
+    //     username,
+    //     email,
+    //     password,
+    //     firstName,
+    //     lastName,
+    //     street,
+    //     zip,
+    //     city,
+    //   } = req.body;
 
-    try {
-      // search db
-      let emailRes = await User.findOne({ email });
-      let userRes = await User.findOne({ username });
+    //   try {
+    //     // search db
+    //     let emailRes = await User.findOne({ email });
+    //     let userRes = await User.findOne({ username });
 
-      // user already exists message
-      if (emailRes || userRes) {
-        return res.status(400).json({ msg: 'User already exists' });
-      }
+    //     // user already exists message
+    //     if (emailRes || userRes) {
+    //       return res.status(400).json({ msg: 'User already exists' });
+    //     }
 
-      // create user
-      user = new User({
-        username,
-        email,
-        password,
-        firstName,
-        lastName,
-        street,
-        zip,
-        city,
-      });
+    //     // create user
+    //     user = new User({
+    //       username,
+    //       email,
+    //       password,
+    //       firstName,
+    //       lastName,
+    //       street,
+    //       zip,
+    //       city,
+    //     });
 
-      // gen salt
-      const salt = await bcrypt.genSalt(10);
+    //     // gen salt
+    //     const salt = await bcrypt.genSalt(10);
 
-      // gen user password
-      user.password = await bcrypt.hash(password, salt);
+    //     // gen user password
+    //     user.password = await bcrypt.hash(password, salt);
 
-      // save user
-      await user.save();
+    //     // save user
+    //     await user.save();
 
-      // web token payload
-      const payload = {
-        user: {
-          id: user.id,
-        },
-      };
+    //     // web token payload
+    //     const payload = {
+    //       user: {
+    //         id: user.id,
+    //       },
+    //     };
 
-      // sign json web token
-      jwt.sign(
-        payload,
-        config.get('jwtSecret'),
-        { expiresIn: 3600 },
-        (error, token) => {
-          if (error) throw error;
-          res.json({ token });
-        }
-      );
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).send('Internal Server Error');
-    }
+    //     // sign json web token
+    //     jwt.sign(
+    //       payload,
+    //       config.get('jwtSecret'),
+    //       { expiresIn: 3600 },
+    //       (error, token) => {
+    //         if (error) throw error;
+    //         res.json({ token });
+    //       }
+    //     );
+    //   } catch (error) {
+    //     console.log(error.message);
+    //     res.status(500).send('Internal Server Error');
+    //   }
   }
 );
 

@@ -16,6 +16,13 @@ import {
   SET_PW_ERR,
   SET_USERNAME_ERR,
   SET_EMAIL_ERR,
+  SET_FIRST_NAME_ERR,
+  SET_LAST_NAME_ERR,
+  SET_COUNTRY_ERR,
+  SET_NUM_ERR,
+  SET_STREET_ERR,
+  SET_ZIP_ERR,
+  SET_CITY_ERR,
 } from '../types';
 
 export const AuthState = (props) => {
@@ -23,13 +30,13 @@ export const AuthState = (props) => {
     token: localStorage.getItem('token'),
     isAuthenticated: false,
     loading: true,
-    registerStage: 2,
-    registerSlide: 2,
+    registerSlide: 1,
     userName: '',
     password: '',
     passwordRpt: '',
     firstName: '',
     lastName: '',
+    country: null,
     number: '',
     email: '',
     street: '',
@@ -44,19 +51,20 @@ export const AuthState = (props) => {
     passwordRptErr: false,
     firstNameErr: false,
     lastNameErr: false,
+    countryErr: false,
     numberErr: false,
     emailErr: false,
     streetErr: false,
     zipErr: false,
-    cityErr: false,
-    registerErr: '',
+    cityErr: null,
+    registerFail: null,
     showPw: false,
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   // Set Value
-  const setValue = (type, data = undefined) => {
+  const setValue = (type, data) => {
     dispatch({
       type: type,
       payload: data,
@@ -75,7 +83,6 @@ export const AuthState = (props) => {
 
   // Validate Register
   const validateRegister = (type) => {
-    console.log(type);
     dispatch({
       type: type,
     });
@@ -90,14 +97,14 @@ export const AuthState = (props) => {
       },
     };
 
-    // Set is loading
-    setValue(SET_LOADING);
-
-    // validate all
+    // validate
     validateRegister(SET_USERNAME_ERR);
     validateRegister(SET_EMAIL_ERR);
     validateRegister(SET_PW_ERR);
     validateRegister(SET_PW_RPT_ERR);
+
+    // Set is loading
+    setValue(SET_LOADING);
 
     try {
       // search user
@@ -107,6 +114,57 @@ export const AuthState = (props) => {
       dispatch({
         type: USER_FAIL,
         payload: error.response.data,
+      });
+    }
+  };
+
+  // Register User
+  const registerUser = async () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    // User data
+    const formData = {
+      username: state.userName,
+      email: state.email,
+      password: state.password,
+      firstName: state.firstName,
+      lastName: state.lastName,
+      country: state.country,
+      number: state.number,
+      street: state.street,
+      zip: state.zip,
+      city: state.city,
+    };
+
+    // validate
+    validateRegister(SET_FIRST_NAME_ERR);
+    validateRegister(SET_LAST_NAME_ERR);
+    validateRegister(SET_COUNTRY_ERR);
+    validateRegister(SET_NUM_ERR);
+    validateRegister(SET_STREET_ERR);
+    validateRegister(SET_ZIP_ERR);
+    validateRegister(SET_CITY_ERR);
+
+    // Set is loading
+    setValue(SET_LOADING);
+
+    try {
+      // register user
+      const res = await axios.post('/server/users', formData, config);
+
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data.token,
+      });
+    } catch (error) {
+      console.log(error.response);
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: error.response.data.errors,
       });
     }
   };
@@ -124,42 +182,7 @@ export const AuthState = (props) => {
         payload: {
           type: 'back',
           slide: state.registerSlide - 1,
-          stage: state.registerStage - 1,
         },
-      });
-    }
-  };
-
-  // Register User
-  const registerUser = async () => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const formData = {
-      username: state.userName,
-      email: state.email,
-      password: state.password,
-      firstName: state.firstName,
-      lastName: state.lastName,
-      street: state.street,
-      zip: state.zip,
-      city: state.city,
-    };
-    try {
-      // register user
-      const res = await axios.post('/server/users', formData, config);
-
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data.token,
-      });
-    } catch (error) {
-      console.log(error.message);
-      dispatch({
-        type: REGISTER_FAIL,
-        payload: error.response.data.msg,
       });
     }
   };
@@ -173,7 +196,6 @@ export const AuthState = (props) => {
         token: state.token,
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
-        registerStage: state.registerStage,
         registerSlide: state.registerSlide,
         userName: state.userName,
         email: state.email,
@@ -181,6 +203,7 @@ export const AuthState = (props) => {
         passwordRpt: state.passwordRpt,
         firstName: state.firstName,
         lastName: state.lastName,
+        country: state.country,
         number: state.number,
         street: state.street,
         zip: state.zip,
@@ -192,11 +215,12 @@ export const AuthState = (props) => {
         passwordRptErr: state.passwordRptErr,
         firstNameErr: state.firstNameErr,
         lastNameErr: state.lastNameErr,
+        countryErr: state.countryErr,
         numberErr: state.numberErr,
         streetErr: state.streetErr,
         zipErr: state.zipErr,
         cityErr: state.cityErr,
-        registerErr: state.registerErr,
+        registerFail: state.registerFail,
         showPw: state.showPw,
         setShowPw,
         setValue,

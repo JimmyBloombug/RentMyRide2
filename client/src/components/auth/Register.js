@@ -3,12 +3,23 @@ import { motion } from 'framer-motion';
 import clsx from 'clsx';
 
 // Material UI
-import { Modal, makeStyles, useTheme, useMediaQuery } from '@material-ui/core';
+import {
+  Modal,
+  makeStyles,
+  useTheme,
+  useMediaQuery,
+  Button,
+} from '@material-ui/core';
+
+// Material UI Icons
+import CloseIcon from '@material-ui/icons/Close';
 
 // Components
 import RegisterSlide1 from '../auth/RegisterSlide1';
 import RegisterSlide2 from '../auth/RegisterSlide2';
-import Loading from '../loading/Loading';
+import RegisterSlide3 from '../auth/RegisterSlide3';
+import Loading from '../featback/Loading';
+import Success from '../featback/Success';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
@@ -20,32 +31,39 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    outline: 'none',
   },
   registerCont: {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-    position: 'absolute',
+    justifyContent: 'space-between',
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(3, 4, 3),
     borderRadius: '10px',
     outline: 'none',
   },
+  formCont: {
+    marginTop: theme.spacing(2),
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
   button: {
     marginRight: theme.spacing(2),
   },
-  h2: {
-    color: 'white',
-    margin: theme.spacing(3, 0, 6),
-    fontWeight: '700',
+  h3: {
+    fontWeight: '600',
+    marginTop: theme.spacing(3),
   },
-  h2Span: {},
+  span: {
+    color: theme.palette.primary.main,
+  },
   registerInput: {
     width: '100%',
     marginBottom: theme.spacing(3),
-  },
-  errorColor: {
-    color: theme.palette.error.main,
   },
   inputSlide1: {
     marginTop: theme.spacing(2),
@@ -53,11 +71,9 @@ const useStyles = makeStyles((theme) => ({
   inputSlide2: {
     marginTop: theme.spacing(1),
   },
-  radiusRight: {
-    borderTopRightRadius: 0,
-  },
-  radiusLeft: {
-    borderTopLeftRadius: 0,
+  slide3Message: {
+    fontSize: '1.4em',
+    textAlign: 'center',
   },
   web: {
     width: 500,
@@ -66,8 +82,24 @@ const useStyles = makeStyles((theme) => ({
     width: 350,
   },
   loadingGif: {
-    width: '70%',
-    height: '70%',
+    height: '200px',
+    marginBottom: theme.spacing(12),
+  },
+  successGif: {
+    height: '200px',
+  },
+  errorIcon: {
+    height: '100px',
+    width: '100px',
+    color: theme.palette.error.main,
+  },
+  closeButton: {
+    position: 'absolute',
+    right: '0px',
+    top: '10px',
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
   },
 }));
 
@@ -80,19 +112,7 @@ const Register = () => {
   // Auth Context
   const authContext = useContext(AuthContext);
   const {
-    loading,
-    registerStage,
     registerSlide,
-    userExists,
-    userNameErr,
-    emailErr,
-    passwordErr,
-    passwordRptErr,
-    firstNameErr,
-    lastNameErr,
-    streetErr,
-    zipErr,
-    cityErr,
     setValue,
     validateRegister,
     setSlide,
@@ -100,87 +120,16 @@ const Register = () => {
     registerUser,
   } = authContext;
 
-  // Set Slide
-  useEffect(() => {
-    // if no errors check loading
-    if (
-      !userNameErr &&
-      !emailErr &&
-      !passwordErr &&
-      !passwordRptErr &&
-      userExists.takenName === '' &&
-      userExists.takenEmail === ''
-    ) {
-      // if loading false next slide
-      if (!loading && registerStage === 2) {
-        console.log('useeffect 1');
-        // set slide
-        setSlide('next');
-      }
-    }
-
-    //if no errors check loading
-    if ((!firstNameErr, !lastNameErr, !streetErr, !zipErr, !cityErr)) {
-      // if loading false next slide
-      if (!loading && registerStage === 3) {
-        console.log('useeffect 2');
-        // set slide
-        setSlide('next');
-      }
-    }
-    // eslint-disable-next-line
-  }, [
-    userNameErr,
-    emailErr,
-    passwordErr,
-    passwordRptErr,
-    userExists,
-    firstNameErr,
-    lastNameErr,
-    streetErr,
-    zipErr,
-    cityErr,
-    loading,
-    registerStage,
-  ]);
-
-  // // Set register client validation
-  // useEffect(() => {
-  //   if (
-  //     firstName !== '' &&
-  //     lastName !== '' &&
-  //     street !== '' &&
-  //     zip !== '' &&
-  //     city !== ''
-  //   ) {
-  //     if (!firstNameErr && !lastNameErr && !streetErr && !zipErr && !cityErr) {
-  //       setRegisterLoading(false);
-  //     }
-  //   }
-  //   // if loading false next slide
-  // }, [
-  //   firstName,
-  //   lastName,
-  //   street,
-  //   zip,
-  //   city,
-  //   firstNameErr,
-  //   lastNameErr,
-  //   streetErr,
-  //   zipErr,
-  //   cityErr,
-  // ]);
-
   // Handle Click
   const handleOnClick = (type) => {
     if (type === 'back') {
       setSlide(type);
-    } else if (type === 'next') {
-      if (registerSlide === 1) {
-        searchUser();
-      } else if (registerSlide === 2) {
-        registerUser();
-      }
+    } else if (type === 'next' && registerSlide === 1) {
+      searchUser();
+    } else if (type === 'next' && registerSlide === 2) {
+      registerUser();
+    } else if (type === 'close') {
+      setRegisterForm(false);
     }
   };
 
@@ -233,27 +182,36 @@ const Register = () => {
             sup ? classes.web : classes.mobile
           )}
         >
-          <h2 className={classes.h2}>
-            <span className={classes.h2Span}>New</span> Account
-          </h2>
-          {registerSlide === 1 ? (
-            <RegisterSlide1
-              classes={classes}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              onClick={handleOnClick}
-            />
-          ) : registerSlide === 2 ? (
-            <RegisterSlide2
-              classes={classes}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              onClick={handleOnClick}
-            />
-          ) : (
-            registerSlide === 2 && !loading(<Loading classes={classes} />)
-          )}
-          {/* <Loading classes={classes} /> */}
+          <Button
+            className={classes.closeButton}
+            onClick={() => handleOnClick('close')}
+          >
+            <CloseIcon />
+          </Button>
+          <h3 className={classes.h3}>
+            <span className={classes.span}>Register</span> Account
+          </h3>
+          <div className={classes.formCont}>
+            {registerSlide === 1 ? (
+              <RegisterSlide1
+                classes={classes}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                onClick={handleOnClick}
+              />
+            ) : // <Loading classes={classes} />
+            // <Success classes={classes} />
+            registerSlide === 2 ? (
+              <RegisterSlide2
+                classes={classes}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                onClick={handleOnClick}
+              />
+            ) : (
+              <RegisterSlide3 classes={classes} onClick={handleOnClick} />
+            )}
+          </div>
         </div>
       </motion.div>
     </Modal>
