@@ -1,4 +1,3 @@
-import { Box } from '@material-ui/core';
 import { SET_ALERT, REMOVE_ALERT, CLEAR_ALERTS } from '../types';
 
 const AlertReducer = (state, action) => {

@@ -26,12 +26,22 @@ import {
   REGISTER_FAIL,
   USER_SUCCESS,
   USER_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
   SET_SLIDE,
   SET_LOADING,
+  RESET_REGISTER,
 } from '../types';
 
 const AuthReducer = (state, action) => {
   switch (action.type) {
+    case USER_LOADED:
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        user: action.payload,
+      };
     case SET_USERNAME:
       return {
         ...state,
@@ -191,25 +201,18 @@ const AuthReducer = (state, action) => {
         ...state,
         token: action.payload,
         isAuthenticated: true,
-        userExists: { takenName: '', takenEmail: '' },
-        firstName: '',
-        userName: '',
-        password: '',
-        passwordRpt: '',
-        lastName: '',
-        email: '',
-        country: '',
-        number: '',
-        street: '',
-        zip: '',
-        city: '',
-        registerFail: null,
+        serverErr: null,
       };
     case REGISTER_FAIL:
+    case AUTH_ERROR:
+      localStorage.removeItem('token');
       return {
         ...state,
-        registerFail: action.payload,
+        token: null,
+        isAuthenticated: false,
+        user: null,
         loading: true,
+        serverErr: action.payload,
       };
     case USER_SUCCESS:
       return {
@@ -244,6 +247,35 @@ const AuthReducer = (state, action) => {
       return {
         ...state,
         loading: false,
+      };
+    case RESET_REGISTER:
+      return {
+        ...state,
+        firstName: '',
+        userName: '',
+        password: '',
+        passwordRpt: '',
+        lastName: '',
+        email: '',
+        country: null,
+        number: '',
+        street: '',
+        zip: '',
+        city: '',
+        userNameErr: '',
+        emaiErr: '',
+        passwordErr: '',
+        passwordRptErr: '',
+        firstNameErr: '',
+        lastNameErr: '',
+        countryErr: '',
+        numberErr: '',
+        streetErr: '',
+        zipErr: '',
+        cityErr: '',
+        userExists: { takenName: '', takenEmail: '' },
+        serverErr: null,
+        registerSlide: 1,
       };
     default:
       return;

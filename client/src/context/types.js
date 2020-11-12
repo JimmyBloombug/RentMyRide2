@@ -28,12 +28,15 @@ export const SET_NUM_ERR = 'SET_NUM_ERR';
 export const SET_STREET_ERR = 'SET_STREET_ERR';
 export const SET_ZIP_ERR = 'SET_ZIP_ERR';
 export const SET_CITY_ERR = 'SET_CITY_ERR';
-export const USER_SUCCESS = 'USER_SUCCESS';
-export const USER_FAIL = 'USER_FAIL';
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const SET_SHOW_PW = 'SET_SHOW_PW';
 export const SET_LOADING = 'SET_LOADING';
+export const USER_SUCCESS = 'USER_SUCCESS';
+export const USER_FAIL = 'USER_FAIL';
+export const USER_LOADED = 'USER_LOADED';
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'REGISTER_FAIL';
+export const RESET_REGISTER = 'RESET_REGISTER';
 
 // Alert
 export const SET_ALERT = 'SET_ALERT';

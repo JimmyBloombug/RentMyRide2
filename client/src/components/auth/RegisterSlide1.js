@@ -130,9 +130,12 @@ const RegisterSlide1 = (props) => {
           fullWidth
           color='primary'
           className={props.classes.inputSlide1}
-          error={emailErr || userExists.takenEmail !== ''}
         >
-          <InputLabel htmlFor='email' color='primary' error={emailErr}>
+          <InputLabel
+            htmlFor='email'
+            color='primary'
+            error={emailErr || userExists.takenEmail !== ''}
+          >
             Email
           </InputLabel>
           <FilledInput

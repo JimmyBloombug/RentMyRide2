@@ -1,6 +1,9 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
 
+// Components
+import setAuthToken from '../../utils/setAuthToken';
+
 import AuthContext from './authContext';
 import AuthReducer from './authReducer';
 
@@ -9,6 +12,8 @@ import {
   SET_SLIDE,
   USER_SUCCESS,
   USER_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   SET_LOADING,
@@ -23,6 +28,7 @@ import {
   SET_STREET_ERR,
   SET_ZIP_ERR,
   SET_CITY_ERR,
+  RESET_REGISTER,
 } from '../types';
 
 // REGEX
@@ -33,6 +39,7 @@ export const AuthState = (props) => {
   const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: false,
+    user: null,
     loading: true,
     registerSlide: 1,
     userName: '',
@@ -60,8 +67,8 @@ export const AuthState = (props) => {
     emailErr: false,
     streetErr: false,
     zipErr: false,
-    cityErr: null,
-    registerFail: null,
+    cityErr: false,
+    serverErr: null,
     showPw: false,
   };
 
@@ -289,6 +296,8 @@ export const AuthState = (props) => {
           type: REGISTER_SUCCESS,
           payload: res.data.token,
         });
+
+        loadUser();
       } catch (error) {
         console.log(error.response);
         dispatch({
@@ -317,14 +326,38 @@ export const AuthState = (props) => {
     }
   };
 
+  const resetRegister = () => {
+    dispatch({ type: RESET_REGISTER });
+  };
+
   // ======= LOGIN ========
   // TODO
+
+  // ======= LOAD USER =======
+  const loadUser = async () => {
+    // set auth token
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    try {
+      const res = await axios.get('/server/auth');
+
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({ type: AUTH_ERROR });
+    }
+  };
 
   return (
     <AuthContext.Provider
       value={{
         token: state.token,
         isAuthenticated: state.isAuthenticated,
+        user: state.user,
         loading: state.loading,
         registerSlide: state.registerSlide,
         userName: state.userName,
@@ -350,7 +383,7 @@ export const AuthState = (props) => {
         streetErr: state.streetErr,
         zipErr: state.zipErr,
         cityErr: state.cityErr,
-        registerFail: state.registerFail,
+        serverErr: state.serverErr,
         showPw: state.showPw,
         setShowPw,
         setValue,
@@ -364,6 +397,7 @@ export const AuthState = (props) => {
         validateInput,
         validateCountry,
         validateFirstSlide,
+        resetRegister,
       }}
     >
       {props.children}

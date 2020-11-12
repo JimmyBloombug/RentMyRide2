@@ -22,6 +22,7 @@ import RegisterSlide3 from '../auth/RegisterSlide3';
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
 import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -112,34 +113,33 @@ const Register = () => {
   const {
     registerSlide,
     setValue,
-    validateRegister,
     setSlide,
     registerUser,
     validateFirstSlide,
+    resetRegister,
   } = authContext;
+
+  // AlertContext
+  const alertContext = useContext(AlertContext);
 
   // Handle Click
   const handleOnClick = (type) => {
     if (type === 'back') {
       setSlide(type);
     } else if (type === 'next' && registerSlide === 1) {
+      alertContext.clearAlerts();
       validateFirstSlide();
     } else if (type === 'next' && registerSlide === 2) {
       registerUser();
     } else if (type === 'close') {
       setRegisterForm(false);
+      resetRegister();
     }
   };
 
   // Handle Change
   const handleChange = (type) => (e) => {
     setValue(type, e.target.value);
-  };
-
-  // Handle Blur
-  const handleBlur = (type) => {
-    // Validate Input Field
-    validateRegister(type);
   };
 
   // ======= STYLE =========
@@ -158,7 +158,7 @@ const Register = () => {
   return (
     <Modal
       open={registerFormOpen}
-      onClose={() => setRegisterForm(false)}
+      onClose={() => handleOnClick('close')}
       aria-labelledby='register'
       className={classes.modal}
     >

@@ -22,19 +22,19 @@ const RegisterSlide3 = (props) => {
   // ========= CONTEXT ========
   // Auth Context
   const authContext = useContext(AuthContext);
-  const { registerFail } = authContext;
+  const { serverErr } = authContext;
   // Alert Context
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlerts } = alertContext;
 
   // ======= FUNCTIONS ========
   useEffect(() => {
-    if (registerFail !== null) {
-      registerFail.map((error) => {
+    if (serverErr !== null) {
+      serverErr.map((error) => {
         setAlert(error.msg, 'error', 0);
       });
     }
-  }, authContext.registerFail);
+  }, serverErr);
 
   // Handle on click
   const handelClick = async () => {
@@ -46,7 +46,7 @@ const RegisterSlide3 = (props) => {
 
   return (
     <Fragment>
-      {registerFail == null ? (
+      {serverErr == null ? (
         <Fragment>
           <Success classes={props.classes} />
           <Typography className={props.classes.slide3Message}>

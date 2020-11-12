@@ -15,8 +15,8 @@ app.get('/', (req, res) =>
 
 // Routes
 app.use('/server/users', require('./routes/users'));
-// TODO: define route CARS
-// TODO: define route AUTH
+app.use('/server/auth', require('./routes/auth'));
+// @TODO: define route CARS
 
 const PORT = process.env.PORT | 5000;
 
