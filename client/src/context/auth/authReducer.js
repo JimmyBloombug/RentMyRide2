@@ -39,8 +39,8 @@ const AuthReducer = (state, action) => {
         userName: action.payload,
         userNameErr: false,
         userExists: {
-          ...state.userExists,
           takenName: '',
+          takenEmail: '',
         },
       };
     case SET_EMAIL:
@@ -50,7 +50,7 @@ const AuthReducer = (state, action) => {
         email: action.payload,
         emailErr: false,
         userExists: {
-          ...state.userExists,
+          takenName: '',
           takenEmail: '',
         },
       };
@@ -60,6 +60,10 @@ const AuthReducer = (state, action) => {
         registerStage: 1,
         password: action.payload,
         passwordErr: false,
+        userExists: {
+          takenName: '',
+          takenEmail: '',
+        },
       };
     case SET_PW_RPT:
       return {
@@ -67,6 +71,10 @@ const AuthReducer = (state, action) => {
         registerStage: 1,
         passwordRpt: action.payload,
         passwordRptErr: false,
+        userExists: {
+          takenName: '',
+          takenEmail: '',
+        },
       };
     case SET_FIRST_NAME:
       return {
@@ -229,12 +237,7 @@ const AuthReducer = (state, action) => {
         return {
           ...state,
           registerSlide: action.payload.slide,
-          // registerStage: action.payload.stage,
-          // firstNameErr: false,
-          // lastNameErr: false,
-          // streetErr: false,
-          // zipErr: false,
-          // cityErr: false,
+          registerFail: null,
         };
       }
     case SET_LOADING:

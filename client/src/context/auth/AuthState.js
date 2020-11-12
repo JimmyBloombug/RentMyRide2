@@ -218,19 +218,6 @@ export const AuthState = (props) => {
     const passwordRptValidated = await validatePasswordRpt();
     const searchUserValidated = await searchUser();
 
-    // console.log(
-    //   'username: ',
-    //   userNameValidated,
-    //   'email ',
-    //   emailValidated,
-    //   'password ',
-    //   passwordValidated,
-    //   'pwrpt ',
-    //   passwordRptValidated,
-    //   'search ',
-    //   searchUserValidated
-    // );
-
     if (
       !userNameValidated &&
       !emailValidated &&
@@ -261,55 +248,55 @@ export const AuthState = (props) => {
     const cityValidated = await validateInput(state.city, SET_CITY_ERR);
 
     // if no errors POST
-    // if (
-    //   !firstNameValidated &&
-    //   !lastNameValidated &&
-    //   !countryValidated &&
-    //   !numberValidated &&
-    //   !streetValidated &&
-    //   !zipValidated &&
-    //   !cityValidated
-    // ) {
-    // Post config
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+    if (
+      !firstNameValidated &&
+      !lastNameValidated &&
+      !countryValidated &&
+      !numberValidated &&
+      !streetValidated &&
+      !zipValidated &&
+      !cityValidated
+    ) {
+      // Post config
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
 
-    // User data
-    const formData = {
-      username: state.userName,
-      email: state.email,
-      password: state.password,
-      firstName: state.firstName,
-      lastName: state.lastName,
-      country: state.country,
-      number: state.number,
-      street: state.street,
-      zip: state.zip,
-      city: state.city,
-    };
+      // User data
+      const formData = {
+        username: state.userName,
+        email: state.email,
+        password: state.password,
+        firstName: state.firstName,
+        lastName: state.lastName,
+        country: state.country,
+        number: state.number,
+        street: state.street,
+        zip: state.zip,
+        city: state.city,
+      };
 
-    // Set loading
-    setValue(SET_LOADING);
+      // Set loading
+      setValue(SET_LOADING);
 
-    try {
-      // register user
-      const res = await axios.post('/server/users', formData, config);
+      try {
+        // register user
+        const res = await axios.post('/server/users', formData, config);
 
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data.token,
-      });
-    } catch (error) {
-      console.log(error.response);
-      dispatch({
-        type: REGISTER_FAIL,
-        payload: error.response.data.errors,
-      });
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: res.data.token,
+        });
+      } catch (error) {
+        console.log(error.response);
+        dispatch({
+          type: REGISTER_FAIL,
+          payload: error.response.data.errors,
+        });
+      }
     }
-    // }
   };
 
   // Set Slide

@@ -20,10 +20,10 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SendIcon from '@material-ui/icons/Send';
 
 // Components
-import Loading from '../featback/Loading';
+import Loading from '../layout/Loading';
 
 // Constants
-import { countries } from '../constants/countries';
+import { countries } from '../../constants/countries';
 
 // Context
 import AuthContext from '../../context/auth/authContext';
@@ -33,7 +33,6 @@ import {
   SET_LAST_NAME,
   SET_LAST_NAME_ERR,
   SET_COUNTRY,
-  SET_COUNTRY_ERR,
   SET_NUM,
   SET_NUM_ERR,
   SET_STREET,
@@ -63,7 +62,6 @@ const RegisterSlide2 = (props) => {
     zipErr,
     city,
     cityErr,
-    registerFail,
     setValue,
     setSlide,
     validateInput,
@@ -90,8 +88,7 @@ const RegisterSlide2 = (props) => {
       !numberErr &&
       !streetErr &&
       !zipErr &&
-      !cityErr &&
-      registerFail === null
+      !cityErr
     ) {
       // if loading false next slide
       if (!loading) {
@@ -108,7 +105,6 @@ const RegisterSlide2 = (props) => {
     streetErr,
     zipErr,
     cityErr,
-    registerFail,
     loading,
   ]);
 
@@ -321,7 +317,6 @@ const RegisterSlide2 = (props) => {
 RegisterSlide2.propTypes = {
   classes: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

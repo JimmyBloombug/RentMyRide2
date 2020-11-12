@@ -18,8 +18,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import RegisterSlide1 from '../auth/RegisterSlide1';
 import RegisterSlide2 from '../auth/RegisterSlide2';
 import RegisterSlide3 from '../auth/RegisterSlide3';
-import Loading from '../featback/Loading';
-import Success from '../featback/Success';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
@@ -196,16 +194,12 @@ const Register = () => {
               <RegisterSlide1
                 classes={classes}
                 onChange={handleChange}
-                onBlur={handleBlur}
                 onClick={handleOnClick}
               />
-            ) : // <Loading classes={classes} />
-            // <Success classes={classes} />
-            registerSlide === 2 ? (
+            ) : registerSlide === 2 ? (
               <RegisterSlide2
                 classes={classes}
                 onChange={handleChange}
-                onBlur={handleBlur}
                 onClick={handleOnClick}
               />
             ) : (

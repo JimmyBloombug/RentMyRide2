@@ -18,10 +18,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 // Components
-import Loading from '../featback/Loading';
+import Alerts from '../layout/Alerts';
 
 // Context
 import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
 import {
   SET_USERNAME,
   SET_EMAIL,
@@ -53,9 +54,11 @@ const RegisterSlide1 = (props) => {
     validatePasswordRpt,
   } = authContext;
 
+  // Alert Context
+  const alertContext = useContext(AlertContext);
+
   // ======= FUNCTIONS ========
 
-  // Set Slide
   useEffect(() => {
     // if no errors check loading
     if (
@@ -71,6 +74,16 @@ const RegisterSlide1 = (props) => {
         // set slide
         setSlide('next');
       }
+    }
+
+    // set username exists alert
+    if (userExists.takenName !== '') {
+      alertContext.setAlert(userExists.takenName, 'error');
+    }
+
+    // set email exists alert
+    if (userExists.takenEmail !== '') {
+      alertContext.setAlert(userExists.takenEmail, 'error');
     }
     // eslint-disable-next-line
   }, [userNameErr, emailErr, passwordErr, passwordRptErr, userExists, loading]);
@@ -94,6 +107,7 @@ const RegisterSlide1 = (props) => {
   return (
     <Fragment>
       <Fragment>
+        <Alerts />
         <FormControl variant='filled' fullWidth color='primary'>
           <InputLabel
             htmlFor='userName'
