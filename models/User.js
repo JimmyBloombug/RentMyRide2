@@ -23,6 +23,14 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  country: {
+    type: Object,
+    required: true,
+  },
+  number: {
+    type: String,
+    required: true,
+  },
   street: {
     type: String,
     required: true,

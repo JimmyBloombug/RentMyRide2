@@ -73,74 +73,78 @@ router.post(
     // return validation errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
-    } else {
-      return res.json({ msg: 'works' });
     }
 
-    //   // destructure
-    //   const {
-    //     username,
-    //     email,
-    //     password,
-    //     firstName,
-    //     lastName,
-    //     street,
-    //     zip,
-    //     city,
-    //   } = req.body;
+    // destructure
+    const {
+      username,
+      email,
+      password,
+      firstName,
+      lastName,
+      country,
+      number,
+      street,
+      zip,
+      city,
+    } = req.body;
 
-    //   try {
-    //     // search db
-    //     let emailRes = await User.findOne({ email });
-    //     let userRes = await User.findOne({ username });
+    // return res.status(400).json({ country });
 
-    //     // user already exists message
-    //     if (emailRes || userRes) {
-    //       return res.status(400).json({ msg: 'User already exists' });
-    //     }
+    try {
+      // search db
+      let emailRes = await User.findOne({ email });
+      let userRes = await User.findOne({ username });
 
-    //     // create user
-    //     user = new User({
-    //       username,
-    //       email,
-    //       password,
-    //       firstName,
-    //       lastName,
-    //       street,
-    //       zip,
-    //       city,
-    //     });
+      // user already exists message
+      if (emailRes || userRes) {
+        return res.status(400).json({ msg: 'User already exists' });
+      }
 
-    //     // gen salt
-    //     const salt = await bcrypt.genSalt(10);
+      // create user
+      user = new User({
+        username,
+        email,
+        password,
+        firstName,
+        lastName,
+        country,
+        number,
+        street,
+        zip,
+        city,
+      });
 
-    //     // gen user password
-    //     user.password = await bcrypt.hash(password, salt);
+      // gen salt
+      const salt = await bcrypt.genSalt(10);
 
-    //     // save user
-    //     await user.save();
+      // gen user password
+      user.password = await bcrypt.hash(password, salt);
 
-    //     // web token payload
-    //     const payload = {
-    //       user: {
-    //         id: user.id,
-    //       },
-    //     };
+      // save user
+      await user.save();
 
-    //     // sign json web token
-    //     jwt.sign(
-    //       payload,
-    //       config.get('jwtSecret'),
-    //       { expiresIn: 3600 },
-    //       (error, token) => {
-    //         if (error) throw error;
-    //         res.json({ token });
-    //       }
-    //     );
-    //   } catch (error) {
-    //     console.log(error.message);
-    //     res.status(500).send('Internal Server Error');
-    //   }
+      // web token payload
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+
+      // sign json web token
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        { expiresIn: 3600 },
+        (error, token) => {
+          if (error) throw error;
+          res.json({ token });
+        }
+      );
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).send('Internal Server Error');
+    }
   }
 );
 

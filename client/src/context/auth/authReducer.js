@@ -30,10 +30,6 @@ import {
   SET_LOADING,
 } from '../types';
 
-// REGEX
-const emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
-
 const AuthReducer = (state, action) => {
   switch (action.type) {
     case SET_USERNAME:
@@ -127,139 +123,60 @@ const AuthReducer = (state, action) => {
         showPw: action.payload,
       };
     case SET_USERNAME_ERR:
-      if (state.userName === '') {
-        return {
-          ...state,
-          userNameErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          userNameErr: false,
-        };
-      }
+      return {
+        ...state,
+        userNameErr: action.payload,
+      };
     case SET_EMAIL_ERR:
-      if (state.email === '' || !state.email.match(emailReg)) {
-        return {
-          ...state,
-          emailErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          emailErr: false,
-        };
-      }
+      return {
+        ...state,
+        emailErr: action.payload,
+      };
     case SET_PW_ERR:
-      if (state.password === '' || !state.password.match(passwordReg)) {
-        return {
-          ...state,
-          passwordErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          passwordErr: false,
-        };
-      }
+      return {
+        ...state,
+        passwordErr: action.payload,
+      };
     case SET_PW_RPT_ERR:
-      if (state.passwordRpt === '' || state.passwordRpt !== state.password) {
-        return {
-          ...state,
-          passwordRptErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          passwordRptErr: false,
-        };
-      }
+      return {
+        ...state,
+        passwordRptErr: action.payload,
+      };
     case SET_FIRST_NAME_ERR:
-      if (state.firstName === '') {
-        return {
-          ...state,
-          firstNameErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          firstNameErr: false,
-        };
-      }
+      return {
+        ...state,
+        firstNameErr: action.payload,
+      };
     case SET_LAST_NAME_ERR:
-      if (state.lastName === '') {
-        return {
-          ...state,
-          lastNameErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          lastNameErr: false,
-        };
-      }
-    case SET_COUNTRY_ERR: {
-      if (state.country === undefined || state.country === null) {
-        return {
-          ...state,
-          countryErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          countryErr: false,
-        };
-      }
-    }
+      return {
+        ...state,
+        lastNameErr: action.payload,
+      };
+    case SET_COUNTRY_ERR:
+      return {
+        ...state,
+        countryErr: action.payload,
+      };
     case SET_NUM_ERR:
-      if (state.number.match(/^[0-9]+$/) !== null) {
-        return {
-          ...state,
-          registerStage: 2,
-          numberErr: false,
-        };
-      } else {
-        return {
-          ...state,
-          numberErr: true,
-        };
-      }
+      return {
+        ...state,
+        numberErr: action.payload,
+      };
     case SET_STREET_ERR:
-      if (state.street === '') {
-        return {
-          ...state,
-          streetErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          streetErr: false,
-        };
-      }
+      return {
+        ...state,
+        streetErr: action.payload,
+      };
     case SET_ZIP_ERR:
-      if (state.zip === '' || isNaN(state.zip)) {
-        return {
-          ...state,
-          zipErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          zipErr: false,
-        };
-      }
+      return {
+        ...state,
+        zipErr: action.payload,
+      };
     case SET_CITY_ERR:
-      if (state.city === '') {
-        return {
-          ...state,
-          cityErr: true,
-        };
-      } else {
-        return {
-          ...state,
-          cityErr: null,
-        };
-      }
+      return {
+        ...state,
+        cityErr: action.payload,
+      };
     case REGISTER_SUCCESS:
       localStorage.setItem('token', action.payload);
       return {

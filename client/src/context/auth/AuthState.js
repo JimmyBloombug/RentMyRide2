@@ -25,6 +25,10 @@ import {
   SET_CITY_ERR,
 } from '../types';
 
+// REGEX
+const emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
+
 export const AuthState = (props) => {
   const initialState = {
     token: localStorage.getItem('token'),
@@ -81,45 +85,192 @@ export const AuthState = (props) => {
     });
   };
 
-  // Validate Register
-  const validateRegister = (type) => {
-    dispatch({
-      type: type,
-    });
+  // Validate Username
+  const validateUsername = () => {
+    if (state.userName === '') {
+      dispatch({
+        type: SET_USERNAME_ERR,
+        payload: true,
+      });
+      return Promise.resolve(true);
+    } else {
+      dispatch({
+        type: SET_USERNAME_ERR,
+        payload: false,
+      });
+      return Promise.resolve(false);
+    }
   };
 
-  // Search Database
+  // Validate Email
+  const validateEmail = () => {
+    if (state.email === '' || !state.email.match(emailReg)) {
+      dispatch({
+        type: SET_EMAIL_ERR,
+        payload: true,
+      });
+      return Promise.resolve(true);
+    } else {
+      dispatch({
+        type: SET_EMAIL_ERR,
+        payload: false,
+      });
+      return Promise.resolve(false);
+    }
+  };
+
+  // Validate Password
+  const validatePassword = () => {
+    if (state.password === '' || !state.password.match(passwordReg)) {
+      dispatch({
+        type: SET_PW_ERR,
+        payload: true,
+      });
+      return Promise.resolve(true);
+    } else {
+      dispatch({
+        type: SET_PW_ERR,
+        payload: false,
+      });
+      return Promise.resolve(false);
+    }
+  };
+
+  // Validate Password Rpt
+  const validatePasswordRpt = () => {
+    if (state.passwordRpt === '' || state.passwordRpt !== state.password) {
+      dispatch({
+        type: SET_PW_RPT_ERR,
+        payload: true,
+      });
+      return Promise.resolve(true);
+    } else {
+      dispatch({
+        type: SET_PW_RPT_ERR,
+        payload: false,
+      });
+      return Promise.resolve(false);
+    }
+  };
+
+  const validateCountry = () => {
+    if (state.country === undefined || state.country === null) {
+      dispatch({
+        type: SET_COUNTRY_ERR,
+        payload: true,
+      });
+      return Promise.resolve(true);
+    } else {
+      dispatch({
+        type: SET_COUNTRY_ERR,
+        payload: false,
+      });
+      return Promise.resolve(false);
+    }
+  };
+
+  // Validate Input Lenght
+  const validateInput = (input, type) => {
+    if (input === '') {
+      dispatch({
+        type: type,
+        payload: true,
+      });
+      return Promise.resolve(true);
+    } else {
+      dispatch({
+        type: type,
+        payload: false,
+      });
+      return Promise.resolve(false);
+    }
+  };
+
+  // Search Database for =User
   const searchUser = async () => {
-    let config = {
+    // get config
+    const config = {
       headers: {
         username: state.userName,
         email: state.email,
       },
     };
 
-    // validate
-    validateRegister(SET_USERNAME_ERR);
-    validateRegister(SET_EMAIL_ERR);
-    validateRegister(SET_PW_ERR);
-    validateRegister(SET_PW_RPT_ERR);
-
-    // Set is loading
-    setValue(SET_LOADING);
-
     try {
       // search user
       await axios.get('/server/users', config);
       dispatch({ type: USER_SUCCESS });
+      return false;
     } catch (error) {
       dispatch({
         type: USER_FAIL,
         payload: error.response.data,
       });
+      return true;
+    }
+  };
+
+  const validateFirstSlide = async () => {
+    // validate
+    const userNameValidated = await validateUsername();
+    const emailValidated = await validateEmail();
+    const passwordValidated = await validatePassword();
+    const passwordRptValidated = await validatePasswordRpt();
+    const searchUserValidated = await searchUser();
+
+    // console.log(
+    //   'username: ',
+    //   userNameValidated,
+    //   'email ',
+    //   emailValidated,
+    //   'password ',
+    //   passwordValidated,
+    //   'pwrpt ',
+    //   passwordRptValidated,
+    //   'search ',
+    //   searchUserValidated
+    // );
+
+    if (
+      !userNameValidated &&
+      !emailValidated &&
+      !passwordValidated &&
+      !passwordRptValidated &&
+      !searchUserValidated
+    ) {
+      // Set is loading
+      setValue(SET_LOADING);
     }
   };
 
   // Register User
   const registerUser = async () => {
+    // validate
+    const firstNameValidated = await validateInput(
+      state.firstName,
+      SET_FIRST_NAME_ERR
+    );
+    const lastNameValidated = await validateInput(
+      state.lastName,
+      SET_LAST_NAME_ERR
+    );
+    const countryValidated = await validateCountry();
+    const numberValidated = await validateInput(state.number, SET_NUM_ERR);
+    const streetValidated = await validateInput(state.street, SET_STREET_ERR);
+    const zipValidated = await validateInput(state.zip, SET_ZIP_ERR);
+    const cityValidated = await validateInput(state.city, SET_CITY_ERR);
+
+    // if no errors POST
+    // if (
+    //   !firstNameValidated &&
+    //   !lastNameValidated &&
+    //   !countryValidated &&
+    //   !numberValidated &&
+    //   !streetValidated &&
+    //   !zipValidated &&
+    //   !cityValidated
+    // ) {
+    // Post config
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -140,16 +291,7 @@ export const AuthState = (props) => {
       city: state.city,
     };
 
-    // validate
-    validateRegister(SET_FIRST_NAME_ERR);
-    validateRegister(SET_LAST_NAME_ERR);
-    validateRegister(SET_COUNTRY_ERR);
-    validateRegister(SET_NUM_ERR);
-    validateRegister(SET_STREET_ERR);
-    validateRegister(SET_ZIP_ERR);
-    validateRegister(SET_CITY_ERR);
-
-    // Set is loading
+    // Set loading
     setValue(SET_LOADING);
 
     try {
@@ -167,6 +309,7 @@ export const AuthState = (props) => {
         payload: error.response.data.errors,
       });
     }
+    // }
   };
 
   // Set Slide
@@ -224,10 +367,16 @@ export const AuthState = (props) => {
         showPw: state.showPw,
         setShowPw,
         setValue,
-        validateRegister,
         searchUser,
         setSlide,
         registerUser,
+        validateUsername,
+        validatePassword,
+        validatePasswordRpt,
+        validateEmail,
+        validateInput,
+        validateCountry,
+        validateFirstSlide,
       }}
     >
       {props.children}

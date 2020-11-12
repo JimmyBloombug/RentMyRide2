@@ -24,13 +24,9 @@ import Loading from '../featback/Loading';
 import AuthContext from '../../context/auth/authContext';
 import {
   SET_USERNAME,
-  SET_USERNAME_ERR,
   SET_EMAIL,
-  SET_EMAIL_ERR,
   SET_PW,
-  SET_PW_ERR,
   SET_PW_RPT,
-  SET_PW_RPT_ERR,
 } from '../../context/types';
 
 const RegisterSlide1 = (props) => {
@@ -38,7 +34,6 @@ const RegisterSlide1 = (props) => {
   // Auth Context
   const authContext = useContext(AuthContext);
   const {
-    registerStage,
     loading,
     userName,
     userNameErr,
@@ -52,6 +47,10 @@ const RegisterSlide1 = (props) => {
     setShowPw,
     showPw,
     setSlide,
+    validateUsername,
+    validateEmail,
+    validatePassword,
+    validatePasswordRpt,
   } = authContext;
 
   // ======= FUNCTIONS ========
@@ -108,7 +107,7 @@ const RegisterSlide1 = (props) => {
             value={userName}
             onFocus={props.onChange(SET_USERNAME)}
             onChange={props.onChange(SET_USERNAME)}
-            onBlur={() => props.onBlur(SET_USERNAME_ERR)}
+            onBlur={() => validateUsername()}
             error={userNameErr || userExists.takenName !== ''}
           />
         </FormControl>
@@ -128,7 +127,7 @@ const RegisterSlide1 = (props) => {
             type='email'
             onFocus={props.onChange(SET_EMAIL)}
             onChange={props.onChange(SET_EMAIL)}
-            onBlur={() => props.onBlur(SET_EMAIL_ERR)}
+            onBlur={() => validateEmail()}
             error={emailErr || userExists.takenEmail !== ''}
           />
         </FormControl>
@@ -147,7 +146,7 @@ const RegisterSlide1 = (props) => {
             value={password}
             onFocus={props.onChange(SET_PW)}
             onChange={props.onChange(SET_PW)}
-            onBlur={() => props.onBlur(SET_PW_ERR)}
+            onBlur={() => validatePassword()}
             error={passwordErr}
             endAdornment={
               <InputAdornment position='end'>
@@ -184,7 +183,7 @@ const RegisterSlide1 = (props) => {
             value={passwordRpt}
             onFocus={props.onChange(SET_PW_RPT)}
             onChange={props.onChange(SET_PW_RPT)}
-            onBlur={() => props.onBlur(SET_PW_RPT_ERR)}
+            onBlur={() => validatePasswordRpt()}
             error={passwordRptErr}
           />
         </FormControl>
@@ -207,7 +206,6 @@ const RegisterSlide1 = (props) => {
 RegisterSlide1.propTypes = {
   classes: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

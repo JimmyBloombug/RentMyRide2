@@ -116,37 +116,34 @@ const Navbar = ({ title }) => {
               <Button component={Link} to='/about' color='inherit'>
                 About
               </Button>
-              {!token ? (
-                <Fragment>
-                  <Button color='inherit' onClick={() => setLoginForm(true)}>
-                    Login
+              <Fragment>
+                <Button color='inherit' onClick={() => setLoginForm(true)}>
+                  Login
+                </Button>
+                <Box ml={3}>
+                  <Button
+                    onClick={() => setRegisterForm(true)}
+                    color='primary'
+                    variant='contained'
+                  >
+                    Register
                   </Button>
-                  <Box ml={3}>
-                    <Button
-                      onClick={() => setRegisterForm(true)}
-                      color='primary'
-                      variant='contained'
-                    >
-                      Register
-                    </Button>
-                  </Box>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <Box ml={3}>
-                    <Button
-                      component={Link}
-                      to={'/profile'}
-                      startIcon={<AccountCircleIcon />}
-                      onClick={() => setRegisterForm(true)}
-                      color='primary'
-                      variant='contained'
-                    >
-                      Profile
-                    </Button>
-                  </Box>
-                </Fragment>
-              )}
+                </Box>
+              </Fragment>
+              {/* <Fragment>
+                <Box ml={3}>
+                  <Button
+                    component={Link}
+                    to={'/profile'}
+                    startIcon={<AccountCircleIcon />}
+                    onClick={() => setRegisterForm(true)}
+                    color='primary'
+                    variant='contained'
+                  >
+                    Profile
+                  </Button>
+                </Box>
+              </Fragment> */}
             </Fragment>
           ) : (
             <IconButton
@@ -163,12 +160,7 @@ const Navbar = ({ title }) => {
       </AppBar>
       <MobileMenu menuItems={menuItems} loggedIn={token ? true : false} />
       <Login />
-      {!token && (
-        <Fragment>
-          <Login />
-          <Register />
-        </Fragment>
-      )}
+      <Register />
     </div>
   );
 };

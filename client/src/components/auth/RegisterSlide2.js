@@ -66,6 +66,8 @@ const RegisterSlide2 = (props) => {
     registerFail,
     setValue,
     setSlide,
+    validateInput,
+    validateCountry,
   } = authContext;
 
   // ======= STYLE =========
@@ -147,7 +149,7 @@ const RegisterSlide2 = (props) => {
                   value={firstName}
                   onFocus={props.onChange(SET_FIRST_NAME)}
                   onChange={props.onChange(SET_FIRST_NAME)}
-                  onBlur={() => props.onBlur(SET_FIRST_NAME_ERR)}
+                  onBlur={() => validateInput(firstName, SET_FIRST_NAME_ERR)}
                   error={firstNameErr}
                 />
               </FormControl>
@@ -166,7 +168,7 @@ const RegisterSlide2 = (props) => {
                   value={lastName}
                   onFocus={props.onChange(SET_LAST_NAME)}
                   onChange={props.onChange(SET_LAST_NAME)}
-                  onBlur={() => props.onBlur(SET_LAST_NAME_ERR)}
+                  onBlur={() => validateInput(lastName, SET_LAST_NAME_ERR)}
                   error={lastNameErr}
                 />
               </FormControl>
@@ -184,7 +186,7 @@ const RegisterSlide2 = (props) => {
                   options={countries}
                   onFocus={(e, value) => handleChange(SET_COUNTRY, value)}
                   onChange={(e, value) => handleChange(SET_COUNTRY, value)}
-                  onBlur={props.onChange(SET_COUNTRY_ERR)}
+                  onBlur={() => validateCountry()}
                   classes={props.classes.countries}
                   autoHighlight
                   getOptionLabel={(option) => option.label}
@@ -216,10 +218,11 @@ const RegisterSlide2 = (props) => {
                 </InputLabel>
                 <FilledInput
                   id='number'
+                  type='number'
                   value={number}
                   onFocus={props.onChange(SET_NUM)}
                   onChange={props.onChange(SET_NUM)}
-                  onBlur={() => props.onBlur(SET_NUM_ERR)}
+                  onBlur={() => validateInput(number, SET_NUM_ERR)}
                   error={numberErr}
                 />
               </FormControl>
@@ -245,7 +248,7 @@ const RegisterSlide2 = (props) => {
                   value={street}
                   onFocus={props.onChange(SET_STREET)}
                   onChange={props.onChange(SET_STREET)}
-                  onBlur={() => props.onBlur(SET_STREET_ERR)}
+                  onBlur={() => validateInput(street, SET_STREET_ERR)}
                   error={streetErr}
                 />
               </FormControl>
@@ -265,7 +268,7 @@ const RegisterSlide2 = (props) => {
                   value={zip}
                   onFocus={props.onChange(SET_ZIP)}
                   onChange={props.onChange(SET_ZIP)}
-                  onBlur={() => props.onBlur(SET_ZIP_ERR)}
+                  onBlur={() => validateInput(zip, SET_ZIP_ERR)}
                   error={zipErr}
                 />
               </FormControl>
@@ -280,7 +283,7 @@ const RegisterSlide2 = (props) => {
                   value={city}
                   onFocus={props.onChange(SET_CITY)}
                   onChange={props.onChange(SET_CITY)}
-                  onBlur={() => props.onBlur(SET_CITY_ERR)}
+                  onBlur={() => validateInput(city, SET_CITY_ERR)}
                   error={cityErr}
                 />
               </FormControl>

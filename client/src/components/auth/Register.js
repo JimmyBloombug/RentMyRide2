@@ -116,8 +116,8 @@ const Register = () => {
     setValue,
     validateRegister,
     setSlide,
-    searchUser,
     registerUser,
+    validateFirstSlide,
   } = authContext;
 
   // Handle Click
@@ -125,7 +125,7 @@ const Register = () => {
     if (type === 'back') {
       setSlide(type);
     } else if (type === 'next' && registerSlide === 1) {
-      searchUser();
+      validateFirstSlide();
     } else if (type === 'next' && registerSlide === 2) {
       registerUser();
     } else if (type === 'close') {
