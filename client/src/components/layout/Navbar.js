@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // Material UI
@@ -63,14 +63,24 @@ const menuItems = [
   { menuText: 'About', key: 'about', href: '/about', icon: <InfoIcon /> },
 ];
 
-const Navbar = ({ title }) => {
+const Navbar = () => {
+  // ======= CONTEXT =======
   // Navbar Context
   const navbarContext = useContext(NavbarContext);
   const { setMenu, setLoginForm, setRegisterForm } = navbarContext;
 
   // Auth Context
   const authContext = useContext(AuthContext);
-  const { token } = authContext;
+  const { token, loadUser } = authContext;
+
+  // ======= FUNCTIONS =======
+
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
+
+  // ======= STYLE =======
 
   // Theme
   const theme = useTheme();

@@ -39,7 +39,6 @@ const AuthReducer = (state, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        loading: false,
         user: action.payload,
       };
     case SET_USERNAME:
@@ -201,7 +200,7 @@ const AuthReducer = (state, action) => {
         ...state,
         token: action.payload,
         isAuthenticated: true,
-        serverErr: null,
+        serverErr: undefined,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
@@ -262,19 +261,19 @@ const AuthReducer = (state, action) => {
         street: '',
         zip: '',
         city: '',
-        userNameErr: '',
-        emaiErr: '',
-        passwordErr: '',
-        passwordRptErr: '',
-        firstNameErr: '',
-        lastNameErr: '',
-        countryErr: '',
-        numberErr: '',
-        streetErr: '',
-        zipErr: '',
-        cityErr: '',
+        userNameErr: false,
+        emaiErr: false,
+        passwordErr: false,
+        passwordRptErr: false,
+        firstNameErr: false,
+        lastNameErr: false,
+        countryErr: false,
+        numberErr: false,
+        streetErr: false,
+        zipErr: false,
+        cityErr: false,
         userExists: { takenName: '', takenEmail: '' },
-        serverErr: null,
+        serverErr: undefined,
         registerSlide: 1,
       };
     default:

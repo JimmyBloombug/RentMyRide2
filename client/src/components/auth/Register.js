@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 
@@ -122,6 +122,8 @@ const Register = () => {
   // AlertContext
   const alertContext = useContext(AlertContext);
 
+  //  ====== FUNCTIONS ======
+
   // Handle Click
   const handleOnClick = (type) => {
     if (type === 'back') {
@@ -152,8 +154,6 @@ const Register = () => {
 
   // Style
   const classes = useStyles();
-
-  // ======= MODUL RETURNS ========
 
   return (
     <Modal

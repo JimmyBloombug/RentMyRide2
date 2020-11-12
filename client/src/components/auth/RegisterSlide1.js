@@ -102,8 +102,6 @@ const RegisterSlide1 = (props) => {
     }
   };
 
-  // ======= MODUL RETURNS ========
-
   return (
     <Fragment>
       <Fragment>

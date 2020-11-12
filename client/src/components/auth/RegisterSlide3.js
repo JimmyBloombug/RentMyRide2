@@ -29,11 +29,12 @@ const RegisterSlide3 = (props) => {
 
   // ======= FUNCTIONS ========
   useEffect(() => {
-    if (serverErr !== null) {
-      serverErr.map((error) => {
+    if (serverErr !== null && serverErr !== undefined) {
+      serverErr.foreach((error) => {
         setAlert(error.msg, 'error', 0);
       });
     }
+    // eslint-disable-next-line
   }, serverErr);
 
   // Handle on click

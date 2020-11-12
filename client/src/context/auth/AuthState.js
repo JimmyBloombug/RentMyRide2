@@ -68,7 +68,7 @@ export const AuthState = (props) => {
     streetErr: false,
     zipErr: false,
     cityErr: false,
-    serverErr: null,
+    serverErr: undefined,
     showPw: false,
   };
 
@@ -398,6 +398,7 @@ export const AuthState = (props) => {
         validateCountry,
         validateFirstSlide,
         resetRegister,
+        loadUser,
       }}
     >
       {props.children}

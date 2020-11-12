@@ -15,9 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// ====== RETURN COMPONENT ======
 const Alerts = () => {
-  // ====== CONTEXT ========
   // Alert Context
   const alertContext = useContext(AlertContext);
 
