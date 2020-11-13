@@ -27,28 +27,41 @@ router.get('/', auth, async (req, res) => {
 router.post(
   '/',
   [
-    check('email', 'Please enter valid email').isEmail(),
-    check('password', 'Password is required').exists(),
+    check('email', 'Please enter a valid email').isEmail(),
+    check('password', 'Password is required').not().isEmpty(),
   ],
   async (req, res) => {
+    // validate formData
     const errors = validationResult(req);
+
+    // validation failed
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
+    // destructure
     const { email, password } = req.body;
 
+    // try login
     try {
+      // find user
       let user = await User.findOne({ email });
 
+      // user not found return error
       if (!user) {
-        return res.status(400).json({ msg: 'Inavlid credentials' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "Email doesn't exist" }] });
       }
 
+      // match password
       const isMatch = await bcrypt.compare(password, user.password);
 
+      // wrong password
       if (!isMatch) {
-        return res.status(400).json({ msg: 'Invalid credentials' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'You entered an invalid password' }] });
       }
 
       const payload = {
@@ -57,11 +70,12 @@ router.post(
         },
       };
 
+      // sign and return token
       jwt.sign(
         payload,
         config.get('jwtSecret'),
         {
-          expiresIn: 360000,
+          expiresIn: 3600,
         },
         (err, token) => {
           if (err) throw err;
@@ -70,7 +84,7 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).json({ errors: [{ msg: 'Internal Server Error' }] });
     }
   }
 );

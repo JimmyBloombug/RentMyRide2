@@ -24,6 +24,8 @@ import {
   SET_CITY_ERR,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
   USER_SUCCESS,
   USER_FAIL,
   USER_LOADED,
@@ -195,6 +197,7 @@ const AuthReducer = (state, action) => {
         cityErr: action.payload,
       };
     case REGISTER_SUCCESS:
+    case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload);
       return {
         ...state,
@@ -203,6 +206,7 @@ const AuthReducer = (state, action) => {
         serverErr: undefined,
       };
     case REGISTER_FAIL:
+    case LOGIN_FAIL:
     case AUTH_ERROR:
       localStorage.removeItem('token');
       return {

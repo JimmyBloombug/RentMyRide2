@@ -14,6 +14,8 @@ import {
   USER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   SET_LOADING,
@@ -193,7 +195,7 @@ export const AuthState = (props) => {
     }
   };
 
-  // Search Database for =User
+  // Search Database for User
   const searchUser = async () => {
     // get config
     const config = {
@@ -299,7 +301,6 @@ export const AuthState = (props) => {
 
         loadUser();
       } catch (error) {
-        console.log(error.response);
         dispatch({
           type: REGISTER_FAIL,
           payload: error.response.data.errors,
@@ -326,14 +327,49 @@ export const AuthState = (props) => {
     }
   };
 
-  const resetRegister = () => {
+  // ======= LOGIN ========
+
+  // Login user
+  const loginUser = async () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const formData = {
+      email: state.email,
+      password: state.password,
+    };
+
+    // Set loading
+    setValue(SET_LOADING);
+
+    try {
+      const res = await axios.post('/server/auth', formData, config);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data.token,
+      });
+
+      loadUser();
+    } catch (error) {
+      console.log(error.response);
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: error.response.data.errors,
+      });
+    }
+  };
+
+  // Reset all
+  const resetAll = () => {
     dispatch({ type: RESET_REGISTER });
   };
 
-  // ======= LOGIN ========
-  // TODO
-
   // ======= LOAD USER =======
+
   const loadUser = async () => {
     // set auth token
     if (localStorage.token) {
@@ -388,8 +424,9 @@ export const AuthState = (props) => {
         setShowPw,
         setValue,
         searchUser,
-        setSlide,
         registerUser,
+        loginUser,
+        loadUser,
         validateUsername,
         validatePassword,
         validatePasswordRpt,
@@ -397,8 +434,8 @@ export const AuthState = (props) => {
         validateInput,
         validateCountry,
         validateFirstSlide,
-        resetRegister,
-        loadUser,
+        setSlide,
+        resetAll,
       }}
     >
       {props.children}

@@ -29,9 +29,9 @@ const RegisterSlide3 = (props) => {
 
   // ======= FUNCTIONS ========
   useEffect(() => {
-    if (serverErr !== null && serverErr !== undefined) {
-      serverErr.foreach((error) => {
-        setAlert(error.msg, 'error', 0);
+    if (serverErr !== undefined) {
+      serverErr.forEach((element) => {
+        setAlert(element.msg, 'error');
       });
     }
     // eslint-disable-next-line

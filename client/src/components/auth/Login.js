@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 // Material UI
@@ -15,10 +15,16 @@ import { makeStyles } from '@material-ui/core/styles';
 // Material Icons
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import CloseIcon from '@material-ui/icons/Close';
+
+// Components
+import Loading from '../layout/Loading';
+import Alerts from '../layout/Alerts';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
 import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
 import { SET_EMAIL, SET_PW } from '../../context/types';
 
 // Define Style
@@ -34,12 +40,22 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     position: 'absolute',
     width: 400,
+    background: theme.palette.background.paper,
     padding: theme.spacing(2, 4, 3),
     borderRadius: '10px',
     outline: 'none',
   },
-  h2: {
-    margin: theme.spacing(3, 0, 5),
+  formCont: {
+    marginTop: theme.spacing(2),
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  h3: {
+    fontWeight: '600',
+    marginTop: theme.spacing(3),
   },
   loginInput: {
     marginBottom: theme.spacing(3),
@@ -48,23 +64,81 @@ const useStyles = makeStyles((theme) => ({
   emailInput: {
     marginBottom: theme.spacing(2),
   },
+  loadingGif: {
+    height: '200px',
+    marginBottom: theme.spacing(12),
+  },
+  successGif: {
+    height: '200px',
+  },
+  closeButton: {
+    position: 'absolute',
+    right: '0px',
+    top: '10px',
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+  },
 }));
 
 const Login = () => {
+  // ======== CONTEXT =========
   // Menu Context
   const navbarContext = useContext(NavbarContext);
   const { loginFormOpen, setLoginForm } = navbarContext;
 
   // Auth Context
   const authContext = useContext(AuthContext);
-  const { email, password, showPw, setShowPw, setValue } = authContext;
+  const {
+    isAuthenticated,
+    email,
+    password,
+    emailErr,
+    passwordErr,
+    showPw,
+    setShowPw,
+    setValue,
+    serverErr,
+    resetAll,
+    loading,
+    loginUser,
+  } = authContext;
 
-  // Modal Change
-  const handleLoginClose = () => {
-    setLoginForm(false);
+  const alertContext = useContext(AlertContext);
+  const { setAlert, clearAlerts } = alertContext;
+
+  //======= FUNCTIONS =========
+
+  useEffect(() => {
+    // set alerts
+    if (serverErr !== undefined) {
+      serverErr.forEach((element) => {
+        setAlert(element.msg, 'error');
+      });
+      // serverErr.map((error) => {
+      //   setAlert(error.msg, 'error');
+      // });
+    }
+
+    // close login form after login
+    if (isAuthenticated) {
+      handleClick('close');
+    }
+    // eslint-disable-next-line
+  }, [serverErr, isAuthenticated]);
+
+  // Handle Change
+  const handleClick = (type) => {
+    if (type === 'close') {
+      resetAll();
+      setLoginForm(false);
+    } else {
+      clearAlerts();
+      loginUser();
+    }
   };
 
-  // Handle Input Change
+  // Handle Change
   const handleChange = (type) => (e) => {
     setValue(type, e.target.value);
   };
@@ -88,7 +162,7 @@ const Login = () => {
   return (
     <Modal
       open={loginFormOpen}
-      onClose={handleLoginClose}
+      onClose={() => handleClick('close')}
       aria-labelledby='login'
       className={classes.modal}
     >
@@ -105,52 +179,78 @@ const Login = () => {
         className={classes.modal}
       >
         <div className={classes.loginCont}>
-          <h2 className={classes.h2}>Login</h2>
-          <FormControl
-            variant='filled'
-            fullWidth
-            className={classes.emailInput}
+          <Button
+            className={classes.closeButton}
+            onClick={() => handleClick('close')}
           >
-            <InputLabel htmlFor='email' color='secondary'>
-              Email
-            </InputLabel>
-            <FilledInput
-              id='email'
-              type='text'
-              value={email}
-              onChange={handleChange(SET_EMAIL)}
-              color='secondary'
-            />
-          </FormControl>
-          <FormControl variant='filled' fullWidth>
-            <InputLabel htmlFor='password' color='secondary'>
-              Password
-            </InputLabel>
-            <FilledInput
-              id='password'
-              type={showPw ? 'text' : 'password'}
-              value={password}
-              onChange={handleChange(SET_PW)}
-              endAdornment={
-                <InputAdornment position='end'>
-                  <IconButton
-                    aria-label='toggle password visibility'
-                    onClick={handleShowPw}
-                    onMouseDown={handlePwMouseDown}
-                    edge='end'
+            <CloseIcon />
+          </Button>
+          <h3 className={classes.h3}>Login</h3>
+          <div className={classes.formCont}>
+            {loading ? (
+              <Fragment>
+                <Alerts />
+                <FormControl
+                  variant='filled'
+                  fullWidth
+                  className={classes.emailInput}
+                >
+                  <InputLabel htmlFor='email' color='primary' error={emailErr}>
+                    Email
+                  </InputLabel>
+                  <FilledInput
+                    id='email'
+                    type='text'
+                    value={email}
+                    onChange={handleChange(SET_EMAIL)}
+                    color='primary'
+                    error={emailErr}
+                  />
+                </FormControl>
+                <FormControl variant='filled' fullWidth>
+                  <InputLabel
+                    htmlFor='password'
+                    color='primary'
+                    error={passwordErr}
                   >
-                    {showPw ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              color='secondary'
-            />
-          </FormControl>
-          <Box mt={5} mb={3}>
-            <Button color='primary' variant='contained'>
-              Login
-            </Button>
-          </Box>
+                    Password
+                  </InputLabel>
+                  <FilledInput
+                    id='password'
+                    type={showPw ? 'text' : 'password'}
+                    value={password}
+                    onChange={handleChange(SET_PW)}
+                    color='primary'
+                    error={passwordErr}
+                    endAdornment={
+                      <InputAdornment position='end'>
+                        <IconButton
+                          aria-label='toggle password visibility'
+                          onClick={handleShowPw}
+                          onMouseDown={handlePwMouseDown}
+                          edge='end'
+                        >
+                          {showPw ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+                <Box mt={3}>
+                  <Button
+                    color='primary'
+                    variant='contained'
+                    size='large'
+                    onClick={handleClick}
+                  >
+                    Login
+                  </Button>
+                </Box>
+              </Fragment>
+            ) : (
+              <Loading classes={classes.loadingGif} />
+            )}
+          </div>
         </div>
       </motion.div>
     </Modal>

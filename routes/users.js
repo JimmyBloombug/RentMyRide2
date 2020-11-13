@@ -98,7 +98,9 @@ router.post(
 
       // user already exists message
       if (emailRes || userRes) {
-        return res.status(400).json({ msg: 'User already exists' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'User already exists' }] });
       }
 
       // create user
@@ -143,7 +145,7 @@ router.post(
       );
     } catch (error) {
       console.log(error.message);
-      res.status(500).send('Internal Server Error');
+      res.status(500).json({ errors: [{ msg: 'Internal Server Error' }] });
     }
   }
 );
