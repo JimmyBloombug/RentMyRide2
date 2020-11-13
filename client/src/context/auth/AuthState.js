@@ -327,6 +327,11 @@ export const AuthState = (props) => {
     }
   };
 
+  // Reset all
+  const resetRegister = () => {
+    dispatch({ type: RESET_REGISTER });
+  };
+
   // ======= LOGIN ========
 
   // Login user
@@ -361,11 +366,6 @@ export const AuthState = (props) => {
         payload: error.response.data.errors,
       });
     }
-  };
-
-  // Reset all
-  const resetAll = () => {
-    dispatch({ type: RESET_REGISTER });
   };
 
   // ======= LOAD USER =======
@@ -435,7 +435,7 @@ export const AuthState = (props) => {
         validateCountry,
         validateFirstSlide,
         setSlide,
-        resetAll,
+        resetRegister,
       }}
     >
       {props.children}

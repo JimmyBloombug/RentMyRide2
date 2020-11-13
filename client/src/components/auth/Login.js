@@ -68,9 +68,6 @@ const useStyles = makeStyles((theme) => ({
     height: '200px',
     marginBottom: theme.spacing(12),
   },
-  successGif: {
-    height: '200px',
-  },
   closeButton: {
     position: 'absolute',
     right: '0px',
@@ -99,7 +96,6 @@ const Login = () => {
     setShowPw,
     setValue,
     serverErr,
-    resetAll,
     loading,
     loginUser,
   } = authContext;
@@ -115,22 +111,18 @@ const Login = () => {
       serverErr.forEach((element) => {
         setAlert(element.msg, 'error');
       });
-      // serverErr.map((error) => {
-      //   setAlert(error.msg, 'error');
-      // });
     }
 
-    // close login form after login
     if (isAuthenticated) {
       handleClick('close');
     }
+
     // eslint-disable-next-line
   }, [serverErr, isAuthenticated]);
 
   // Handle Change
   const handleClick = (type) => {
     if (type === 'close') {
-      resetAll();
       setLoginForm(false);
     } else {
       clearAlerts();
@@ -248,7 +240,9 @@ const Login = () => {
                 </Box>
               </Fragment>
             ) : (
-              <Loading classes={classes.loadingGif} />
+              <Fragment>
+                <Loading classes={classes.loadingGif} />
+              </Fragment>
             )}
           </div>
         </div>

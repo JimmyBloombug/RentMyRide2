@@ -306,7 +306,7 @@ const RegisterSlide2 = (props) => {
           </Box>
         </Fragment>
       ) : (
-        <Loading classes={props.classes} />
+        <Loading classes={props.classes.loadingGif} />
       )}
     </Fragment>
   );

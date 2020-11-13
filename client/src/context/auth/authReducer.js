@@ -46,7 +46,6 @@ const AuthReducer = (state, action) => {
     case SET_USERNAME:
       return {
         ...state,
-        registerStage: 1,
         userName: action.payload,
         userNameErr: false,
         userExists: {
@@ -57,7 +56,6 @@ const AuthReducer = (state, action) => {
     case SET_EMAIL:
       return {
         ...state,
-        registerStage: 1,
         email: action.payload,
         emailErr: false,
         userExists: {
@@ -68,7 +66,6 @@ const AuthReducer = (state, action) => {
     case SET_PW:
       return {
         ...state,
-        registerStage: 1,
         password: action.payload,
         passwordErr: false,
         userExists: {
@@ -79,7 +76,6 @@ const AuthReducer = (state, action) => {
     case SET_PW_RPT:
       return {
         ...state,
-        registerStage: 1,
         passwordRpt: action.payload,
         passwordRptErr: false,
         userExists: {
@@ -90,49 +86,42 @@ const AuthReducer = (state, action) => {
     case SET_FIRST_NAME:
       return {
         ...state,
-        registerStage: 2,
         firstName: action.payload,
         firstNameErr: false,
       };
     case SET_LAST_NAME:
       return {
         ...state,
-        registerStage: 2,
         lastName: action.payload,
         lastNameErr: false,
       };
     case SET_COUNTRY:
       return {
         ...state,
-        registerStage: 2,
         country: action.payload,
         countryErr: false,
       };
     case SET_NUM:
       return {
         ...state,
-        registerStage: 2,
         number: action.payload,
         numberErr: false,
       };
     case SET_STREET:
       return {
         ...state,
-        registerStage: 2,
         street: action.payload,
         streetErr: false,
       };
     case SET_ZIP:
       return {
         ...state,
-        registerStage: 2,
         zip: action.payload,
         zipErr: false,
       };
     case SET_CITY:
       return {
         ...state,
-        registerStage: 2,
         city: action.payload,
         cityErr: false,
       };
@@ -197,7 +186,6 @@ const AuthReducer = (state, action) => {
         cityErr: action.payload,
       };
     case REGISTER_SUCCESS:
-    case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload);
       return {
         ...state,
@@ -206,6 +194,17 @@ const AuthReducer = (state, action) => {
         serverErr: undefined,
       };
     case REGISTER_FAIL:
+    case LOGIN_SUCCESS:
+      localStorage.setItem('token', action.payload);
+      return {
+        ...state,
+        token: action.payload,
+        isAuthenticated: true,
+        serverErr: undefined,
+        email: '',
+        password: '',
+        loading: true,
+      };
     case LOGIN_FAIL:
     case AUTH_ERROR:
       localStorage.removeItem('token');
