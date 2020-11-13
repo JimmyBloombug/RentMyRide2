@@ -75,6 +75,7 @@ const Navbar = () => {
 
   // ======= FUNCTIONS =======
 
+  // load user
   useEffect(() => {
     loadUser();
     // eslint-disable-next-line

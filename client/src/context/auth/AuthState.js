@@ -360,7 +360,7 @@ export const AuthState = (props) => {
 
       loadUser();
     } catch (error) {
-      console.log(error.response);
+      // console.log(error.response);
       dispatch({
         type: LOGIN_FAIL,
         payload: error.response.data.errors,
