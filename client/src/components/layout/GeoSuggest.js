@@ -50,6 +50,7 @@ const GeoSuggest = () => {
     }
   }, [open]);
 
+  // Handle Change
   const handleChange = (element) => {
     setValue(element.target.value);
   };
