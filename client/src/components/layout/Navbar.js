@@ -71,7 +71,7 @@ const Navbar = () => {
 
   // Auth Context
   const authContext = useContext(AuthContext);
-  const { token, loadUser } = authContext;
+  const { isAuthenticated, loadUser } = authContext;
 
   // ======= FUNCTIONS =======
 
@@ -127,34 +127,36 @@ const Navbar = () => {
               <Button component={Link} to='/about' color='inherit'>
                 About
               </Button>
-              <Fragment>
-                <Button color='inherit' onClick={() => setLoginForm(true)}>
-                  Login
-                </Button>
-                <Box ml={3}>
-                  <Button
-                    onClick={() => setRegisterForm(true)}
-                    color='primary'
-                    variant='contained'
-                  >
-                    Register
+              {!isAuthenticated ? (
+                <Fragment>
+                  <Button color='inherit' onClick={() => setLoginForm(true)}>
+                    Login
                   </Button>
-                </Box>
-              </Fragment>
-              {/* <Fragment>
-                <Box ml={3}>
-                  <Button
-                    component={Link}
-                    to={'/profile'}
-                    startIcon={<AccountCircleIcon />}
-                    onClick={() => setRegisterForm(true)}
-                    color='primary'
-                    variant='contained'
-                  >
-                    Profile
-                  </Button>
-                </Box>
-              </Fragment> */}
+                  <Box ml={3}>
+                    <Button
+                      onClick={() => setRegisterForm(true)}
+                      color='primary'
+                      variant='contained'
+                    >
+                      Register
+                    </Button>
+                  </Box>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Box ml={3}>
+                    <Button
+                      component={Link}
+                      to={'/profile'}
+                      startIcon={<AccountCircleIcon />}
+                      color='primary'
+                      variant='contained'
+                    >
+                      Profile
+                    </Button>
+                  </Box>
+                </Fragment>
+              )}
             </Fragment>
           ) : (
             <IconButton
@@ -169,7 +171,10 @@ const Navbar = () => {
           )}
         </Toolbar>
       </AppBar>
-      <MobileMenu menuItems={menuItems} loggedIn={token ? true : false} />
+      <MobileMenu
+        menuItems={menuItems}
+        loggedIn={isAuthenticated ? true : false}
+      />
       <Login />
       <Register />
     </div>

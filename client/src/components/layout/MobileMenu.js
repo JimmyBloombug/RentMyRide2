@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     margin: theme.spacing(2, 2, 1),
   },
+  spanTitle: {
+    color: theme.palette.primary.main,
+  },
 }));
 
 const MobileMenu = (props) => {
@@ -51,7 +54,9 @@ const MobileMenu = (props) => {
     >
       <div className={classes.menuCont}>
         <div className={classes.heading}>
-          <Typography variant='h6'>RentMyRide</Typography>
+          <Typography variant='h6'>
+            RentMy<span className={classes.spanTitle}>Ride</span>
+          </Typography>
         </div>
         <List>
           {props.loggedIn ? (
