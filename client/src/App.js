@@ -10,6 +10,7 @@ import setAuthToken from './utils/setAuthToken';
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
 import NavbarState from './context/navbar/NavbarState';
+import SearchState from './context/search/SearchState';
 
 // Set Auth Token
 if (localStorage.token) {
@@ -18,22 +19,24 @@ if (localStorage.token) {
 
 function App() {
   return (
-    <NavbarState>
-      <AuthState>
-        <AlertState>
-          <Router>
-            <Fragment>
-              <Navbar />
-              <div className='container'>
-                <Switch>
-                  <Route exact path='/' component={Home} />
-                </Switch>
-              </div>
-            </Fragment>
-          </Router>
-        </AlertState>
-      </AuthState>
-    </NavbarState>
+    <AlertState>
+      <NavbarState>
+        <AuthState>
+          <SearchState>
+            <Router>
+              <Fragment>
+                <Navbar />
+                <div className='container'>
+                  <Switch>
+                    <Route exact path='/' component={Home} />
+                  </Switch>
+                </div>
+              </Fragment>
+            </Router>
+          </SearchState>
+        </AuthState>
+      </NavbarState>
+    </AlertState>
   );
 }
 

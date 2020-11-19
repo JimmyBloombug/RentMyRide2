@@ -40,6 +40,11 @@ export const RESET_REGISTER = 'RESET_REGISTER';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 
+// Search
+export const SET_LOCATION = 'SET_LOCATION';
+export const SET_CHECK_IN = 'SET_CHECK_IN';
+export const SET_CHECK_OUT = 'SET_CHECK_OUT';
+
 // Alert
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';

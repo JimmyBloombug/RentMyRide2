@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react';
 
 // Material Ui
-import { Box } from '@material-ui/core';
-import { makeStyles, theme } from '@material-ui/core/styles';
+import { Box, useTheme, useMediaQuery } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 // Components
-import GeoSuggest from '../layout/GeoSuggest';
-
+import QuickSearch from '../search/QuickSearch';
 // Assets
 import map from '../../assets/landing/map.svg';
 
@@ -19,22 +18,24 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
   },
   heroCont: {
+    marginTop: theme.spacing(10),
     padding: theme.spacing(5),
     height: '100%',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'fle-start',
+    alignItems: 'center',
     flexDirection: 'column',
   },
   h1: {
     color: theme.palette.primary.main,
-    lineHeight: '80%',
-    fontSize: '3.2em',
+    fontSize: '3.6em',
     fontWeight: 500,
+    marginBottom: theme.spacing(2),
   },
-  h3: {
-    lineHeight: '50%',
-    fontSize: '1.7em',
+  heroP: {
+    fontSize: '2em',
     fontWeight: 400,
+    marginTop: theme.spacing(0),
   },
   map: {
     position: 'absolute',
@@ -46,8 +47,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
-  // Style
+  // ======== STYLE ========
   const classes = useStyles();
+
+  // Theme
+  const theme = useTheme();
+
+  // Media Queries
+  let mdup = useMediaQuery(theme.breakpoints.up('md'));
 
   // ======== FUNCTIONS ========
 
@@ -58,11 +65,13 @@ const Home = () => {
     <section className={classes.heroSection}>
       <div className={classes.heroCont}>
         <h1 className={classes.h1}>Instantly rent cars near you.</h1>
-        <h3 className={classes.h3}>
-          Rent cars from private lenders up to 60% cheaper
-        </h3>
-        <Box mt={5}>
-          <GeoSuggest />
+        <p className={classes.heroP}>
+          Cars from private lenders up to 60% cheaper.
+        </p>
+        <Box mt={6} width={mdup ? '900px' : '100%'}>
+          {/* <GeoSuggest />
+          <Datepicker /> */}
+          <QuickSearch />
         </Box>
       </div>
       {/* <img src={map} className={classes.map} /> */}

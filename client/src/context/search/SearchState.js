@@ -5,12 +5,35 @@ import SearchReducer from './searchReducer';
 
 import {} from '../types';
 
-export const SearchState = (props) => {
-  const initialState = {};
+const SearchState = (props) => {
+  const initialState = {
+    location: {},
+    checkIn: new Date(),
+    checkOut: new Date(),
+  };
 
   const [state, dispatch] = useReducer(SearchReducer, initialState);
 
+  // Set Value
+  const setValue = (type, data) => {
+    dispatch({
+      type: type,
+      payload: data,
+    });
+  };
+
   return (
-    <SearchContext.Provider value={{}}>{props.children}</SearchContext.Provider>
+    <SearchContext.Provider
+      value={{
+        location: state.location,
+        checkIn: state.checkIn,
+        checkOut: state.checkOut,
+        setValue,
+      }}
+    >
+      {props.children}
+    </SearchContext.Provider>
   );
 };
+
+export default SearchState;

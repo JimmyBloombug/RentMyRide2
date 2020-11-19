@@ -5,7 +5,7 @@ import NavbarReducer from './navbarReducer';
 
 import { SET_MENU, SET_LOGIN_FORM, SET_REGISTER_FORM } from '../types';
 
-export const NavbarState = (props) => {
+const NavbarState = (props) => {
   const initialState = {
     menuOpen: false,
     loginFormOpen: false,
