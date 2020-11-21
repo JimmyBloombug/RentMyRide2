@@ -11,8 +11,8 @@ const getTheme = (theme) => {
     palette: {
       type: theme.paletteType,
       background: {
-        default: '#0A0B10',
-        paper: '#212833',
+        default: '#000c0f',
+        paper: '#10282F',
       },
       primary: {
         light: '#a0ffff',

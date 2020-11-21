@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
-import { motion } from 'framer-motion';
-import { Parallax } from 'react-parallax';
+import { motion, useViewportScroll, useTransform } from 'framer-motion';
 
 // Material Ui
-import { Box, useTheme, useMediaQuery } from '@material-ui/core';
+import { Box, useTheme, useMediaQuery, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 // Components
@@ -55,11 +54,22 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     marginTop: theme.spacing(0),
   },
-  recentCars: {
-    backgroundColor: 'black',
+  homeCont: {
+    backgroundColor: theme.palette.background.default,
     zIndex: 200,
-    height: '100vh',
+    height: '200vh',
     width: '100vw',
+    position: 'absolute',
+    boxShadow: '0 0 10px 10px #000c0f',
+  },
+  homeContSection: {
+    paddingTop: theme.spacing(5),
+  },
+  h3: {
+    fontSize: '2em',
+  },
+  span: {
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -72,21 +82,31 @@ const Home = () => {
 
   // Media Queries
   let mdup = useMediaQuery(theme.breakpoints.up('md'));
+  let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
 
   // ======== FUNCTIONS ========
+  // Parallax
+  const { scrollY } = useViewportScroll();
+  const y1 = useTransform(scrollY, [0, 300], [0, -50]);
+  const y2 = useTransform(scrollY, [0, 300], [0, -450]);
+
+  // const [ref, inView, entry] = useIn
 
   return (
     <Fragment>
-      <div className={classes.heroBGCont}>
-        <video
-          src={heroBG}
-          className={classes.heroBG}
-          muted
-          autoPlay
-          loop
-        ></video>
-      </div>
-      <section className={classes.heroSection}>
+      <motion.section
+        className={classes.heroSection}
+        style={!xsdown ? { y: y1 } : null}
+      >
+        <div className={classes.heroBGCont}>
+          <video
+            src={heroBG}
+            className={classes.heroBG}
+            muted
+            autoPlay
+            loop
+          ></video>
+        </div>
         <div className={classes.heroCont}>
           <motion.h1
             transition={{
@@ -131,8 +151,19 @@ const Home = () => {
             </motion.div>
           </Box>
         </div>
-      </section>
-      <section className={classes.recentCars}></section>
+      </motion.section>
+      <motion.section
+        className={classes.homeCont}
+        style={!xsdown ? { y: y2 } : null}
+      >
+        <section className={classes.homeContSection}>
+          <Box display='flex' justifyContent='center'>
+            <h3 className={classes.h3}>
+              Choose from a <span className={classes.span}>varity of cars</span>
+            </h3>
+          </Box>
+        </section>
+      </motion.section>
     </Fragment>
   );
 };
