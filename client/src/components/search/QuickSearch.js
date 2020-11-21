@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 
 // Date
@@ -7,13 +6,22 @@ import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 
 // Material UI
-import { TextField, CircularProgress, Box, Grid } from '@material-ui/core';
+import {
+  TextField,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Box,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Autocomplete } from '@material-ui/lab';
 import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,
 } from '@material-ui/pickers';
+
+// Material Icons
+import SearchIcon from '@material-ui/icons/Search';
 
 // Context
 import SearchContext from '../../context/search/searchContext';
@@ -34,7 +42,7 @@ const RES_NUM = 5;
 const QuickSearch = () => {
   // ====== CONTEXT ======
   const searchContext = useContext(SearchContext);
-  const { location, checkIn, checkOut, setValue } = searchContext;
+  const { checkIn, checkOut, setValue } = searchContext;
 
   // ====== STATES =======
 
@@ -93,9 +101,9 @@ const QuickSearch = () => {
   const classes = useStyles();
 
   return (
-    <div className='quickSearchCont'>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
+    <form className='quickSearchCont'>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={5}>
           <Autocomplete
             id='geolocation'
             className={classes.location}
@@ -179,8 +187,15 @@ const QuickSearch = () => {
             </Grid>
           </MuiPickersUtilsProvider>
         </Grid>
+        <Grid item xs={12} sm={1}>
+          <Box display='flex' alignItems='center' height='100%'>
+            <IconButton>
+              <SearchIcon />
+            </IconButton>
+          </Box>
+        </Grid>
       </Grid>
-    </div>
+    </form>
   );
 };
 

@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react';
+import { motion } from 'framer-motion';
+import { Parallax } from 'react-parallax';
 
 // Material Ui
 import { Box, useTheme, useMediaQuery } from '@material-ui/core';
@@ -6,20 +8,36 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Components
 import QuickSearch from '../search/QuickSearch';
+
 // Assets
-import map from '../../assets/landing/map.svg';
+import heroBG from '../../assets/landing/carbg.mp4';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
+  heroBGCont: {
+    width: '100vw',
+    height: '100vh',
+    zIndex: -20,
+    position: 'fixed',
+    left: 0,
+    top: 0,
+    filter: 'blur(5px) brightness(0.2) hue-rotate(260deg)',
+  },
+  heroBG: {
+    position: 'absolute',
+    minWidth: '100%',
+    minHeight: '100%',
+    width: 'auto',
+    height: 'auto',
+  },
   heroSection: {
     width: '100vw',
     height: '100vh',
-    overflow: 'hidden',
     position: 'relative',
   },
   heroCont: {
-    marginTop: theme.spacing(10),
-    padding: theme.spacing(5),
+    // marginTop: theme.spacing(10),
+    padding: theme.spacing(20, 5, 5, 5),
     height: '100%',
     display: 'flex',
     justifyContent: 'fle-start',
@@ -37,12 +55,11 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     marginTop: theme.spacing(0),
   },
-  map: {
-    position: 'absolute',
-    width: '800px',
-    height: '800px',
-    right: -180,
-    bottom: -120,
+  recentCars: {
+    backgroundColor: 'black',
+    zIndex: 200,
+    height: '100vh',
+    width: '100vw',
   },
 }));
 
@@ -58,24 +75,65 @@ const Home = () => {
 
   // ======== FUNCTIONS ========
 
-  // handle change
-  const handleChange = (element) => {};
-
   return (
-    <section className={classes.heroSection}>
-      <div className={classes.heroCont}>
-        <h1 className={classes.h1}>Instantly rent cars near you.</h1>
-        <p className={classes.heroP}>
-          Cars from private lenders up to 60% cheaper.
-        </p>
-        <Box mt={6} width={mdup ? '900px' : '100%'}>
-          {/* <GeoSuggest />
-          <Datepicker /> */}
-          <QuickSearch />
-        </Box>
+    <Fragment>
+      <div className={classes.heroBGCont}>
+        <video
+          src={heroBG}
+          className={classes.heroBG}
+          muted
+          autoPlay
+          loop
+        ></video>
       </div>
-      {/* <img src={map} className={classes.map} /> */}
-    </section>
+      <section className={classes.heroSection}>
+        <div className={classes.heroCont}>
+          <motion.h1
+            transition={{
+              duration: 0.3,
+              type: 'spring',
+              damping: 10,
+              stiffness: 60,
+            }}
+            initial={{ y: '-50px', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className={classes.h1}
+          >
+            Instantly rent cars near you
+          </motion.h1>
+          <motion.p
+            transition={{
+              duration: 0.3,
+              delay: 0.3,
+              type: 'spring',
+              damping: 10,
+              stiffness: 60,
+            }}
+            initial={{ y: '-50px', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className={classes.heroP}
+          >
+            Cars from private lenders up to 60% cheaper
+          </motion.p>
+          <Box mt={6} width={mdup ? '900px' : '100%'}>
+            <motion.div
+              transition={{
+                duration: 0.4,
+                delay: 0.6,
+                type: 'tween',
+                damping: 12,
+                stiffness: 10,
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <QuickSearch />
+            </motion.div>
+          </Box>
+        </div>
+      </section>
+      <section className={classes.recentCars}></section>
+    </Fragment>
   );
 };
 

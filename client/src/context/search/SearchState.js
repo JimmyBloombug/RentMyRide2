@@ -8,8 +8,8 @@ import {} from '../types';
 const SearchState = (props) => {
   const initialState = {
     location: {},
-    checkIn: new Date(),
-    checkOut: new Date(),
+    checkIn: null,
+    checkOut: null,
   };
 
   const [state, dispatch] = useReducer(SearchReducer, initialState);
