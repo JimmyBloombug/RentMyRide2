@@ -59,7 +59,12 @@ const useStyles = makeStyles((theme) => ({
 // Menu Items Mobile Menu
 const menuItems = [
   { menuText: 'Search', key: 'search', href: '/search', icon: <SearchIcon /> },
-  { menuText: 'How it works', key: 'help', href: '/help', icon: <HelpIcon /> },
+  {
+    menuText: 'How it works',
+    key: 'how',
+    href: '/how-it-works',
+    icon: <HelpIcon />,
+  },
   { menuText: 'About', key: 'about', href: '/about', icon: <InfoIcon /> },
 ];
 
@@ -113,7 +118,7 @@ const Navbar = () => {
           </Typography>
           {xsup ? (
             <Fragment>
-              <Button component={Link} to='/help' color='inherit'>
+              <Button component={Link} to='/how-does-it-work' color='inherit'>
                 How it works
               </Button>
               <Button

@@ -2,14 +2,22 @@ import React, { Fragment } from 'react';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
 
 // Material Ui
-import { Box, useTheme, useMediaQuery, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  Box,
+  Grid,
+  useTheme,
+  useMediaQuery,
+  makeStyles,
+} from '@material-ui/core';
 
 // Components
 import QuickSearch from '../search/QuickSearch';
+import CarCards from '../cars/CarCards';
+import Footer from '../layout/Footer';
 
 // Assets
 import heroBG from '../../assets/landing/carbg.mp4';
+import LentOutCars from '../../assets/landing/lent_out_cars.svg';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     top: 0,
     filter: 'blur(5px) brightness(0.2) hue-rotate(260deg)',
+    overflowX: 'hidden',
   },
   heroBG: {
     position: 'absolute',
@@ -57,19 +66,22 @@ const useStyles = makeStyles((theme) => ({
   homeCont: {
     backgroundColor: theme.palette.background.default,
     zIndex: 200,
-    height: '200vh',
     width: '100vw',
     position: 'absolute',
     boxShadow: '0 0 10px 10px #000c0f',
   },
   homeContSection: {
-    paddingTop: theme.spacing(5),
+    padding: theme.spacing(5, 5, 0, 5),
   },
   h3: {
     fontSize: '2em',
+    fontWeight: 500,
   },
   span: {
     color: theme.palette.primary.main,
+  },
+  p: {
+    fontSize: '1.2em',
   },
 }));
 
@@ -87,8 +99,8 @@ const Home = () => {
   // ======== FUNCTIONS ========
   // Parallax
   const { scrollY } = useViewportScroll();
-  const y1 = useTransform(scrollY, [0, 300], [0, -50]);
-  const y2 = useTransform(scrollY, [0, 300], [0, -450]);
+  const y1 = useTransform(scrollY, [0, 300], [0, -20]);
+  const y2 = useTransform(scrollY, [0, 300], [0, -500]);
 
   // const [ref, inView, entry] = useIn
 
@@ -162,7 +174,34 @@ const Home = () => {
               Choose from a <span className={classes.span}>varity of cars</span>
             </h3>
           </Box>
+          <Box display='flex' justifyContent='center' mt={2}>
+            <CarCards />
+            <CarCards />
+            <CarCards />
+          </Box>
         </section>
+        <section className={classes.homeContSection}>
+          <Box display='flex' justifyContent='center'>
+            <h3 className={classes.h3}>
+              Featured
+              <span className={classes.span}> offers</span>
+            </h3>
+          </Box>
+          <Box display='flex' justifyContent='center' mt={2}>
+            <CarCards />
+            <CarCards />
+            <CarCards />
+          </Box>
+        </section>
+        <section className={classes.homeContSection}>
+          <Box display='flex' justifyContent='center'>
+            <h3 className={classes.h3}>
+              How does it
+              <span className={classes.span}> work</span>?
+            </h3>
+          </Box>
+        </section>
+        <Footer />
       </motion.section>
     </Fragment>
   );
