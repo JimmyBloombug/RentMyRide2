@@ -153,7 +153,7 @@ const QuickSearch = () => {
                   inputVariant='outlined'
                   disablePast
                   format='MM/dd/yyyy HH:mm'
-                  id='date-picker'
+                  id='dateFrom'
                   label='Check In'
                   value={checkIn}
                   onChange={(date, value) =>
@@ -173,7 +173,7 @@ const QuickSearch = () => {
                   inputVariant='outlined'
                   disablePast
                   format='MM/dd/yyyy HH:mm'
-                  id='date-picker'
+                  id='dateTo'
                   label='Check Out'
                   value={checkOut}
                   onChange={(date, value) =>

@@ -8,7 +8,8 @@ import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   footer: {
     background: theme.palette.background.paper,
-    padding: theme.spacing(5, 0),
+    marginTop: theme.spacing(5),
+    padding: theme.spacing(5, 5),
   },
   logos: {
     maxWidth: 80,
@@ -32,7 +33,7 @@ const Footer = () => {
 
   return (
     <footer className={classes.footer}>
-      <Container width='xl'>
+      <Container maxWidth='lg'>
         <Grid container>
           <Grid item xs={12} md={6}>
             <h5 className={classes.h5}>About</h5>

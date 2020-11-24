@@ -1,18 +1,6 @@
 @import 'setup';
 @import 'mixins';
 
-// body {
-//   font-family: $FontMain;
-// }
-
-// h1,
-// h2,
-// h3,
-// h4,
-// h5 {
-//   color: rgb(14, 11, 22);
-// }
-
 h1 {
   font-size: 2.8em;
   font-weight: 600;
@@ -39,15 +27,3 @@ a {
     color: inherit;
   }
 }
-
-// .navbar {
-//   background-color: transparent;
-// }
-
-// .title {
-//   font-family: $FontTitle !important;
-// }
-
-// a {
-//   color: rgb(#00ff0d, green, blue);
-// }

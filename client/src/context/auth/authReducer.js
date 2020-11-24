@@ -193,7 +193,6 @@ const AuthReducer = (state, action) => {
         isAuthenticated: true,
         serverErr: undefined,
       };
-    case REGISTER_FAIL:
     case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload);
       return {
@@ -205,6 +204,7 @@ const AuthReducer = (state, action) => {
         password: '',
         loading: true,
       };
+    case REGISTER_FAIL:
     case LOGIN_FAIL:
     case AUTH_ERROR:
       localStorage.removeItem('token');

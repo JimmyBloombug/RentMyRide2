@@ -1,13 +1,17 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
 
 // Material Ui
 import {
+  Divider,
+  Button,
   Box,
   Grid,
   useTheme,
   useMediaQuery,
   makeStyles,
+  Container,
 } from '@material-ui/core';
 
 // Components
@@ -17,7 +21,8 @@ import Footer from '../layout/Footer';
 
 // Assets
 import heroBG from '../../assets/landing/carbg.mp4';
-import LentOutCars from '../../assets/landing/lent_out_cars.svg';
+import howSVG from '../../assets/landing/how.svg';
+import carsSVG from '../../assets/landing/cars.svg';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -45,10 +50,10 @@ const useStyles = makeStyles((theme) => ({
   },
   heroCont: {
     // marginTop: theme.spacing(10),
-    padding: theme.spacing(20, 5, 5, 5),
+    padding: theme.spacing(0, 5, 10, 5),
     height: '100%',
     display: 'flex',
-    justifyContent: 'fle-start',
+    justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
   },
@@ -74,14 +79,41 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(5, 5, 0, 5),
   },
   h3: {
-    fontSize: '2em',
+    fontSize: '2.1em',
     fontWeight: 500,
+  },
+  h4: {
+    fontSize: '1.6em',
+    fontWeight: '500',
+    color: theme.palette.primary.main,
   },
   span: {
     color: theme.palette.primary.main,
   },
   p: {
-    fontSize: '1.2em',
+    fontSize: '1.3em',
+  },
+  svgCont: {
+    display: 'flex',
+    alignItems: 'center',
+    height: '100%',
+  },
+  svg: {
+    maxWidth: '100%',
+    maxHeight: '400px',
+    display: 'block',
+  },
+  h1Mobile: {
+    fontSize: '3em',
+    color: theme.palette.primary.main,
+    fontWeight: 500,
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(10),
+  },
+  heroPMobile: {
+    fontSize: '1.7em',
+    fontWeight: 400,
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -129,7 +161,7 @@ const Home = () => {
             }}
             initial={{ y: '-50px', opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className={classes.h1}
+            className={xsdown ? classes.h1Mobile : classes.h1}
           >
             Instantly rent cars near you
           </motion.h1>
@@ -143,7 +175,7 @@ const Home = () => {
             }}
             initial={{ y: '-50px', opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className={classes.heroP}
+            className={xsdown ? classes.heroPMobile : classes.heroP}
           >
             Cars from private lenders up to 60% cheaper
           </motion.p>
@@ -169,38 +201,79 @@ const Home = () => {
         style={!xsdown ? { y: y2 } : null}
       >
         <section className={classes.homeContSection}>
-          <Box display='flex' justifyContent='center'>
-            <h3 className={classes.h3}>
-              Choose from a <span className={classes.span}>varity of cars</span>
-            </h3>
-          </Box>
-          <Box display='flex' justifyContent='center' mt={2}>
-            <CarCards />
-            <CarCards />
-            <CarCards />
-          </Box>
+          <Container maxWidth='lg'>
+            <Box display='flex' justifyContent='center'>
+              <h3 className={classes.h3}>
+                Choose from a{' '}
+                <span className={classes.span}>varity of cars</span>
+              </h3>
+            </Box>
+            <Box display='flex' justifyContent='center' mt={2}>
+              <CarCards />
+              <CarCards />
+              <CarCards />
+            </Box>
+          </Container>
         </section>
         <section className={classes.homeContSection}>
-          <Box display='flex' justifyContent='center'>
-            <h3 className={classes.h3}>
-              Featured
-              <span className={classes.span}> offers</span>
-            </h3>
-          </Box>
-          <Box display='flex' justifyContent='center' mt={2}>
-            <CarCards />
-            <CarCards />
-            <CarCards />
-          </Box>
+          <Container maxWidth='lg'>
+            <Box display='flex' justifyContent='center'>
+              <h3 className={classes.h3}>
+                Featured
+                <span className={classes.span}> offers</span>
+              </h3>
+            </Box>
+            <Box display='flex' justifyContent='center' mt={2}>
+              <CarCards />
+              <CarCards />
+              <CarCards />
+            </Box>
+          </Container>
         </section>
-        <section className={classes.homeContSection}>
-          <Box display='flex' justifyContent='center'>
-            <h3 className={classes.h3}>
-              How does it
-              <span className={classes.span}> work</span>?
-            </h3>
-          </Box>
-        </section>
+        {/* <section className={classes.homeContSection}>
+          <Container maxWidth='lg'>
+            <Box mb={4}>
+              <h3 className={classes.h3}>You own a car?</h3>
+              <h4 className={classes.h4}>No hidden costs</h4>
+              <p className={classes.p}>
+                Lent out your car without hidden costs.
+              </p>
+              <h4 className={classes.h4}>Everything is up to you</h4>
+              <p className={classes.p}>You decide how much you charge.</p>
+              <h4 className={classes.h4}>Earn up to 800$ per month</h4>
+              <p className={classes.p}>
+                All trips are insured by our partners.
+              </p>
+            </Box>
+            <Button
+              component={Link}
+              to='/profile/cars'
+              variant='outlined'
+              color='primary'
+            >
+              List a car
+            </Button>
+            <Box mb={4}>
+              <h3 className={classes.h3}>How does it work?</h3>
+              <h4 className={classes.h4}>No subscription needed</h4>
+              <p className={classes.p}>Book a car and acces it 24/7.</p>
+              <h4 className={classes.h4}>Prices by the hour, day or week</h4>
+              <p className={classes.p}>Rent as long as you need.</p>
+              <h4 className={classes.h4}>Powered by locals</h4>
+              <p className={classes.p}>
+                Thousands of cars available from people near you.
+              </p>
+            </Box>
+            <Button
+              component={Link}
+              to='/how-does-it-work'
+              variant='outlined'
+              color='primary'
+            >
+              See how it works
+            </Button>
+          </Container>
+        </section> */}
         <Footer />
       </motion.section>
     </Fragment>
