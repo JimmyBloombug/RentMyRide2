@@ -3,24 +3,31 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 // Material UI
-import List from '@material-ui/core/List';
-import Drawer from '@material-ui/core/Drawer';
-import { Divider, Typography } from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  Drawer,
+  List,
+  Divider,
+  Typography,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  makeStyles,
+} from '@material-ui/core';
 
 // Material Icons
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
+import EmailIcon from '@material-ui/icons/Email';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import EmojiTransportationIcon from '@material-ui/icons/EmojiTransportation';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
 
 // Const
 import { makeColor } from '../../styles/themeConst';
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   menuCont: {
@@ -38,12 +45,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MobileMenu = (props) => {
+  // Style
+  const classes = useStyles();
+
   // Context
   const navbarContext = useContext(NavbarContext);
   const { menuOpen, setMenu, setLoginForm, setRegisterForm } = navbarContext;
-
-  // Style
-  const classes = useStyles();
 
   return (
     <Drawer
@@ -61,19 +68,35 @@ const MobileMenu = (props) => {
         <List>
           {props.loggedIn ? (
             <Fragment>
-              <ListItem
-                button
-                component={Link}
-                to={'/profile'}
-                onClick={() => {
-                  setMenu(false);
-                  setLoginForm(true);
-                }}
-              >
+              <ListItem button>
                 <ListItemIcon>
                   <AccountCircleIcon />
                 </ListItemIcon>
                 <ListItemText primary='Profile' />
+              </ListItem>
+              <ListItem button onClick={() => setMenu(false)}>
+                <ListItemIcon>
+                  <EmailIcon />
+                </ListItemIcon>
+                <ListItemText primary='Messages' />
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <EmojiTransportationIcon />
+                </ListItemIcon>
+                <ListItemText primary='Your Rentals' />
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <DriveEtaIcon />
+                </ListItemIcon>
+                <ListItemText primary='Your Cars' />
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <ExitToAppIcon />
+                </ListItemIcon>
+                <ListItemText primary='Logout' />
               </ListItem>
             </Fragment>
           ) : (
