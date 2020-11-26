@@ -16,6 +16,7 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   SET_LOADING,
@@ -327,7 +328,7 @@ const AuthState = (props) => {
     }
   };
 
-  // Reset all
+  // Reset Register
   const resetRegister = () => {
     dispatch({ type: RESET_REGISTER });
   };
@@ -368,6 +369,9 @@ const AuthState = (props) => {
     }
   };
 
+  // ======= LOGOUT =======
+  const logoutUser = () => dispatch({ type: LOGOUT });
+
   // ======= LOAD USER =======
 
   const loadUser = async () => {
@@ -375,6 +379,9 @@ const AuthState = (props) => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
+
+    // // Set loading
+    // setValue(SET_LOADING);
 
     try {
       const res = await axios.get('/server/auth');
@@ -426,6 +433,7 @@ const AuthState = (props) => {
         searchUser,
         registerUser,
         loginUser,
+        logoutUser,
         loadUser,
         validateUsername,
         validatePassword,

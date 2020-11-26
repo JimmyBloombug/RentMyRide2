@@ -26,6 +26,7 @@ import {
   REGISTER_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
   USER_SUCCESS,
   USER_FAIL,
   USER_LOADED,
@@ -42,6 +43,7 @@ const AuthReducer = (state, action) => {
         ...state,
         isAuthenticated: true,
         user: action.payload,
+        // loading: true,
       };
     case SET_USERNAME:
       return {
@@ -206,6 +208,7 @@ const AuthReducer = (state, action) => {
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:
+    case LOGOUT:
     case AUTH_ERROR:
       localStorage.removeItem('token');
       return {

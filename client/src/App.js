@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Components
 import Home from './components/pages/Home';
+import Cars from './components/pages/Cars';
 import Navbar from './components/layout/Navbar';
 import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 // Context
 import AuthState from './context/auth/AuthState';
@@ -29,6 +31,7 @@ function App() {
                 <div className='container'>
                   <Switch>
                     <Route exact path='/' component={Home} />
+                    <PrivateRoute exact path='/profile/cars' component={Cars} />
                   </Switch>
                 </div>
               </Fragment>

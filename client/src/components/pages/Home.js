@@ -21,8 +21,6 @@ import Footer from '../layout/Footer';
 
 // Assets
 import heroBG from '../../assets/landing/carbg.mp4';
-import howSVG from '../../assets/landing/how.svg';
-import carsSVG from '../../assets/landing/cars.svg';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -133,8 +131,6 @@ const Home = () => {
   const { scrollY } = useViewportScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, -20]);
   const y2 = useTransform(scrollY, [0, 300], [0, -500]);
-
-  // const [ref, inView, entry] = useIn
 
   return (
     <Fragment>

@@ -24,17 +24,14 @@ import EmojiTransportationIcon from '@material-ui/icons/EmojiTransportation';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';
+import AuthContext from '../../context/auth/authContext';
 
-// Const
-import { makeColor } from '../../styles/themeConst';
-import { useState } from 'react';
-
+// Define Style
 const useStyles = makeStyles((theme) => ({
   menuCont: {
     marginRight: theme.spacing(5),
     width: '100%',
     height: '100%',
-    backgroundColor: makeColor('1,1,1', '1'),
   },
   heading: {
     margin: theme.spacing(2, 2, 1),
@@ -51,6 +48,13 @@ const MobileMenu = (props) => {
   // Context
   const navbarContext = useContext(NavbarContext);
   const { menuOpen, setMenu, setLoginForm, setRegisterForm } = navbarContext;
+  const authContext = useContext(AuthContext);
+
+  // Handle Click
+  const handleLogout = () => {
+    setMenu(false);
+    authContext.logoutUser();
+  };
 
   return (
     <Drawer
@@ -80,19 +84,18 @@ const MobileMenu = (props) => {
                 </ListItemIcon>
                 <ListItemText primary='Messages' />
               </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <EmojiTransportationIcon />
-                </ListItemIcon>
-                <ListItemText primary='Your Rentals' />
-              </ListItem>
-              <ListItem button>
+              <ListItem
+                button
+                component={Link}
+                to='/profile/cars'
+                onClick={() => setMenu(false)}
+              >
                 <ListItemIcon>
                   <DriveEtaIcon />
                 </ListItemIcon>
                 <ListItemText primary='Your Cars' />
               </ListItem>
-              <ListItem button>
+              <ListItem button onClick={handleLogout}>
                 <ListItemIcon>
                   <ExitToAppIcon />
                 </ListItemIcon>

@@ -86,7 +86,7 @@ const Navbar = () => {
 
   // Auth Context
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, loadUser } = authContext;
+  const { isAuthenticated, loadUser, logoutUser } = authContext;
 
   // ======= STATES ========
   const [anchorEl, setAnchorEl] = useState(null);
@@ -105,6 +105,11 @@ const Navbar = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    setAnchorEl(null);
+    logoutUser();
   };
 
   // ======= STYLE =======
@@ -191,8 +196,6 @@ const Navbar = () => {
                       color='primary'
                       onClick={handleClick}
                       startIcon={<AccountCircleIcon />}
-                      color='primary'
-                      variant='contained'
                     >
                       Profile
                     </Button>
@@ -205,9 +208,14 @@ const Navbar = () => {
                       className={classes.profile}
                     >
                       <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={handleClose}>Your Rentals</MenuItem>
-                      <MenuItem onClick={handleClose}>Your Cars</MenuItem>
-                      <MenuItem onClick={handleClose}>Logout</MenuItem>
+                      <MenuItem
+                        component={Link}
+                        to='/profile/cars'
+                        onClick={handleClose}
+                      >
+                        Your Cars
+                      </MenuItem>
+                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
                     </Menu>
                   </Fragment>
                 )}
