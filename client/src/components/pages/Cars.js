@@ -1,9 +1,10 @@
-import React, { useState, useContext, Fragment } from 'react';
+import React, { useState, useContext, useEffect, Fragment } from 'react';
 
 // Material UI
 import { Button, Container, makeStyles } from '@material-ui/core';
 
 // Components
+import FormModal from '../cars/FormModal';
 import Footer from '../layout/Footer';
 
 // Assets
@@ -62,10 +63,18 @@ const Cars = () => {
 
   // ===== CONTEXT ======
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, user } = authContext;
+  const { loadUser } = authContext;
 
   // ===== FUNCTIONS =====
+  // State
   const [page, setPage] = useState('bookings');
+  const [modal, setModal] = useState({ open: false, type: '' });
+
+  // load user
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Fragment>
@@ -104,7 +113,7 @@ const Cars = () => {
                   src={NoBookings}
                   alt='no-cars-yet'
                 />
-                <h4 className={classes.h4}>No bookings</h4>
+                <h4 className={classes.h4}>No bookings found</h4>
                 <p className={classes.p}>You have no bookings, yet.</p>
                 <Button color='primary' variant='outlined'>
                   Find a car to rent
@@ -125,7 +134,11 @@ const Cars = () => {
                 <p className={classes.p}>
                   You don't have any rentals at the moment.
                 </p>
-                <Button color='primary' variant='outlined'>
+                <Button
+                  color='primary'
+                  variant='outlined'
+                  onClick={() => setModal({ open: true, type: 'rentals' })}
+                >
                   Add rental offer
                 </Button>
               </div>
@@ -138,7 +151,11 @@ const Cars = () => {
                 <img className={classes.img} src={NoCars} alt='no-cars-yet' />
                 <h4 className={classes.h4}>No cars found</h4>
                 <p className={classes.p}>You haven't added any cars, yet.</p>
-                <Button color='primary' variant='outlined'>
+                <Button
+                  color='primary'
+                  variant='outlined'
+                  onClick={() => setModal({ open: true, type: 'cars' })}
+                >
                   Add new car
                 </Button>
               </div>
@@ -146,6 +163,7 @@ const Cars = () => {
           </div>
         )}
       </div>
+      <FormModal modal={modal} handleModal={setModal} />
       <Footer />
     </Fragment>
   );

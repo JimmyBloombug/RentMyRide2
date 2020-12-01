@@ -43,7 +43,7 @@ const AuthReducer = (state, action) => {
         ...state,
         isAuthenticated: true,
         user: action.payload,
-        // loading: true,
+        loading: true,
       };
     case SET_USERNAME:
       return {

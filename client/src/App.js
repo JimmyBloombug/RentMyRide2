@@ -14,7 +14,7 @@ import AlertState from './context/alert/AlertState';
 import NavbarState from './context/navbar/NavbarState';
 import SearchState from './context/search/SearchState';
 
-// Set Auth Token
+// Set Auth Token in Axios
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }

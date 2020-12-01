@@ -122,12 +122,14 @@ const Login = () => {
 
   // Handle Change
   const handleClick = (type) => {
-    if (type === 'close') {
-      setLoginForm(false);
-    } else {
-      clearAlerts();
-      loginUser();
-    }
+    setLoginForm(false);
+  };
+
+  // Handle Submit
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    clearAlerts();
+    loginUser();
   };
 
   // Handle Change
@@ -154,7 +156,7 @@ const Login = () => {
   return (
     <Modal
       open={loginFormOpen}
-      onClose={() => handleClick('close')}
+      onClose={() => handleClick()}
       aria-labelledby='login'
       className={classes.modal}
     >
@@ -171,14 +173,11 @@ const Login = () => {
         className={classes.modal}
       >
         <div className={classes.loginCont}>
-          <Button
-            className={classes.closeButton}
-            onClick={() => handleClick('close')}
-          >
+          <Button className={classes.closeButton} onClick={() => handleClick()}>
             <CloseIcon />
           </Button>
           <h3 className={classes.h3}>Login</h3>
-          <div className={classes.formCont}>
+          <form className={classes.formCont} onSubmit={handleSubmit}>
             {loading ? (
               <Fragment>
                 <Alerts />
@@ -233,7 +232,7 @@ const Login = () => {
                     color='primary'
                     variant='contained'
                     size='large'
-                    onClick={handleClick}
+                    type='submit'
                   >
                     Login
                   </Button>
@@ -244,7 +243,7 @@ const Login = () => {
                 <Loading classes={classes.loadingGif} />
               </Fragment>
             )}
-          </div>
+          </form>
         </div>
       </motion.div>
     </Modal>

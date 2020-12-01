@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 
 // Date
 import 'date-fns';
@@ -61,13 +60,12 @@ const QuickSearch = () => {
     if (locationInput !== '') {
       (async () => {
         // get city
-        const res = await axios.get(
+        const res = await fetch(
           `https://app.geocodeapi.io/api/v1/autocomplete?apikey=${GEOCODE_API}&text=${locationInput}&size=${RES_NUM}`
         );
         // geo result
-        const result = await res.data.features;
-
-        console.log(res.data);
+        const resJson = await res.json();
+        const result = resJson.features;
 
         // set options
         if (active) {

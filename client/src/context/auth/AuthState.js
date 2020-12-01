@@ -381,7 +381,7 @@ const AuthState = (props) => {
     }
 
     // // Set loading
-    // setValue(SET_LOADING);
+    setValue(SET_LOADING);
 
     try {
       const res = await axios.get('/server/auth');
