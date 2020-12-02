@@ -1,0 +1,13 @@
+[
+  { "color": "Black", "hex": "#000000" },
+  { "color": "White", "hex": "#ffffff" },
+  { "color": "Gray", "hex": "#7e7e7e" },
+  { "color": "Silver", "hex": "#C0C0C0" },
+  { "color": "Gold", "hex": "#998100" },
+  { "color": "Red", "hex": "#FF0000" },
+  { "color": "Green", "hex": "#00FF00" },
+  { "color": "Blue", "hex": "#0000FF" },
+  { "color": "Yellow", "hex": "#FFFF00" },
+  { "color": "Cyan", "hex": "#00FFFF" },
+  { "color": "Magenta", "hex": "#FF00FF" }
+]

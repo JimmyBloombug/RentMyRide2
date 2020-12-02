@@ -116,7 +116,11 @@ const FormModal = (props) => {
               {props.modal.type === 'rentals' ? 'Offer' : 'Car'}
             </span>
           </h3>
-          {props.modal.type === 'rentals' ? <RentalForm /> : <CarForm />}
+          {props.modal.type === 'rentals' ? (
+            <RentalForm />
+          ) : (
+            <CarForm classes={classes} />
+          )}
         </div>
       </motion.div>
     </Modal>
