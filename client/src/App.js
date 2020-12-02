@@ -13,6 +13,7 @@ import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
 import NavbarState from './context/navbar/NavbarState';
 import SearchState from './context/search/SearchState';
+import CarState from './context/cars/CarState';
 
 // Set Auth Token in Axios
 if (localStorage.token) {
@@ -25,17 +26,23 @@ function App() {
       <NavbarState>
         <AuthState>
           <SearchState>
-            <Router>
-              <Fragment>
-                <Navbar />
-                <div className='container'>
-                  <Switch>
-                    <Route exact path='/' component={Home} />
-                    <PrivateRoute exact path='/profile/cars' component={Cars} />
-                  </Switch>
-                </div>
-              </Fragment>
-            </Router>
+            <CarState>
+              <Router>
+                <Fragment>
+                  <Navbar />
+                  <div className='container'>
+                    <Switch>
+                      <Route exact path='/' component={Home} />
+                      <PrivateRoute
+                        exact
+                        path='/profile/cars'
+                        component={Cars}
+                      />
+                    </Switch>
+                  </div>
+                </Fragment>
+              </Router>
+            </CarState>
           </SearchState>
         </AuthState>
       </NavbarState>

@@ -195,6 +195,7 @@ const Login = () => {
                     value={email}
                     onChange={handleChange(SET_EMAIL)}
                     color='primary'
+                    autoComplete='email'
                     error={emailErr}
                   />
                 </FormControl>
@@ -213,6 +214,7 @@ const Login = () => {
                     onChange={handleChange(SET_PW)}
                     color='primary'
                     error={passwordErr}
+                    autoComplete='password'
                     endAdornment={
                       <InputAdornment position='end'>
                         <IconButton

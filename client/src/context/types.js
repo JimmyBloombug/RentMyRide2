@@ -42,6 +42,24 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const RESET_LOGIN = 'RESET_LOGIN';
 
+// Add Car
+export const SET_BRAND = 'SET_BRAND';
+export const SET_MODEL = 'SET_MODEL';
+export const SET_YEAR = 'SET_YEAR';
+export const SET_KM_DRIVEN = 'SET_KM_DRIVEN';
+export const SET_FUELTYPE = 'SET_FUELTYPE';
+export const SET_SEATS = 'SET_SEATS';
+export const SET_COLOR = 'SET_COLOR';
+export const SET_PICTURES = 'SET_PICTURES';
+export const SET_BRAND_ERR = 'SET_BRAND_ERR';
+export const SET_MODEL_ERR = 'SET_MODEL_ERR';
+export const SET_YEAR_ERR = 'SET_YEAR_ERR';
+export const SET_KM_DRIVEN_ERR = 'SET_KM_DRIVEN_ERR';
+export const SET_FUELTYPE_ERR = 'SET_FUELTYPE_ERR';
+export const SET_SEATS_ERR = 'SET_SEATS_ERR';
+export const SET_COLOR_ERR = 'SET_COLOR_ERR';
+export const SET_PICTURES_ERR = 'SET_PICTURES_ERR';
+
 // Search
 export const SET_LOCATION = 'SET_LOCATION';
 export const SET_CHECK_IN = 'SET_CHECK_IN';

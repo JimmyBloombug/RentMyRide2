@@ -1,5 +1,6 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import ImageUploader from 'react-images-upload';
 
 // Material UI
 import {
@@ -20,12 +21,43 @@ import Alerts from '../layout/Alerts';
 
 // Lists
 import carBrands from '../../constants/carbrands.json';
-import fuelTypes from '../../constants/fueltypes.json';
+import fuelTypeList from '../../constants/fueltypes.json';
 import kmSelect from '../../constants/kmselect.json';
 import numSelect from '../../constants/numselect.json';
 import colorSelect from '../../constants/colorselect.json';
 
+// Context
+import CarContext from '../../context/cars/carContext';
+
+// Types
+import {
+  SET_BRAND,
+  SET_MODEL,
+  SET_YEAR,
+  SET_KM_DRIVEN,
+  SET_FUELTYPE,
+  SET_SEATS,
+  SET_COLOR,
+  SET_PICTURES,
+} from '../../context/types';
+
 const CarForm = (props) => {
+  // ===== CONTEXT ======
+  const carContext = useContext(CarContext);
+  const {
+    model,
+    brandErr,
+    modelErr,
+    yearErr,
+    kmDrivenErr,
+    fuelTypeErr,
+    seatsErr,
+    colorErr,
+    picturesErr,
+    setValue,
+    submitForm,
+  } = carContext;
+
   // ===== STATES ======
 
   // ===== FUNCTIONS ======
@@ -36,6 +68,17 @@ const CarForm = (props) => {
     years.push({ label: `${i}` });
   }
 
+  // Handle Change
+  const handleChange = (type) => (e) => {
+    setValue(type, e.target.value);
+  };
+
+  // Handle Submit
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    submitForm();
+  };
+
   // ====== STYLE ======
   // Theme
   const theme = useTheme();
@@ -44,7 +87,7 @@ const CarForm = (props) => {
   let smup = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <form className={props.classes.form}>
+    <form className={props.classes.form} onSubmit={handleSubmit}>
       <Alerts />
       <Grid container spacing={smup ? 2 : 0}>
         <Grid item xs={12} sm={6}>
@@ -52,9 +95,7 @@ const CarForm = (props) => {
             <Autocomplete
               id='brand'
               options={carBrands}
-              // onFocus={(e, value) => handleChange(SET_COUNTRY, value)}
-              // onChange={(e, value) => handleChange(SET_COUNTRY, value)}
-              // onBlur={() => validateCountry()}
+              onChange={(e, value) => setValue(SET_BRAND, value)}
               autoHighlight
               getOptionLabel={(option) =>
                 option.label.charAt(0).toUpperCase() + option.label.slice(1)
@@ -71,9 +112,8 @@ const CarForm = (props) => {
                   variant='filled'
                   inputProps={{
                     ...params.inputProps,
-                    autoComplete: 'new-password', // disable autocomplete and autofill
                   }}
-                  // error={countryErr}
+                  error={brandErr}
                 />
               )}
             />
@@ -81,20 +121,14 @@ const CarForm = (props) => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl variant='filled' fullWidth color='primary'>
-            <InputLabel
-              htmlFor='model'
-              color='primary'
-              // error={userNameErr || userExists.takenName !== ''}
-            >
+            <InputLabel htmlFor='model' color='primary' error={modelErr}>
               Model
             </InputLabel>
             <FilledInput
               id='model'
-              // value={userName}
-              // onFocus={props.onChange(SET_USERNAME)}
-              // onChange={props.onChange(SET_USERNAME)}
-              // onBlur={() => validateUsername()}
-              // error={userNameErr || userExists.takenName !== ''}
+              value={model}
+              onChange={handleChange(SET_MODEL)}
+              error={modelErr}
             />
           </FormControl>
         </Grid>
@@ -103,10 +137,16 @@ const CarForm = (props) => {
             <Autocomplete
               id='car-year'
               options={years}
+              onChange={(e, value) => setValue(SET_YEAR, value)}
               autoHighlight
               getOptionLabel={(option) => option.label}
               renderInput={(params) => (
-                <TextField {...params} label='Year' variant='filled' />
+                <TextField
+                  {...params}
+                  label='Year'
+                  variant='filled'
+                  error={yearErr}
+                />
               )}
             />
           </FormControl>
@@ -116,10 +156,16 @@ const CarForm = (props) => {
             <Autocomplete
               id='km'
               options={kmSelect}
+              onChange={(e, value) => setValue(SET_KM_DRIVEN, value)}
               autoHighlight
               getOptionLabel={(option) => option.km}
               renderInput={(params) => (
-                <TextField {...params} label='Kilometers' variant='filled' />
+                <TextField
+                  {...params}
+                  label='Kilometers'
+                  variant='filled'
+                  error={kmDrivenErr}
+                />
               )}
             />
           </FormControl>
@@ -128,11 +174,17 @@ const CarForm = (props) => {
           <FormControl variant='filled' fullWidth color='primary'>
             <Autocomplete
               id='fuel-type'
-              options={fuelTypes}
+              options={fuelTypeList}
+              onChange={(e, value) => setValue(SET_FUELTYPE, value)}
               autoHighlight
               getOptionLabel={(option) => option.type}
               renderInput={(params) => (
-                <TextField {...params} label='Fuel' variant='filled' />
+                <TextField
+                  {...params}
+                  label='Fuel'
+                  variant='filled'
+                  error={fuelTypeErr}
+                />
               )}
             />
           </FormControl>
@@ -142,10 +194,16 @@ const CarForm = (props) => {
             <Autocomplete
               id='seat-number'
               options={numSelect}
+              onChange={(e, value) => setValue(SET_SEATS, value)}
               autoHighlight
               getOptionLabel={(option) => option.num}
               renderInput={(params) => (
-                <TextField {...params} label='Seats' variant='filled' />
+                <TextField
+                  {...params}
+                  label='Seats'
+                  variant='filled'
+                  error={seatsErr}
+                />
               )}
             />
           </FormControl>
@@ -155,6 +213,7 @@ const CarForm = (props) => {
             <Autocomplete
               id='color'
               options={colorSelect}
+              onChange={(e, value) => setValue(SET_COLOR, value)}
               autoHighlight
               getOptionLabel={(option) => option.color}
               renderOption={(option) => (
@@ -171,19 +230,35 @@ const CarForm = (props) => {
                 </Fragment>
               )}
               renderInput={(params) => (
-                <TextField {...params} label='Color' variant='filled' />
+                <TextField
+                  {...params}
+                  label='Color'
+                  variant='filled'
+                  error={colorErr}
+                />
               )}
             />
           </FormControl>
         </Grid>
+        <Grid item xs={12}>
+          <ImageUploader
+            buttonClassName={props.classes.imgButton}
+            withIcon={true}
+            onChange={(pictureFiles, pictureDataURLs) =>
+              setValue(SET_PICTURES, pictureFiles)
+            }
+            buttonText='Choose Images'
+            imgExtension={['.jpg', '.png', 'jpeg']}
+            withPreview={false}
+            fileContainerStyle={{
+              backgroundColor: 'rgba(0, 0, 0, .5',
+              height: 150,
+            }}
+          />
+        </Grid>
       </Grid>
       <Box mt={3}>
-        <Button
-          size='large'
-          color='primary'
-          variant='contained'
-          // onClick={() => props.onClick('next')}
-        >
+        <Button size='large' color='primary' variant='contained' type='submit'>
           Submit
         </Button>
       </Box>

@@ -69,6 +69,11 @@ const useStyles = makeStyles((theme) => ({
   mobile: {
     width: 350,
   },
+  imgButton: {
+    backgroundColor: 'rgba(256, 256, 256, .5) !important',
+    color: 'black !important',
+    borderRadius: '2px !important',
+  },
 }));
 
 const FormModal = (props) => {
