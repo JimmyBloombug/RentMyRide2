@@ -20,7 +20,6 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import EmailIcon from '@material-ui/icons/Email';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import EmojiTransportationIcon from '@material-ui/icons/EmojiTransportation';
 
 // Context
 import NavbarContext from '../../context/navbar/navbarContext';

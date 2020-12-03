@@ -24,8 +24,8 @@ const CarState = (props) => {
     kmDriven: undefined,
     fuelType: undefined,
     seats: undefined,
-    color: {},
-    pictures: [],
+    color: undefined,
+    pictures: undefined,
     brandErr: false,
     modelErr: false,
     yearErr: false,
@@ -48,7 +48,7 @@ const CarState = (props) => {
 
   // Validate
   const validateInput = (input, type) => {
-    if (input === undefined || input === '' || input === {} || input === []) {
+    if (input === undefined || input === '') {
       dispatch({
         type: type,
       });
@@ -60,6 +60,7 @@ const CarState = (props) => {
 
   // Submit
   const submitForm = async () => {
+    // validate input
     const brandValidated = await validateInput(state.brand, SET_BRAND_ERR);
     const modelValidated = await validateInput(state.model, SET_MODEL_ERR);
     const yearValidated = await validateInput(state.year, SET_YEAR_ERR);
@@ -77,6 +78,20 @@ const CarState = (props) => {
       state.pictures,
       SET_PICTURES_ERR
     );
+
+    // if validated
+    if (
+      brandValidated &&
+      modelValidated &&
+      yearValidated &&
+      kmDrivenValidated &&
+      fuelTypeValidated &&
+      seatsValidated &&
+      colorValidated &&
+      picturesValidated
+    ) {
+      console.log('validated');
+    }
   };
 
   return (

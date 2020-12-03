@@ -62,7 +62,7 @@ const CarReducer = (state, action) => {
     case SET_COLOR:
       return {
         ...state,
-        color: action.payload !== null ? action.payload : {},
+        color: action.payload !== null ? action.payload : undefined,
         colorErr: false,
       };
     case SET_PICTURES:

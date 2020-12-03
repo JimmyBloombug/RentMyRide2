@@ -1,22 +1,22 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
 
 // Material Ui
 import {
-  Divider,
-  Button,
+  // Divider,
+  // Button,
+  // Grid,
+  // Container,
   Box,
-  Grid,
   useTheme,
   useMediaQuery,
   makeStyles,
-  Container,
 } from '@material-ui/core';
 
 // Components
 import QuickSearch from '../search/QuickSearch';
-import CarCards from '../cars/CarCards';
+// import CarCards from '../cars/CarCards';
 import Footer from '../layout/Footer';
 
 // Assets
@@ -196,7 +196,7 @@ const Home = () => {
         className={classes.homeCont}
         style={!xsdown ? { y: y2 } : null}
       >
-        <section className={classes.homeContSection}>
+        {/* <section className={classes.homeContSection}>
           <Container maxWidth='lg'>
             <Box display='flex' justifyContent='center'>
               <h3 className={classes.h3}>
@@ -225,7 +225,7 @@ const Home = () => {
               <CarCards />
             </Box>
           </Container>
-        </section>
+        </section> */}
         {/* <section className={classes.homeContSection}>
           <Container maxWidth='lg'>
             <Box mb={4}>

@@ -13,6 +13,7 @@ import {
   Button,
   useTheme,
   useMediaQuery,
+  colors,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 
@@ -45,7 +46,13 @@ const CarForm = (props) => {
   // ===== CONTEXT ======
   const carContext = useContext(CarContext);
   const {
+    brand,
     model,
+    year,
+    kmDriven,
+    fuelType,
+    seats,
+    color,
     brandErr,
     modelErr,
     yearErr,
@@ -100,6 +107,10 @@ const CarForm = (props) => {
               getOptionLabel={(option) =>
                 option.label.charAt(0).toUpperCase() + option.label.slice(1)
               }
+              getOptionSelected={(option) =>
+                option.label.charAt(0).toUpperCase() + option.label.slice(1) ===
+                brand
+              }
               renderOption={(option) => (
                 <Fragment>
                   {option.label.charAt(0).toUpperCase() + option.label.slice(1)}
@@ -140,9 +151,13 @@ const CarForm = (props) => {
               onChange={(e, value) => setValue(SET_YEAR, value)}
               autoHighlight
               getOptionLabel={(option) => option.label}
+              getOptionSelected={(option) => option.label === year}
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  inputProps={{
+                    ...params.inputProps,
+                  }}
                   label='Year'
                   variant='filled'
                   error={yearErr}
@@ -159,6 +174,7 @@ const CarForm = (props) => {
               onChange={(e, value) => setValue(SET_KM_DRIVEN, value)}
               autoHighlight
               getOptionLabel={(option) => option.km}
+              getOptionSelected={(option) => option.km === kmDriven}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -178,6 +194,7 @@ const CarForm = (props) => {
               onChange={(e, value) => setValue(SET_FUELTYPE, value)}
               autoHighlight
               getOptionLabel={(option) => option.type}
+              getOptionSelected={(option) => option.type === fuelType}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -197,6 +214,7 @@ const CarForm = (props) => {
               onChange={(e, value) => setValue(SET_SEATS, value)}
               autoHighlight
               getOptionLabel={(option) => option.num}
+              getOptionSelected={(option) => option.num === seats}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -216,6 +234,7 @@ const CarForm = (props) => {
               onChange={(e, value) => setValue(SET_COLOR, value)}
               autoHighlight
               getOptionLabel={(option) => option.color}
+              getOptionSelected={(option) => option === color}
               renderOption={(option) => (
                 <Fragment>
                   <div

@@ -144,6 +144,7 @@ const RegisterSlide2 = (props) => {
                   onFocus={props.onChange(SET_FIRST_NAME)}
                   onChange={props.onChange(SET_FIRST_NAME)}
                   onBlur={() => validateInput(firstName, SET_FIRST_NAME_ERR)}
+                  autoComplete='given-name'
                   error={firstNameErr}
                 />
               </FormControl>
@@ -163,6 +164,7 @@ const RegisterSlide2 = (props) => {
                   onFocus={props.onChange(SET_LAST_NAME)}
                   onChange={props.onChange(SET_LAST_NAME)}
                   onBlur={() => validateInput(lastName, SET_LAST_NAME_ERR)}
+                  autoComplete='family-name'
                   error={lastNameErr}
                 />
               </FormControl>
@@ -197,7 +199,6 @@ const RegisterSlide2 = (props) => {
                       variant='filled'
                       inputProps={{
                         ...params.inputProps,
-                        autoComplete: 'new-password', // disable autocomplete and autofill
                       }}
                       error={countryErr}
                     />
@@ -217,6 +218,7 @@ const RegisterSlide2 = (props) => {
                   onFocus={props.onChange(SET_NUM)}
                   onChange={props.onChange(SET_NUM)}
                   onBlur={() => validateInput(number, SET_NUM_ERR)}
+                  autoComplete='tel-local'
                   error={numberErr}
                 />
               </FormControl>
@@ -243,6 +245,7 @@ const RegisterSlide2 = (props) => {
                   onFocus={props.onChange(SET_STREET)}
                   onChange={props.onChange(SET_STREET)}
                   onBlur={() => validateInput(street, SET_STREET_ERR)}
+                  autoComplete='street-address'
                   error={streetErr}
                 />
               </FormControl>
@@ -263,6 +266,7 @@ const RegisterSlide2 = (props) => {
                   onFocus={props.onChange(SET_ZIP)}
                   onChange={props.onChange(SET_ZIP)}
                   onBlur={() => validateInput(zip, SET_ZIP_ERR)}
+                  autoComplete='postal-code'
                   error={zipErr}
                 />
               </FormControl>
@@ -278,6 +282,7 @@ const RegisterSlide2 = (props) => {
                   onFocus={props.onChange(SET_CITY)}
                   onChange={props.onChange(SET_CITY)}
                   onBlur={() => validateInput(city, SET_CITY_ERR)}
+                  autoComplete='address-level2'
                   error={cityErr}
                 />
               </FormControl>

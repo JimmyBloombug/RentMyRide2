@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     position: 'fixed',
     top: 0,
+    zIndex: 2,
   },
   content: {
     minHeight: '60vh',

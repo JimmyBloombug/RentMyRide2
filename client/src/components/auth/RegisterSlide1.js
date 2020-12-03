@@ -120,6 +120,7 @@ const RegisterSlide1 = (props) => {
             onFocus={props.onChange(SET_USERNAME)}
             onChange={props.onChange(SET_USERNAME)}
             onBlur={() => validateUsername()}
+            autoComplete='username'
             error={userNameErr || userExists.takenName !== ''}
           />
         </FormControl>
@@ -143,6 +144,7 @@ const RegisterSlide1 = (props) => {
             onFocus={props.onChange(SET_EMAIL)}
             onChange={props.onChange(SET_EMAIL)}
             onBlur={() => validateEmail()}
+            autoComplete='email'
             error={emailErr || userExists.takenEmail !== ''}
           />
         </FormControl>
@@ -162,6 +164,7 @@ const RegisterSlide1 = (props) => {
             onFocus={props.onChange(SET_PW)}
             onChange={props.onChange(SET_PW)}
             onBlur={() => validatePassword()}
+            autoComplete='new-password'
             error={passwordErr}
             endAdornment={
               <InputAdornment position='end'>
@@ -199,6 +202,7 @@ const RegisterSlide1 = (props) => {
             onFocus={props.onChange(SET_PW_RPT)}
             onChange={props.onChange(SET_PW_RPT)}
             onBlur={() => validatePasswordRpt()}
+            autoComplete='new-password'
             error={passwordRptErr}
           />
         </FormControl>
