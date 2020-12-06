@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ImageUploader from 'react-images-upload';
 
@@ -8,17 +8,24 @@ import {
   TextField,
   InputLabel,
   FilledInput,
+  Typography,
   Grid,
   Box,
   Button,
   useTheme,
   useMediaQuery,
-  colors,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 
+// Material UI Icons
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
+// Assets
+import ServerErrorSVG from '../../assets/featback/server_error.svg';
+
 // Components
 import Alerts from '../layout/Alerts';
+import Loading from '../layout/Loading';
 
 // Lists
 import carBrands from '../../constants/carbrands.json';
@@ -29,9 +36,12 @@ import colorSelect from '../../constants/colorselect.json';
 
 // Context
 import CarContext from '../../context/cars/carContext';
+import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
 
 // Types
 import {
+  SET_USER_ID,
   SET_BRAND,
   SET_MODEL,
   SET_YEAR,
@@ -46,6 +56,7 @@ const CarForm = (props) => {
   // ===== CONTEXT ======
   const carContext = useContext(CarContext);
   const {
+    user_id,
     brand,
     model,
     year,
@@ -60,20 +71,51 @@ const CarForm = (props) => {
     fuelTypeErr,
     seatsErr,
     colorErr,
-    picturesErr,
+    server,
+    loading,
     setValue,
     submitForm,
   } = carContext;
 
+  // Auth Context
+  const authContext = useContext(AuthContext);
+  const { user } = authContext;
+
+  const alertContext = useContext(AlertContext);
+  const { alerts, setAlert, clearAlerts } = alertContext;
+
   // ===== STATES ======
 
   // ===== FUNCTIONS ======
+  // Set Form User ID
+  useEffect(() => {
+    if (user_id === undefined) {
+      setValue(SET_USER_ID, user._id);
+    }
+    // eslint-disable-next-line
+  }, [user_id]);
+
+  // Alerts
+  useEffect(() => {
+    if (server !== undefined) {
+      if (server.errors !== undefined) {
+        server.errors.forEach((element) => {
+          setAlert(element.msg, 'error', 0);
+        });
+      }
+    }
+  }, [server]);
+
   // Generate years
   const currentYear = new Date().getFullYear();
   const years = [];
   for (let i = currentYear; i >= 1900; i--) {
     years.push({ label: `${i}` });
   }
+
+  const handleClick = async (type) => {
+    await clearAlerts();
+  };
 
   // Handle Change
   const handleChange = (type) => (e) => {
@@ -94,194 +136,238 @@ const CarForm = (props) => {
   let smup = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <form className={props.classes.form} onSubmit={handleSubmit}>
-      <Alerts />
-      <Grid container spacing={smup ? 2 : 0}>
-        <Grid item xs={12} sm={6}>
-          <FormControl variant='filled' fullWidth color='primary'>
-            <Autocomplete
-              id='brand'
-              options={carBrands}
-              onChange={(e, value) => setValue(SET_BRAND, value)}
-              autoHighlight
-              getOptionLabel={(option) =>
-                option.label.charAt(0).toUpperCase() + option.label.slice(1)
-              }
-              getOptionSelected={(option) =>
-                option.label.charAt(0).toUpperCase() + option.label.slice(1) ===
-                brand
-              }
-              renderOption={(option) => (
-                <Fragment>
-                  {option.label.charAt(0).toUpperCase() + option.label.slice(1)}
-                </Fragment>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label='Brand'
-                  variant='filled'
-                  inputProps={{
-                    ...params.inputProps,
+    <Fragment>
+      {loading ? (
+        alerts.length > 0 ? (
+          <Fragment>
+            <img
+              src={ServerErrorSVG}
+              alt='error'
+              className={props.classes.errorIcon}
+            />
+            <Box mt={2}>
+              <Typography className={props.classes.message}>
+                Opps! Looks like something went{' '}
+                <span className={props.classes.span}>wrong</span>
+              </Typography>
+            </Box>
+            <Box mt={2} width='100%'>
+              <Alerts />
+            </Box>
+            <Box mt={3} flexBasis='end'>
+              <Button
+                startIcon={<ArrowBackIcon />}
+                size='large'
+                color='default'
+                variant='outlined'
+                onClick={handleClick}
+              >
+                Back
+              </Button>
+            </Box>
+          </Fragment>
+        ) : (
+          <form className={props.classes.form} onSubmit={handleSubmit}>
+            <Alerts />
+            <Grid container spacing={smup ? 2 : 0}>
+              <Grid item xs={12} sm={6}>
+                <FormControl variant='filled' fullWidth color='primary'>
+                  <Autocomplete
+                    id='brand'
+                    options={carBrands}
+                    onChange={(e, value) => setValue(SET_BRAND, value)}
+                    autoHighlight
+                    getOptionLabel={(option) =>
+                      option.label.charAt(0).toUpperCase() +
+                      option.label.slice(1)
+                    }
+                    getOptionSelected={(option) =>
+                      option.label.charAt(0).toUpperCase() +
+                        option.label.slice(1) ===
+                      brand
+                    }
+                    renderOption={(option) => (
+                      <Fragment>
+                        {option.label.charAt(0).toUpperCase() +
+                          option.label.slice(1)}
+                      </Fragment>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label='Brand'
+                        variant='filled'
+                        inputProps={{
+                          ...params.inputProps,
+                        }}
+                        error={brandErr}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl variant='filled' fullWidth color='primary'>
+                  <InputLabel htmlFor='model' color='primary' error={modelErr}>
+                    Model
+                  </InputLabel>
+                  <FilledInput
+                    id='model'
+                    value={model}
+                    onChange={handleChange(SET_MODEL)}
+                    error={modelErr}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <FormControl variant='filled' fullWidth color='primary'>
+                  <Autocomplete
+                    id='car-year'
+                    options={years}
+                    onChange={(e, value) => setValue(SET_YEAR, value)}
+                    autoHighlight
+                    getOptionLabel={(option) => option.label}
+                    getOptionSelected={(option) => option.label === year}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                        }}
+                        label='Year'
+                        variant='filled'
+                        error={yearErr}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={8}>
+                <FormControl variant='filled' fullWidth color='primary'>
+                  <Autocomplete
+                    id='km'
+                    options={kmSelect}
+                    onChange={(e, value) => setValue(SET_KM_DRIVEN, value)}
+                    autoHighlight
+                    getOptionLabel={(option) => option.km}
+                    getOptionSelected={(option) => option.km === kmDriven}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label='Kilometers'
+                        variant='filled'
+                        error={kmDrivenErr}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} sm={5}>
+                <FormControl variant='filled' fullWidth color='primary'>
+                  <Autocomplete
+                    id='fuel-type'
+                    options={fuelTypeList}
+                    onChange={(e, value) => setValue(SET_FUELTYPE, value)}
+                    autoHighlight
+                    getOptionLabel={(option) => option.type}
+                    getOptionSelected={(option) => option.type === fuelType}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label='Fuel'
+                        variant='filled'
+                        error={fuelTypeErr}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <FormControl variant='filled' fullWidth color='primary'>
+                  <Autocomplete
+                    id='seat-number'
+                    options={numSelect}
+                    onChange={(e, value) => setValue(SET_SEATS, value)}
+                    autoHighlight
+                    getOptionLabel={(option) => option.num}
+                    getOptionSelected={(option) => option.num === seats}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label='Seats'
+                        variant='filled'
+                        error={seatsErr}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <FormControl variant='filled' fullWidth color='primary'>
+                  <Autocomplete
+                    id='color'
+                    options={colorSelect}
+                    onChange={(e, value) => setValue(SET_COLOR, value)}
+                    autoHighlight
+                    getOptionLabel={(option) => option.color}
+                    getOptionSelected={(option) => option.color === color}
+                    renderOption={(option) => (
+                      <Fragment>
+                        <div
+                          style={{
+                            width: 10,
+                            height: 10,
+                            marginRight: 10,
+                            backgroundColor: option.hex,
+                          }}
+                        ></div>
+                        {option.color}
+                      </Fragment>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label='Color'
+                        variant='filled'
+                        error={colorErr}
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <ImageUploader
+                  buttonClassName={props.classes.imgButton}
+                  withIcon={false}
+                  onChange={(pictureFiles, pictureDataURLs) =>
+                    setValue(SET_PICTURES, pictureFiles)
+                  }
+                  buttonText='Choose Images'
+                  imgExtension={['.jpg', '.png', 'jpeg']}
+                  withPreview={false}
+                  fileContainerStyle={{
+                    backgroundColor: 'rgba(0, 0, 0, .5',
+                    height: 100,
                   }}
-                  error={brandErr}
                 />
-              )}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl variant='filled' fullWidth color='primary'>
-            <InputLabel htmlFor='model' color='primary' error={modelErr}>
-              Model
-            </InputLabel>
-            <FilledInput
-              id='model'
-              value={model}
-              onChange={handleChange(SET_MODEL)}
-              error={modelErr}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <FormControl variant='filled' fullWidth color='primary'>
-            <Autocomplete
-              id='car-year'
-              options={years}
-              onChange={(e, value) => setValue(SET_YEAR, value)}
-              autoHighlight
-              getOptionLabel={(option) => option.label}
-              getOptionSelected={(option) => option.label === year}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  inputProps={{
-                    ...params.inputProps,
-                  }}
-                  label='Year'
-                  variant='filled'
-                  error={yearErr}
-                />
-              )}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={8}>
-          <FormControl variant='filled' fullWidth color='primary'>
-            <Autocomplete
-              id='km'
-              options={kmSelect}
-              onChange={(e, value) => setValue(SET_KM_DRIVEN, value)}
-              autoHighlight
-              getOptionLabel={(option) => option.km}
-              getOptionSelected={(option) => option.km === kmDriven}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label='Kilometers'
-                  variant='filled'
-                  error={kmDrivenErr}
-                />
-              )}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={6} sm={5}>
-          <FormControl variant='filled' fullWidth color='primary'>
-            <Autocomplete
-              id='fuel-type'
-              options={fuelTypeList}
-              onChange={(e, value) => setValue(SET_FUELTYPE, value)}
-              autoHighlight
-              getOptionLabel={(option) => option.type}
-              getOptionSelected={(option) => option.type === fuelType}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label='Fuel'
-                  variant='filled'
-                  error={fuelTypeErr}
-                />
-              )}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <FormControl variant='filled' fullWidth color='primary'>
-            <Autocomplete
-              id='seat-number'
-              options={numSelect}
-              onChange={(e, value) => setValue(SET_SEATS, value)}
-              autoHighlight
-              getOptionLabel={(option) => option.num}
-              getOptionSelected={(option) => option.num === seats}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label='Seats'
-                  variant='filled'
-                  error={seatsErr}
-                />
-              )}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <FormControl variant='filled' fullWidth color='primary'>
-            <Autocomplete
-              id='color'
-              options={colorSelect}
-              onChange={(e, value) => setValue(SET_COLOR, value)}
-              autoHighlight
-              getOptionLabel={(option) => option.color}
-              getOptionSelected={(option) => option === color}
-              renderOption={(option) => (
-                <Fragment>
-                  <div
-                    style={{
-                      width: 10,
-                      height: 10,
-                      marginRight: 10,
-                      backgroundColor: option.hex,
-                    }}
-                  ></div>
-                  {option.color}
-                </Fragment>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label='Color'
-                  variant='filled'
-                  error={colorErr}
-                />
-              )}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <ImageUploader
-            buttonClassName={props.classes.imgButton}
-            withIcon={true}
-            onChange={(pictureFiles, pictureDataURLs) =>
-              setValue(SET_PICTURES, pictureFiles)
-            }
-            buttonText='Choose Images'
-            imgExtension={['.jpg', '.png', 'jpeg']}
-            withPreview={false}
-            fileContainerStyle={{
-              backgroundColor: 'rgba(0, 0, 0, .5',
-              height: 150,
-            }}
-          />
-        </Grid>
-      </Grid>
-      <Box mt={3}>
-        <Button size='large' color='primary' variant='contained' type='submit'>
-          Submit
-        </Button>
-      </Box>
-    </form>
+              </Grid>
+            </Grid>
+            <Box mt={3}>
+              <Button
+                size='large'
+                color='primary'
+                variant='contained'
+                type='submit'
+              >
+                Submit
+              </Button>
+            </Box>
+          </form>
+        )
+      ) : (
+        <Loading classes={props.classes.loadingGif} />
+      )}
+    </Fragment>
   );
 };
 

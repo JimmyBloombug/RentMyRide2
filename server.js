@@ -13,10 +13,13 @@ app.get('/', (req, res) =>
   res.json({ msg: 'Welcome to Rent My Ride, your private car sharing site' })
 );
 
+// Create Public Folder
+app.use(express.static('./public'));
+
 // Routes
 app.use('/server/users', require('./routes/users'));
 app.use('/server/auth', require('./routes/auth'));
-// @TODO: define route CARS
+app.use('/server/cars', require('./routes/cars'));
 
 const PORT = process.env.PORT | 5000;
 

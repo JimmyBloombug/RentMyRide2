@@ -86,18 +86,12 @@ const Navbar = () => {
 
   // Auth Context
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, loadUser, logoutUser } = authContext;
+  const { isAuthenticated, logoutUser } = authContext;
 
   // ======= STATES ========
   const [anchorEl, setAnchorEl] = useState(null);
 
   // ======= FUNCTIONS =======
-
-  // load user
-  useEffect(() => {
-    loadUser();
-    // eslint-disable-next-line
-  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

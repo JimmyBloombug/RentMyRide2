@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 
 // Material UI
 import { Button, Container, makeStyles } from '@material-ui/core';
@@ -11,9 +11,6 @@ import Footer from '../layout/Footer';
 import NoBookings from '../../assets/featback/no-bookings.svg';
 import NoRentals from '../../assets/featback/no-rentals.svg';
 import NoCars from '../../assets/featback/no-cars.svg';
-
-// Context
-import AuthContext from '../../context/auth/authContext';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -63,19 +60,11 @@ const Cars = () => {
   const classes = useStyles();
 
   // ===== CONTEXT ======
-  const authContext = useContext(AuthContext);
-  const { loadUser } = authContext;
 
   // ===== FUNCTIONS =====
   // State
   const [page, setPage] = useState('bookings');
   const [modal, setModal] = useState({ open: false, type: '' });
-
-  // load user
-  useEffect(() => {
-    loadUser();
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <Fragment>

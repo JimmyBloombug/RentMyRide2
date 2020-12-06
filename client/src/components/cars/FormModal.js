@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
@@ -18,6 +18,9 @@ import CloseIcon from '@material-ui/icons/Close';
 // Components
 import RentalForm from './RentalForm';
 import CarForm from './CarForm';
+
+// Context
+import CarContext from '../../context/cars/carContext';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -74,10 +77,32 @@ const useStyles = makeStyles((theme) => ({
     color: 'black !important',
     borderRadius: '2px !important',
   },
+  loadingGif: {
+    height: '200px',
+    marginBottom: theme.spacing(12),
+  },
+  errorIcon: {
+    height: '100px',
+    width: '100px',
+    color: theme.palette.error.main,
+  },
+  message: {
+    fontSize: '1.4em',
+    textAlign: 'center',
+  },
 }));
 
 const FormModal = (props) => {
+  // ===== CONTEXT ======
+  const carContext = useContext(CarContext);
+  const { resetCarForm } = carContext;
+
   // ===== FUNCTIONS ======
+  // Handle Close
+  const handleClose = () => {
+    props.handleModal({ open: false });
+    resetCarForm();
+  };
 
   // ===== STYLE =====
   // Theme
@@ -109,10 +134,7 @@ const FormModal = (props) => {
         className={classes.modal}
       >
         <div className={clsx(classes.cont, sup ? classes.web : classes.mobile)}>
-          <Button
-            className={classes.closeButton}
-            onClick={() => props.handleModal({ open: false })}
-          >
+          <Button className={classes.closeButton} onClick={handleClose}>
             <CloseIcon />
           </Button>
           <h3 className={classes.h3}>

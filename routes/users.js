@@ -11,7 +11,6 @@ const config = require('config');
 
 // Userschema
 const User = require('../models/User');
-const e = require('express');
 
 // Password Regex
 const pwReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
@@ -88,8 +87,6 @@ router.post(
       zip,
       city,
     } = req.body;
-
-    // return res.status(400).json({ country });
 
     try {
       // search db

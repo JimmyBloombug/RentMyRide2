@@ -1,4 +1,5 @@
 import {
+  SET_USER_ID,
   SET_BRAND,
   SET_MODEL,
   SET_YEAR,
@@ -14,11 +15,19 @@ import {
   SET_FUELTYPE_ERR,
   SET_SEATS_ERR,
   SET_COLOR_ERR,
-  SET_PICTURES_ERR,
+  SET_LOADING,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAIL,
+  RESET_CAR_FORM,
 } from '../types';
 
 const CarReducer = (state, action) => {
   switch (action.type) {
+    case SET_USER_ID:
+      return {
+        ...state,
+        user_id: action.payload,
+      };
     case SET_BRAND:
       return {
         ...state,
@@ -62,13 +71,16 @@ const CarReducer = (state, action) => {
     case SET_COLOR:
       return {
         ...state,
-        color: action.payload !== null ? action.payload : undefined,
+        color: action.payload !== null ? action.payload.color : undefined,
         colorErr: false,
       };
     case SET_PICTURES:
       return {
         ...state,
         pictures: action.payload,
+        // state.pictures !== undefined
+        //   ? [...state.pictures, action.payload]
+        //   : [action.payload],
         pictureErr: false,
       };
     case SET_BRAND_ERR:
@@ -106,11 +118,31 @@ const CarReducer = (state, action) => {
         ...state,
         colorErr: true,
       };
-    case SET_PICTURES_ERR:
+    case SET_LOADING: {
       return {
         ...state,
-        picturesErr: true,
+        loading: false,
       };
+    }
+    case UPLOAD_SUCCESS: {
+      return {
+        ...state,
+        server: action.payload,
+        loading: true,
+      };
+    }
+    case UPLOAD_FAIL: {
+      return {
+        ...state,
+        server: action.payload,
+        loading: true,
+      };
+    }
+    case RESET_CAR_FORM: {
+      return {
+        ...state,
+      };
+    }
     default:
       return;
   }

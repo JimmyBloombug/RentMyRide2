@@ -8,7 +8,7 @@ const config = require('config');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
 
-// @route   GET api/auth
+// @route   GET server/auth
 // @desc    GET logged in user
 // @access  Private
 router.get('/', auth, async (req, res) => {
@@ -21,7 +21,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   POST api/auth
+// @route   POST server/auth
 // @desc    Auth user && get token
 // @access  Public
 router.post(

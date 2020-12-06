@@ -7,6 +7,7 @@ import Cars from './components/pages/Cars';
 import Navbar from './components/layout/Navbar';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
+import LoadUser from './components/auth/LoadUser';
 
 // Context
 import AuthState from './context/auth/AuthState';
@@ -27,21 +28,23 @@ function App() {
         <AuthState>
           <SearchState>
             <CarState>
-              <Router>
-                <Fragment>
-                  <Navbar />
-                  <div className='container'>
-                    <Switch>
-                      <Route exact path='/' component={Home} />
-                      <PrivateRoute
-                        exact
-                        path='/profile/cars'
-                        component={Cars}
-                      />
-                    </Switch>
-                  </div>
-                </Fragment>
-              </Router>
+              <LoadUser>
+                <Router>
+                  <Fragment>
+                    <Navbar />
+                    <div className='container'>
+                      <Switch>
+                        <Route exact path='/' component={Home} />
+                        <PrivateRoute
+                          exact
+                          path='/profile/cars'
+                          component={Cars}
+                        />
+                      </Switch>
+                    </div>
+                  </Fragment>
+                </Router>
+              </LoadUser>
             </CarState>
           </SearchState>
         </AuthState>

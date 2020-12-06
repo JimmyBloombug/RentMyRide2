@@ -42,6 +42,13 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const RESET_LOGIN = 'RESET_LOGIN';
 
+// Add User Id to Forms
+export const SET_USER_ID = 'SET_USER_ID';
+
+// UPLOAD RESPONSE
+export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
+export const UPLOAD_FAIL = 'UPLOAD_FAIL';
+
 // Add Car
 export const SET_BRAND = 'SET_BRAND';
 export const SET_MODEL = 'SET_MODEL';
@@ -58,7 +65,7 @@ export const SET_KM_DRIVEN_ERR = 'SET_KM_DRIVEN_ERR';
 export const SET_FUELTYPE_ERR = 'SET_FUELTYPE_ERR';
 export const SET_SEATS_ERR = 'SET_SEATS_ERR';
 export const SET_COLOR_ERR = 'SET_COLOR_ERR';
-export const SET_PICTURES_ERR = 'SET_PICTURES_ERR';
+export const RESET_CAR_FORM = 'RESET_CAR_FORM';
 
 // Search
 export const SET_LOCATION = 'SET_LOCATION';

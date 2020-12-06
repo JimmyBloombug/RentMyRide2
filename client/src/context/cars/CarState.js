@@ -1,10 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useContext } from 'react';
 import axios from 'axios';
 
 import CarContext from './carContext';
 import CarReducer from './carReducer';
 
 import {
+  SET_LOADING,
   SET_BRAND_ERR,
   SET_MODEL_ERR,
   SET_YEAR_ERR,
@@ -12,12 +13,14 @@ import {
   SET_FUELTYPE_ERR,
   SET_SEATS_ERR,
   SET_COLOR_ERR,
-  SET_PICTURES_ERR,
-  SET_PICTURES,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAIL,
+  RESET_CAR_FORM,
 } from '../types';
 
 const CarState = (props) => {
   const initialState = {
+    user_id: undefined,
     brand: undefined,
     model: '',
     year: undefined,
@@ -25,7 +28,7 @@ const CarState = (props) => {
     fuelType: undefined,
     seats: undefined,
     color: undefined,
-    pictures: undefined,
+    pictures: [],
     brandErr: false,
     modelErr: false,
     yearErr: false,
@@ -33,7 +36,8 @@ const CarState = (props) => {
     fuelTypeErr: false,
     seatsErr: false,
     colorErr: false,
-    picturesErr: false,
+    server: undefined,
+    loading: true,
   };
 
   const [state, dispatch] = useReducer(CarReducer, initialState);
@@ -74,10 +78,6 @@ const CarState = (props) => {
     );
     const seatsValidated = await validateInput(state.seats, SET_SEATS_ERR);
     const colorValidated = await validateInput(state.color, SET_COLOR_ERR);
-    const picturesValidated = await validateInput(
-      state.pictures,
-      SET_PICTURES_ERR
-    );
 
     // if validated
     if (
@@ -87,11 +87,54 @@ const CarState = (props) => {
       kmDrivenValidated &&
       fuelTypeValidated &&
       seatsValidated &&
-      colorValidated &&
-      picturesValidated
+      colorValidated
     ) {
-      console.log('validated');
+      // Car data
+      let formData = new FormData();
+      formData.append('user_id', state.user_id);
+      formData.append('brand', state.brand);
+      formData.append('model', state.model);
+      formData.append('year', state.year);
+      formData.append('kmDriven', state.kmDriven);
+      formData.append('fueltype', state.fuelType);
+      formData.append('seats', state.seats);
+      formData.append('color', state.color);
+      for (let i = 0; i < state.pictures.length; i++) {
+        formData.append('pictures', state.pictures[i]);
+      }
+
+      setValue(SET_LOADING);
+
+      try {
+        // config
+        const config = {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+
+        // add car
+        const res = await axios.post('/server/cars', formData, config);
+
+        dispatch({
+          type: UPLOAD_SUCCESS,
+          payload: res.data,
+        });
+      } catch (error) {
+        dispatch({
+          type: UPLOAD_FAIL,
+          payload: error.response.data,
+        });
+      }
     }
+  };
+
+  // Reset Form
+  const resetCarForm = () => {
+    console.log('test');
+    dispatch({
+      type: RESET_CAR_FORM,
+    });
   };
 
   return (
@@ -112,9 +155,11 @@ const CarState = (props) => {
         fuelTypeErr: state.fuelTypeErr,
         seatsErr: state.seatsErr,
         colorErr: state.colorErr,
-        picturesErr: state.picturesErr,
+        loading: state.loading,
+        server: state.server,
         setValue,
         submitForm,
+        resetCarForm,
       }}
     >
       {props.children}

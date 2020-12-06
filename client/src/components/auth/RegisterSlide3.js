@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 import { Typography, Button, Box } from '@material-ui/core';
 
 // Material UI Icons
-import ErrorIcon from '@material-ui/icons/Error';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
+// Assets
+import ServerErrorSVG from '../../assets/featback/server_error.svg';
 
 // Components
 import Success from '../layout/Success';
@@ -31,7 +33,7 @@ const RegisterSlide3 = (props) => {
   useEffect(() => {
     if (serverErr !== undefined) {
       serverErr.forEach((element) => {
-        setAlert(element.msg, 'error');
+        setAlert(element.msg, 'error', 0);
       });
     }
     // eslint-disable-next-line
@@ -66,7 +68,11 @@ const RegisterSlide3 = (props) => {
         </Fragment>
       ) : (
         <Fragment>
-          <ErrorIcon className={props.classes.errorIcon} />
+          <img
+            src={ServerErrorSVG}
+            alt='error'
+            className={props.classes.errorIcon}
+          />
           <Box mt={2}>
             <Typography className={props.classes.slide3Message}>
               Opps! Looks like something went{' '}
