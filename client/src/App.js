@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Components
 import Home from './components/pages/Home';
-import Cars from './components/pages/Cars';
+import Profile from './components/pages/Profile';
 import Navbar from './components/layout/Navbar';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -37,8 +37,8 @@ function App() {
                         <Route exact path='/' component={Home} />
                         <PrivateRoute
                           exact
-                          path='/profile/cars'
-                          component={Cars}
+                          path='/profile/'
+                          component={Profile}
                         />
                       </Switch>
                     </div>

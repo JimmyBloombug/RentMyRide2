@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
-// Config
-const config = require('config');
 // Middleware
 const auth = require('../middleware/auth');
 // Schema
@@ -26,8 +24,8 @@ router.post(
   storageEngine.upload.array('pictures', 4),
   [
     check('user_id', 'No user id found').isString().notEmpty(),
-    check('brand', 'Please enter car brand').isString().isEmpty(),
-    check('model', 'Please enter car model').isString().isEmpty(),
+    check('brand', 'Please enter car brand').isString().notEmpty(),
+    check('model', 'Please enter car model').isString().notEmpty(),
     check('year', 'Please enter manufacturing year').isString().notEmpty(),
     check('kmDriven', 'Please enter kilometres driven').isString().notEmpty(),
     check('fueltype', 'Please enter a fueltype').isString().notEmpty(),
@@ -55,7 +53,9 @@ router.post(
       }
 
       // respond errors
-      return res.status(400).json({ errors: errors.array() });
+      return res
+        .status(400)
+        .json({ msg: 'An error occurred', errors: errors.array() });
     }
 
     // resize images

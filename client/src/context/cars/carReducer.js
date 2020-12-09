@@ -127,8 +127,8 @@ const CarReducer = (state, action) => {
     case UPLOAD_SUCCESS: {
       return {
         ...state,
-        server: action.payload,
         loading: true,
+        server: action.payload,
       };
     }
     case UPLOAD_FAIL: {
@@ -141,6 +141,26 @@ const CarReducer = (state, action) => {
     case RESET_CAR_FORM: {
       return {
         ...state,
+        user_id: undefined,
+        brand: undefined,
+        model: '',
+        year: undefined,
+        kmDriven: undefined,
+        fuelType: undefined,
+        seats: undefined,
+        color: undefined,
+        pictures: [],
+        brandErr: false,
+        modelErr: false,
+        yearErr: false,
+        kmDrivenErr: false,
+        fuelTypeErr: false,
+        seatsErr: false,
+        colorErr: false,
+        server: {
+          msg: '',
+          errors: undefined,
+        },
       };
     }
     default:

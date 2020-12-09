@@ -21,6 +21,7 @@ import CarForm from './CarForm';
 
 // Context
 import CarContext from '../../context/cars/carContext';
+import AlertContext from '../../context/alert/alertContext';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -81,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
     height: '200px',
     marginBottom: theme.spacing(12),
   },
+  successGif: {
+    height: '200px',
+  },
   errorIcon: {
     height: '100px',
     width: '100px',
@@ -96,12 +100,15 @@ const FormModal = (props) => {
   // ===== CONTEXT ======
   const carContext = useContext(CarContext);
   const { resetCarForm } = carContext;
+  const alertContext = useContext(AlertContext);
+  const { clearAlerts } = alertContext;
 
   // ===== FUNCTIONS ======
   // Handle Close
-  const handleClose = () => {
-    props.handleModal({ open: false });
+  const handleClose = async () => {
     resetCarForm();
+    await clearAlerts();
+    props.handleModal({ open: false });
   };
 
   // ===== STYLE =====
@@ -117,7 +124,7 @@ const FormModal = (props) => {
   return (
     <Modal
       open={props.modal.open}
-      onClose={() => props.handleModal({ open: false })}
+      onClose={() => handleClose()}
       aria-labelledby='register'
       className={classes.modal}
     >
@@ -146,7 +153,7 @@ const FormModal = (props) => {
           {props.modal.type === 'rentals' ? (
             <RentalForm />
           ) : (
-            <CarForm classes={classes} />
+            <CarForm classes={classes} handleClose={handleClose} />
           )}
         </div>
       </motion.div>

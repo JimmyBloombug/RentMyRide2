@@ -26,6 +26,7 @@ import ServerErrorSVG from '../../assets/featback/server_error.svg';
 // Components
 import Alerts from '../layout/Alerts';
 import Loading from '../layout/Loading';
+import Success from '../layout/Success';
 
 // Lists
 import carBrands from '../../constants/carbrands.json';
@@ -64,6 +65,7 @@ const CarForm = (props) => {
     fuelType,
     seats,
     color,
+    pictures,
     brandErr,
     modelErr,
     yearErr,
@@ -97,13 +99,14 @@ const CarForm = (props) => {
 
   // Alerts
   useEffect(() => {
-    if (server !== undefined) {
+    if (server.msg === 'An error occurred') {
       if (server.errors !== undefined) {
         server.errors.forEach((element) => {
           setAlert(element.msg, 'error', 0);
         });
       }
     }
+    // eslint-disable-next-line
   }, [server]);
 
   // Generate years
@@ -138,7 +141,24 @@ const CarForm = (props) => {
   return (
     <Fragment>
       {loading ? (
-        alerts.length > 0 ? (
+        server.msg === 'Your car has been saved successfully' ? (
+          <Fragment>
+            <Success classes={props.classes} />
+            <Typography className={props.classes.message}>
+              Your <span className={props.classes.span}> has been added!</span>
+            </Typography>
+            <Box mt={4}>
+              <Button
+                size='large'
+                color='primary'
+                variant='contained'
+                onClick={props.handleClose}
+              >
+                Close
+              </Button>
+            </Box>
+          </Fragment>
+        ) : alerts.length > 0 ? (
           <Fragment>
             <img
               src={ServerErrorSVG}
@@ -339,12 +359,27 @@ const CarForm = (props) => {
                 <ImageUploader
                   buttonClassName={props.classes.imgButton}
                   withIcon={false}
-                  onChange={(pictureFiles, pictureDataURLs) =>
-                    setValue(SET_PICTURES, pictureFiles)
+                  withPreview={false}
+                  label={
+                    pictures.length === 0 ? (
+                      'Max file size: 5mb, accepted: jpg, jpeg, png'
+                    ) : (
+                      <div style={{ display: 'flex' }}>
+                        {pictures.map((el, index) => {
+                          return (
+                            <div key={index} style={{ marginRight: 8 }}>
+                              {el.name}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )
                   }
+                  onChange={(pictureFiles, pictureDataURLs) => {
+                    setValue(SET_PICTURES, pictureFiles);
+                  }}
                   buttonText='Choose Images'
                   imgExtension={['.jpg', '.png', 'jpeg']}
-                  withPreview={false}
                   fileContainerStyle={{
                     backgroundColor: 'rgba(0, 0, 0, .5',
                     height: 100,
@@ -373,6 +408,7 @@ const CarForm = (props) => {
 
 CarForm.propTypes = {
   classes: PropTypes.object.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default CarForm;

@@ -19,6 +19,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import EmailIcon from '@material-ui/icons/Email';
+import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // Context
@@ -71,7 +72,12 @@ const MobileMenu = (props) => {
         <List>
           {props.loggedIn ? (
             <Fragment>
-              <ListItem button>
+              <ListItem
+                button
+                component={Link}
+                to='/profile'
+                onClick={() => setMenu(false)}
+              >
                 <ListItemIcon>
                   <AccountCircleIcon />
                 </ListItemIcon>
@@ -83,16 +89,11 @@ const MobileMenu = (props) => {
                 </ListItemIcon>
                 <ListItemText primary='Messages' />
               </ListItem>
-              <ListItem
-                button
-                component={Link}
-                to='/profile/cars'
-                onClick={() => setMenu(false)}
-              >
+              <ListItem button>
                 <ListItemIcon>
-                  <DriveEtaIcon />
+                  <SettingsIcon />
                 </ListItemIcon>
-                <ListItemText primary='Your Cars' />
+                <ListItemText primary='Settings' />
               </ListItem>
               <ListItem button onClick={handleLogout}>
                 <ListItemIcon>

@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Cars = () => {
+const Profile = () => {
   // ===== STYLE =====
   const classes = useStyles();
 
@@ -159,4 +159,4 @@ const Cars = () => {
   );
 };
 
-export default Cars;
+export default Profile;

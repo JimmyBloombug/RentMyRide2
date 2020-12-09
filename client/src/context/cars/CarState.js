@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer } from 'react';
 import axios from 'axios';
 
 import CarContext from './carContext';
@@ -36,7 +36,10 @@ const CarState = (props) => {
     fuelTypeErr: false,
     seatsErr: false,
     colorErr: false,
-    server: undefined,
+    server: {
+      msg: '',
+      errors: undefined,
+    },
     loading: true,
   };
 
@@ -131,7 +134,6 @@ const CarState = (props) => {
 
   // Reset Form
   const resetCarForm = () => {
-    console.log('test');
     dispatch({
       type: RESET_CAR_FORM,
     });

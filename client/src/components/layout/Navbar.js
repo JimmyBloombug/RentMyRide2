@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -201,14 +201,14 @@ const Navbar = () => {
                       onClose={handleClose}
                       className={classes.profile}
                     >
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
                       <MenuItem
                         component={Link}
-                        to='/profile/cars'
+                        to='/profile'
                         onClick={handleClose}
                       >
-                        Your Cars
+                        Your Profile
                       </MenuItem>
+                      <MenuItem onClick={handleClose}>Settings</MenuItem>
                       <MenuItem onClick={handleLogout}>Logout</MenuItem>
                     </Menu>
                   </Fragment>

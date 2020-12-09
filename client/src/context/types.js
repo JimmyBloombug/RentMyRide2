@@ -65,6 +65,7 @@ export const SET_KM_DRIVEN_ERR = 'SET_KM_DRIVEN_ERR';
 export const SET_FUELTYPE_ERR = 'SET_FUELTYPE_ERR';
 export const SET_SEATS_ERR = 'SET_SEATS_ERR';
 export const SET_COLOR_ERR = 'SET_COLOR_ERR';
+export const DELETE_PICTURE = 'DELETE_PICTURE';
 export const RESET_CAR_FORM = 'RESET_CAR_FORM';
 
 // Search
