@@ -13,7 +13,41 @@ const storageEngine = new StorageEngine('./public/uploads/cars', 5004508);
 
 // @route   GET server/cars
 // @desc    GET cars
-// @access  Public
+// @access  Private
+router.get(
+  '/',
+  auth,
+  [check('user_id', 'No user id found').isString().notEmpty()],
+  async (req, res) => {
+    // validate formData
+    const errors = validationResult(req);
+
+    // validation failed
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // destructure
+    const { user_id } = req.headers;
+
+    // search cars
+    try {
+      // find cars with matching user_id
+      let cars = await Car.find({ user_id });
+
+      // no cars were found
+      if (!cars) {
+        res.status(400).json({ errors: 'No cars found' });
+      }
+
+      // response
+      res.json(cars);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ errors: 'Internal Server Error' });
+    }
+  }
+);
 
 // @route POST server/cars
 // @desc POST car
@@ -37,7 +71,7 @@ router.post(
     const errors = validationResult(req);
 
     // image
-    const imagePath = [];
+    let imagePath = [];
 
     req.files.forEach((element) => {
       imagePath.push(element.path);
@@ -58,7 +92,9 @@ router.post(
         .json({ msg: 'An error occurred', errors: errors.array() });
     }
 
-    // resize images
+    let newImagePath = [];
+
+    // resize images and remove ./public/ from path
     imagePath.forEach((element) => {
       if (storageEngine.imageHandler(element, 600, 400, 90)) {
         console.log(element + ' has been resized');
@@ -70,6 +106,8 @@ router.post(
           msg: 'Image upload failed. Please try again',
         };
       }
+
+      newImagePath.push(element.substring(7));
     });
 
     // destructure
@@ -85,7 +123,7 @@ router.post(
       pictures,
     } = req.body;
 
-    pictures = imagePath;
+    pictures = newImagePath;
 
     try {
       // instantiate new Car

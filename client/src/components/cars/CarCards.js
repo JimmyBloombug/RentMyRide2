@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Material UI
 import {
@@ -8,23 +9,56 @@ import {
   CardMedia,
   makeStyles,
   Typography,
+  Grid,
+  Container,
 } from '@material-ui/core';
 
 // Style
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   card: {
-    maxWidth: 345,
+    height: 500,
   },
   media: {
-    height: 140,
+    height: 200,
   },
-});
+  cont: {
+    height: 100,
+    textAlign: 'center',
+  },
+}));
 
-const CarCards = () => {
+const CarCards = (props) => {
   // ====== STYLE ======
   const classes = useStyles();
 
-  return (
+  // ===== FUNCTIONS ======
+
+  return props.type === 'cars' ? (
+    <Container maxWidth='lg'>
+      <Grid container spacing={2}>
+        {props.array.map((car) => {
+          return (
+            <Grid item xs={12} sm={6} md={3}>
+              <Card className={classes.card} key={car._id}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={car.pictures[0]}
+                    title={car.brand + ' ' + car.model + ' ' + car.year}
+                  />
+                  <CardContent className={classes.cont}>
+                    <Typography gutterBottom variant='h5' component='h2'>
+                      {car.brand + ' ' + car.model + ' ' + car.year}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          );
+        })}
+      </Grid>
+    </Container>
+  ) : (
     <Card className={classes.card}>
       <CardActionArea>
         <CardMedia
@@ -44,6 +78,13 @@ const CarCards = () => {
       </CardActionArea>
     </Card>
   );
+};
+
+CarCards.propTypes = {
+  type: PropTypes.string.isRequired,
+  array: PropTypes.array.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number,
 };
 
 export default CarCards;

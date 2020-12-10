@@ -1,6 +1,5 @@
 [
-  { "type": "Super" },
-  { "type": "Super+" },
+  { "type": "Gasoline" },
   { "type": "Diesel" },
   { "type": "Hydrogen" },
   { "type": "Electro" }
