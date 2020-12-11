@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 2,
   },
   content: {
+    marginTop: theme.spacing(30),
     minHeight: '60vh',
   },
   noContent: {
@@ -59,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+  },
+  span: {
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -189,7 +193,9 @@ const Profile = () => {
             </div>
           ) : (
             <Box mt={20}>
-              <h2 style={{ textAlign: 'center' }}>Your Cars</h2>
+              <h2 style={{ textAlign: 'center' }}>
+                Your <span className={classes.span}>Cars</span>
+              </h2>
               <CarCards type='cars' array={cars} />
             </Box>
           )
