@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
 
-import CarContext from './carContext';
-import CarReducer from './carReducer';
+import ProfileContext from './profileContext';
+import ProfileReducer from './profileReducer';
 
 import {
   SET_LOADING,
@@ -19,7 +19,7 @@ import {
   SET_USER_CARS,
 } from '../types';
 
-const CarState = (props) => {
+const ProfileState = (props) => {
   const initialState = {
     user_id: undefined,
     brand: undefined,
@@ -46,7 +46,7 @@ const CarState = (props) => {
     loading: true,
   };
 
-  const [state, dispatch] = useReducer(CarReducer, initialState);
+  const [state, dispatch] = useReducer(ProfileReducer, initialState);
 
   // Set Value
   const setValue = (type, data) => {
@@ -165,7 +165,7 @@ const CarState = (props) => {
   };
 
   return (
-    <CarContext.Provider
+    <ProfileContext.Provider
       value={{
         user_id: state.user_id,
         brand: state.brand,
@@ -194,8 +194,8 @@ const CarState = (props) => {
       }}
     >
       {props.children}
-    </CarContext.Provider>
+    </ProfileContext.Provider>
   );
 };
 
-export default CarState;
+export default ProfileState;

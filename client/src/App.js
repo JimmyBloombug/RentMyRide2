@@ -14,7 +14,7 @@ import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
 import NavbarState from './context/navbar/NavbarState';
 import SearchState from './context/search/SearchState';
-import CarState from './context/cars/CarState';
+import ProfileState from './context/profile/ProfileState';
 
 // Set Auth Token in Axios
 if (localStorage.token) {
@@ -27,7 +27,7 @@ function App() {
       <NavbarState>
         <AuthState>
           <SearchState>
-            <CarState>
+            <ProfileState>
               <LoadUser>
                 <Router>
                   <Fragment>
@@ -45,7 +45,7 @@ function App() {
                   </Fragment>
                 </Router>
               </LoadUser>
-            </CarState>
+            </ProfileState>
           </SearchState>
         </AuthState>
       </NavbarState>

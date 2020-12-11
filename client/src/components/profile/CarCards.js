@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
@@ -90,13 +90,20 @@ const CarCards = (props) => {
   const classes = useStyles();
 
   // ===== FUNCTIONS ======
-  const actionStatesArray = [];
-  for (let i = 0; i < props.array.length; i++) {
-    let stateObject = { index: i, open: false };
-    actionStatesArray.push(stateObject);
-  }
+
   // States
-  const [actionFields, setActionField] = useState(actionStatesArray);
+  let [actionFields, setActionField] = useState([]);
+
+  // define car action field states
+  let actionStatesArray = [];
+  useEffect(() => {
+    actionStatesArray = [];
+    for (let i = 0; i < props.array.length; i++) {
+      let stateObject = { index: i, open: false };
+      actionStatesArray.push(stateObject);
+    }
+    setActionField(actionStatesArray);
+  }, [props.array]);
 
   const handleClick = (index) => {
     if (actionFields[index].open === false) {
@@ -119,8 +126,6 @@ const CarCards = (props) => {
       setActionField(items);
     }
   };
-
-  const handleModal = () => {};
 
   return (
     <div className={classes.container}>
@@ -200,7 +205,11 @@ const CarCards = (props) => {
                       stiffness: 50,
                     }}
                     initial={{ y: 50 }}
-                    animate={{ y: actionFields[index].open === true ? 0 : 50 }}
+                    animate={
+                      actionFields[index] !== undefined && {
+                        y: actionFields[index].open === true ? 0 : 50,
+                      }
+                    }
                     className={classes.cardEditInfo}
                   >
                     <IconButton color='inherit'>

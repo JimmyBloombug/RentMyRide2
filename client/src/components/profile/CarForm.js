@@ -36,7 +36,7 @@ import numSelect from '../../constants/numselect.json';
 import colorSelect from '../../constants/colorselect.json';
 
 // Context
-import CarContext from '../../context/cars/carContext';
+import ProfileContext from '../../context/profile/profileContext';
 import AlertContext from '../../context/alert/alertContext';
 
 // Types
@@ -53,9 +53,8 @@ import {
 
 const CarForm = (props) => {
   // ===== CONTEXT ======
-  const carContext = useContext(CarContext);
+  const profileContext = useContext(ProfileContext);
   const {
-    user_id,
     brand,
     model,
     year,
@@ -75,7 +74,7 @@ const CarForm = (props) => {
     loading,
     setValue,
     submitForm,
-  } = carContext;
+  } = profileContext;
 
   const alertContext = useContext(AlertContext);
   const { alerts, setAlert, clearAlerts } = alertContext;

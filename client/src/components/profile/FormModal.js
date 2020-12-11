@@ -20,7 +20,7 @@ import RentalForm from './RentalForm';
 import CarForm from './CarForm';
 
 // Context
-import CarContext from '../../context/cars/carContext';
+import ProfileContext from '../../context/profile/profileContext';
 import AlertContext from '../../context/alert/alertContext';
 
 // Define Style
@@ -98,8 +98,8 @@ const useStyles = makeStyles((theme) => ({
 
 const FormModal = (props) => {
   // ===== CONTEXT ======
-  const carContext = useContext(CarContext);
-  const { modal, resetCarForm } = carContext;
+  const profileContext = useContext(ProfileContext);
+  const { modal, resetCarForm } = profileContext;
   const alertContext = useContext(AlertContext);
   const { clearAlerts } = alertContext;
 

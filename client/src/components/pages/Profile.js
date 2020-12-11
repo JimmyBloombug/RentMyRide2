@@ -15,7 +15,7 @@ import NoCars from '../../assets/featback/no-cars.svg';
 
 // Context
 import AuthContext from '../../context/auth/authContext';
-import CarContext from '../../context/cars/carContext';
+import ProfileContext from '../../context/profile/profileContext';
 import { SET_MODAL, SET_USER_ID } from '../../context/types';
 
 // Define Style
@@ -76,8 +76,8 @@ const Profile = () => {
   const authContext = useContext(AuthContext);
   const { user } = authContext;
   // Car Context
-  const carContext = useContext(CarContext);
-  const { modal, user_id, cars, setValue, getCars } = carContext;
+  const profileContext = useContext(ProfileContext);
+  const { user_id, cars, setValue, getCars } = profileContext;
 
   // ===== FUNCTIONS =====
   // State

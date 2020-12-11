@@ -23,7 +23,7 @@ import {
   SET_USER_CARS,
 } from '../types';
 
-const CarReducer = (state, action) => {
+const ProfileReducer = (state, action) => {
   switch (action.type) {
     case SET_USER_ID:
       return {
@@ -182,4 +182,4 @@ const CarReducer = (state, action) => {
   }
 };
 
-export default CarReducer;
+export default ProfileReducer;
