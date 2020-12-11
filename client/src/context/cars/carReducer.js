@@ -1,5 +1,6 @@
 import {
   SET_USER_ID,
+  SET_MODAL,
   SET_BRAND,
   SET_MODEL,
   SET_YEAR,
@@ -19,6 +20,7 @@ import {
   UPLOAD_SUCCESS,
   UPLOAD_FAIL,
   RESET_CAR_FORM,
+  SET_USER_CARS,
 } from '../types';
 
 const CarReducer = (state, action) => {
@@ -28,6 +30,12 @@ const CarReducer = (state, action) => {
         ...state,
         user_id: action.payload,
       };
+    case SET_MODAL: {
+      return {
+        ...state,
+        modal: action.payload,
+      };
+    }
     case SET_BRAND:
       return {
         ...state,
@@ -161,6 +169,12 @@ const CarReducer = (state, action) => {
           msg: '',
           errors: undefined,
         },
+      };
+    }
+    case SET_USER_CARS: {
+      return {
+        ...state,
+        cars: action.payload,
       };
     }
     default:

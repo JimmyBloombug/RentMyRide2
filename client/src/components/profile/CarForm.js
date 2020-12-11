@@ -37,12 +37,10 @@ import colorSelect from '../../constants/colorselect.json';
 
 // Context
 import CarContext from '../../context/cars/carContext';
-import AuthContext from '../../context/auth/authContext';
 import AlertContext from '../../context/alert/alertContext';
 
 // Types
 import {
-  SET_USER_ID,
   SET_BRAND,
   SET_MODEL,
   SET_YEAR,
@@ -79,23 +77,12 @@ const CarForm = (props) => {
     submitForm,
   } = carContext;
 
-  // Auth Context
-  const authContext = useContext(AuthContext);
-  const { user } = authContext;
-
   const alertContext = useContext(AlertContext);
   const { alerts, setAlert, clearAlerts } = alertContext;
 
   // ===== STATES ======
 
   // ===== FUNCTIONS ======
-  // Set Form User ID
-  useEffect(() => {
-    if (user_id === undefined) {
-      setValue(SET_USER_ID, user._id);
-    }
-    // eslint-disable-next-line
-  }, [user_id]);
 
   // Alerts
   useEffect(() => {

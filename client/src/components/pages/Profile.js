@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
-import axios from 'axios';
 
 // Material UI
 import { Box, Button, Container, makeStyles } from '@material-ui/core';
 
 // Components
-import CarCards from '../cars/CarCards';
-import FormModal from '../cars/FormModal';
+import CarCards from '../profile/CarCards';
+import FormModal from '../profile/FormModal';
 import Footer from '../layout/Footer';
 
 // Assets
@@ -16,6 +15,8 @@ import NoCars from '../../assets/featback/no-cars.svg';
 
 // Context
 import AuthContext from '../../context/auth/authContext';
+import CarContext from '../../context/cars/carContext';
+import { SET_MODAL, SET_USER_ID } from '../../context/types';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -74,36 +75,31 @@ const Profile = () => {
   // Auth Context
   const authContext = useContext(AuthContext);
   const { user } = authContext;
+  // Car Context
+  const carContext = useContext(CarContext);
+  const { modal, user_id, cars, setValue, getCars } = carContext;
 
   // ===== FUNCTIONS =====
   // State
   const [page, setPage] = useState('bookings');
-  const [modal, setModal] = useState({ open: false, type: '' });
-  const [cars, setCars] = useState(undefined);
 
-  // get cars
-  const getCars = async () => {
-    // set headers
-    const config = {
-      headers: {
-        user_id: user._id,
-      },
-    };
-
-    // server request
-    const res = await axios.get('server/cars', config);
-
-    // set cars = server response
-    console.log(res.data);
-    setCars(res.data);
-  };
+  // Set User ID
+  useEffect(() => {
+    if (user_id === undefined) {
+      setValue(SET_USER_ID, user._id);
+    }
+    // eslint-disable-next-line
+  }, [user_id]);
 
   // get cars/rentals/bookings
   useEffect(() => {
-    getCars();
+    getCars(user._id);
+    // eslint-disable-next-line
   }, []);
 
-  console.log(cars);
+  const handleModal = (data) => {
+    setValue(SET_MODAL, data);
+  };
 
   return (
     <Fragment>
@@ -166,7 +162,7 @@ const Profile = () => {
                 <Button
                   color='primary'
                   variant='outlined'
-                  onClick={() => setModal({ open: true, type: 'rentals' })}
+                  onClick={() => handleModal({ open: true, type: 'rentals' })}
                 >
                   Add rental offer
                 </Button>
@@ -174,7 +170,7 @@ const Profile = () => {
             </Container>
           </div>
         ) : page === 'cars' ? (
-          cars === [] ? (
+          cars.length === 0 ? (
             <div className={classes.content}>
               <Container maxWidth='md'>
                 <div className={classes.noContent}>
@@ -184,7 +180,7 @@ const Profile = () => {
                   <Button
                     color='primary'
                     variant='outlined'
-                    onClick={() => setModal({ open: true, type: 'cars' })}
+                    onClick={() => handleModal({ open: true, type: 'cars' })}
                   >
                     Add new car
                   </Button>
@@ -196,14 +192,14 @@ const Profile = () => {
               <h2 style={{ textAlign: 'center' }}>
                 Your <span className={classes.span}>Cars</span>
               </h2>
-              <CarCards type='cars' array={cars} />
+              <CarCards array={cars} handleModal={handleModal} />
             </Box>
           )
         ) : (
           <div></div>
         )}
       </div>
-      <FormModal modal={modal} handleModal={setModal} />
+      <FormModal handleModal={handleModal} />
       <Footer />
     </Fragment>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
+import clsx from 'clsx';
 
 // Material UI
 import {
@@ -17,6 +18,7 @@ import {
 } from '@material-ui/core';
 
 // Material UI Icons
+import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 import FastForwardIcon from '@material-ui/icons/FastForward';
@@ -24,20 +26,23 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineNormal';
 
+// Utils
+import hexToRGB from '../../utils/hexToRGB';
+
 // Style
 const useStyles = makeStyles((theme) => ({
   container: {
     margin: theme.spacing(0, 4),
   },
   card: {
-    height: 480,
+    height: 460,
     position: 'relative',
   },
   media: {
     height: 200,
   },
   cont: {
-    height: 480,
+    height: 460,
   },
   carName: {
     height: 80,
@@ -49,15 +54,6 @@ const useStyles = makeStyles((theme) => ({
   attributesMargin: {
     marginRight: 10,
   },
-  edit: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    opacity: 0.5,
-    top: '50%',
-    left: '50%',
-    backgroundColor: 'black',
-  },
   cardEditInfo: {
     zIndex: 10,
     position: 'absolute',
@@ -65,13 +61,27 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     height: 50,
-    backgroundColor: 'rgba(0,0,0,.5)',
+    backgroundColor: hexToRGB('#171719', 0.9),
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
     fontSize: '1.3em',
     fontWeight: 500,
     color: '#DD3D31',
+  },
+  addNew: {
+    background: 'rgb(61,108,125)',
+    background:
+      'linear-gradient(12deg, rgba(61,108,125,1) 0%, rgba(17,39,47,1) 100%)',
+  },
+  addNewCont: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addIcon: {
+    width: 50,
+    height: 50,
   },
 }));
 
@@ -88,40 +98,40 @@ const CarCards = (props) => {
   // States
   const [actionFields, setActionField] = useState(actionStatesArray);
 
-  const handleMouseEnter = (index) => {
-    // copy items
-    let items = [...actionFields];
-    // copy item
-    let item = { ...items[index] };
-    // open
-    item.open = true;
-    items[index] = item;
-    setActionField(items);
+  const handleClick = (index) => {
+    if (actionFields[index].open === false) {
+      // copy items
+      let items = [...actionFields];
+      // copy item
+      let item = { ...items[index] };
+      // open actionfield
+      item.open = true;
+      items[index] = item;
+      setActionField(items);
+    } else {
+      // copy items
+      let items = [...actionFields];
+      // copy item
+      let item = { ...items[index] };
+      // close actionfield
+      item.open = false;
+      items[index] = item;
+      setActionField(items);
+    }
   };
 
-  const handleMouseLeave = (index) => {
-    // copy items
-    let items = [...actionFields];
-    // copy item
-    let item = { ...items[index] };
-    // open
-    item.open = false;
-    items[index] = item;
-    setActionField(items);
-  };
+  const handleModal = () => {};
 
-  return props.type === 'cars' ? (
+  return (
     <div className={classes.container}>
       <Container maxWidth='lg'>
         <Grid container spacing={2}>
           {props.array.map((car, index) => {
             return (
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid item xs={12} sm={6} md={3} key={car._id}>
                 <Card
                   className={classes.card}
-                  key={car._id}
-                  onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={() => handleMouseLeave(index)}
+                  onClick={() => handleClick(index)}
                 >
                   <CardActionArea>
                     <CardMedia
@@ -204,36 +214,26 @@ const CarCards = (props) => {
               </Grid>
             );
           })}
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+              className={clsx(classes.card, classes.addNew)}
+              onClick={() => props.handleModal({ open: true, type: 'cars' })}
+            >
+              <CardActionArea>
+                <CardContent className={clsx(classes.cont, classes.addNewCont)}>
+                  <AddIcon className={classes.addIcon} />
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
         </Grid>
       </Container>
     </div>
-  ) : (
-    <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image='/static/images/cards/contemplative-reptile.jpg'
-          title='Contemplative Reptile'
-        />
-        <CardContent>
-          <Typography gutterBottom variant='h5' component='h2'>
-            Lizard
-          </Typography>
-          <Typography variant='body2' color='textSecondary' component='p'>
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
   );
 };
 
 CarCards.propTypes = {
-  type: PropTypes.string.isRequired,
   array: PropTypes.array.isRequired,
-  width: PropTypes.number,
-  height: PropTypes.number,
 };
 
 export default CarCards;

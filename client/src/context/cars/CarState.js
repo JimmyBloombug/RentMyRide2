@@ -16,6 +16,7 @@ import {
   UPLOAD_SUCCESS,
   UPLOAD_FAIL,
   RESET_CAR_FORM,
+  SET_USER_CARS,
 } from '../types';
 
 const CarState = (props) => {
@@ -40,6 +41,8 @@ const CarState = (props) => {
       msg: '',
       errors: undefined,
     },
+    cars: undefined,
+    modal: { open: false, type: '' },
     loading: true,
   };
 
@@ -50,6 +53,25 @@ const CarState = (props) => {
     dispatch({
       type: type,
       payload: data,
+    });
+  };
+
+  // Get Cars
+  const getCars = async (id) => {
+    // set headers
+    const config = {
+      headers: {
+        user_id: id,
+      },
+    };
+
+    // server request
+    const res = await axios.get('server/cars', config);
+
+    // set cars = server response
+    dispatch({
+      type: SET_USER_CARS,
+      payload: res.data,
     });
   };
 
@@ -119,6 +141,9 @@ const CarState = (props) => {
         // add car
         const res = await axios.post('/server/cars', formData, config);
 
+        // update cars array
+        getCars(state.user_id);
+
         dispatch({
           type: UPLOAD_SUCCESS,
           payload: res.data,
@@ -142,6 +167,7 @@ const CarState = (props) => {
   return (
     <CarContext.Provider
       value={{
+        user_id: state.user_id,
         brand: state.brand,
         model: state.model,
         year: state.year,
@@ -159,7 +185,10 @@ const CarState = (props) => {
         colorErr: state.colorErr,
         loading: state.loading,
         server: state.server,
+        cars: state.cars,
+        modal: state.modal,
         setValue,
+        getCars,
         submitForm,
         resetCarForm,
       }}

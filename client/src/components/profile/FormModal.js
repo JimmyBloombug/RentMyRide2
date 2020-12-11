@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
 const FormModal = (props) => {
   // ===== CONTEXT ======
   const carContext = useContext(CarContext);
-  const { resetCarForm } = carContext;
+  const { modal, resetCarForm } = carContext;
   const alertContext = useContext(AlertContext);
   const { clearAlerts } = alertContext;
 
@@ -108,7 +108,7 @@ const FormModal = (props) => {
   const handleClose = async () => {
     resetCarForm();
     await clearAlerts();
-    props.handleModal({ open: false });
+    props.handleModal({ open: false, type: '' });
   };
 
   // ===== STYLE =====
@@ -123,9 +123,9 @@ const FormModal = (props) => {
 
   return (
     <Modal
-      open={props.modal.open}
-      onClose={() => handleClose()}
-      aria-labelledby='register'
+      open={modal.open}
+      onClose={handleClose}
+      aria-labelledby='profile-form'
       className={classes.modal}
     >
       <motion.div
@@ -147,10 +147,10 @@ const FormModal = (props) => {
           <h3 className={classes.h3}>
             Add{' '}
             <span className={classes.span}>
-              {props.modal.type === 'rentals' ? 'Offer' : 'Car'}
+              {modal.type === 'rentals' ? 'Offer' : 'Car'}
             </span>
           </h3>
-          {props.modal.type === 'rentals' ? (
+          {modal.type === 'rentals' ? (
             <RentalForm />
           ) : (
             <CarForm classes={classes} handleClose={handleClose} />
@@ -162,7 +162,6 @@ const FormModal = (props) => {
 };
 
 FormModal.propTypes = {
-  modal: PropTypes.object.isRequired,
   handleModal: PropTypes.func.isRequired,
 };
 

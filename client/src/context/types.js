@@ -49,6 +49,9 @@ export const SET_USER_ID = 'SET_USER_ID';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 
+// Profile
+export const SET_MODAL = 'SET_MODAL';
+
 // Add Car
 export const SET_BRAND = 'SET_BRAND';
 export const SET_MODEL = 'SET_MODEL';
@@ -67,6 +70,9 @@ export const SET_SEATS_ERR = 'SET_SEATS_ERR';
 export const SET_COLOR_ERR = 'SET_COLOR_ERR';
 export const DELETE_PICTURE = 'DELETE_PICTURE';
 export const RESET_CAR_FORM = 'RESET_CAR_FORM';
+
+// Get Cars
+export const SET_USER_CARS = 'SET_USER_CARS';
 
 // Search
 export const SET_LOCATION = 'SET_LOCATION';
