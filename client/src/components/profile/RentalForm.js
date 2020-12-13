@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 // Material UI
 import {
+  Select,
   FormControl,
   TextField,
   InputLabel,
@@ -36,6 +37,7 @@ import {
   SET_MODAL,
   SET_CAR,
   SET_PRICE,
+  SET_BILLING,
   SET_LOCATION,
 } from '../../context/types';
 
@@ -54,9 +56,10 @@ const RentalForm = (props) => {
     loading,
     car,
     price,
-    location,
-    priceErr,
+    billing,
     carErr,
+    priceErr,
+    billingErr,
     locationErr,
     cars,
     setValue,
@@ -75,11 +78,12 @@ const RentalForm = (props) => {
     if (cars[i].active === false) {
       let option = {};
       option.label = cars[i].label;
+      option.pictures = cars[i].pictures;
       option.kmDriven = cars[i].kmDriven;
       option.fueltype = cars[i].fueltype;
       option.seats = cars[i].seats;
       option.color = cars[i].color;
-      carOptions.push(cars[i]);
+      carOptions.push(option);
     }
   }
 
@@ -94,6 +98,12 @@ const RentalForm = (props) => {
     }
     // eslint-disable-next-line
   }, [server]);
+
+  const billinOptions = [
+    { label: 'hourly' },
+    { label: 'weekly' },
+    { label: 'daily' },
+  ];
 
   // Geolocation
   // get API from env
@@ -152,7 +162,7 @@ const RentalForm = (props) => {
   // Handle Submit
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    submitForm();
+    submitForm('rentalSubmit');
   };
 
   // Handle Modal
@@ -171,11 +181,12 @@ const RentalForm = (props) => {
   return (
     <Fragment>
       {loading ? (
-        server.msg === 'Your car has been saved successfully' ? (
+        server.msg === 'Your offer has been saved successfully' ? (
           <Fragment>
             <Success classes={props.classes} />
             <Typography className={props.classes.message}>
-              Your <span className={props.classes.span}> has been added!</span>
+              Your offer
+              <span className={props.classes.span}> has been added!</span>
             </Typography>
             <Box mt={4}>
               <Button
@@ -230,9 +241,9 @@ const RentalForm = (props) => {
                         onChange={(e, option) => setValue(SET_CAR, option)}
                         autoHighlight
                         getOptionLabel={(option) => option.label}
-                        getOptionSelected={(option) =>
-                          option.label === car.label
-                        }
+                        // getOptionSelected={(option) =>
+                        //   option.label === car.label
+                        // }
                         renderOption={(option) => (
                           <Fragment>{option.label}</Fragment>
                         )}
@@ -244,18 +255,18 @@ const RentalForm = (props) => {
                             inputProps={{
                               ...params.inputProps,
                             }}
-                            // error={rentalCar}
+                            error={carErr}
                           />
                         )}
                       />
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={3}>
                     <FormControl variant='filled' fullWidth color='primary'>
                       <InputLabel
                         htmlFor='rental-price'
                         color='primary'
-                        // error={modelErr}
+                        error={priceErr}
                       >
                         Price
                       </InputLabel>
@@ -263,8 +274,30 @@ const RentalForm = (props) => {
                         id='rental-price'
                         value={price}
                         onChange={handlePrice}
-                        // error={modelErr}
+                        error={priceErr}
                       />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <FormControl variant='filled' fullWidth color='primary'>
+                      <InputLabel htmlFor='rental-billing' error={billingErr}>
+                        Billing
+                      </InputLabel>
+                      <Select
+                        native
+                        value={billing}
+                        onChange={(e) => setValue(SET_BILLING, e.target.value)}
+                        inputProps={{
+                          name: 'rental-billing',
+                          id: 'rental-billing',
+                        }}
+                        error={billingErr}
+                      >
+                        <option aria-label='None' value='' />
+                        <option value={'hourly'}>hourly</option>
+                        <option value={'daily'}>daily</option>
+                        <option value={'weekly'}>weekly</option>
+                      </Select>
                     </FormControl>
                   </Grid>
                   <Grid item xs={12}>
@@ -291,6 +324,7 @@ const RentalForm = (props) => {
                             label='Location'
                             variant='filled'
                             onChange={handleChange}
+                            error={locationErr}
                             InputProps={{
                               ...params.InputProps,
                               endAdornment: (

@@ -112,7 +112,7 @@ const CarForm = (props) => {
   // Handle Submit
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    submitForm();
+    submitForm('carSubmit');
   };
 
   // ====== STYLE ======
@@ -129,7 +129,8 @@ const CarForm = (props) => {
           <Fragment>
             <Success classes={props.classes} />
             <Typography className={props.classes.message}>
-              Your <span className={props.classes.span}> has been added!</span>
+              Your car
+              <span className={props.classes.span}> has been added!</span>
             </Typography>
             <Box mt={4}>
               <Button

@@ -6,6 +6,10 @@ import ProfileReducer from './profileReducer';
 
 import {
   SET_LOADING,
+  SET_CAR_ERR,
+  SET_PRICE_ERR,
+  SET_BILLING_ERR,
+  SET_LOCATION_ERR,
   SET_BRAND_ERR,
   SET_MODEL_ERR,
   SET_YEAR_ERR,
@@ -26,10 +30,13 @@ const ProfileState = (props) => {
     loading: true,
     // rental form
     car: undefined,
-    price: undefined,
+    price: '',
+    billing: '',
     location: undefined,
-    carErr: undefined,
-    priceErr: undefined,
+    carErr: false,
+    priceErr: false,
+    billingErr: false,
+    locationErr: false,
     // car form
     brand: undefined,
     model: '',
@@ -97,71 +104,125 @@ const ProfileState = (props) => {
   };
 
   // Submit
-  const submitForm = async () => {
-    // validate input
-    const brandValidated = await validateInput(state.brand, SET_BRAND_ERR);
-    const modelValidated = await validateInput(state.model, SET_MODEL_ERR);
-    const yearValidated = await validateInput(state.year, SET_YEAR_ERR);
-    const kmDrivenValidated = await validateInput(
-      state.kmDriven,
-      SET_KM_DRIVEN_ERR
-    );
-    const fuelTypeValidated = await validateInput(
-      state.fuelType,
-      SET_FUELTYPE_ERR
-    );
-    const seatsValidated = await validateInput(state.seats, SET_SEATS_ERR);
-    const colorValidated = await validateInput(state.color, SET_COLOR_ERR);
+  const submitForm = async (type) => {
+    if (type === 'rentalSubmit') {
+      console.log('test');
+      // validate input
+      const carValidated = await validateInput(state.car, SET_CAR_ERR);
+      const priceValidated = await validateInput(state.price, SET_PRICE_ERR);
+      const locationValidated = await validateInput(
+        state.location,
+        SET_LOCATION_ERR
+      );
+      const validateBilling = await validateInput(
+        state.billing,
+        SET_BILLING_ERR
+      );
 
-    // if validated
-    if (
-      brandValidated &&
-      modelValidated &&
-      yearValidated &&
-      kmDrivenValidated &&
-      fuelTypeValidated &&
-      seatsValidated &&
-      colorValidated
-    ) {
-      // Car data
-      let formData = new FormData();
-      formData.append('user_id', state.user_id);
-      formData.append('brand', state.brand);
-      formData.append('model', state.model);
-      formData.append('year', state.year);
-      formData.append('kmDriven', state.kmDriven);
-      formData.append('fueltype', state.fuelType);
-      formData.append('seats', state.seats);
-      formData.append('color', state.color);
-      for (let i = 0; i < state.pictures.length; i++) {
-        formData.append('pictures', state.pictures[i]);
-      }
+      // if validated POST
+      // if ((carValidated, priceValidated, locationValidated)) {
+      //   // Rental data
+      //   let formData = new FormData();
+      // formData.append('user_id', state.user_id);
+      //   formData.append('car', state.car);
+      //   formData.append('price', state.price);
+      //   formData.append('location', state.location);
 
-      setValue(SET_LOADING);
+      //   setValue(SET_LOADING);
 
-      try {
-        // config
-        const config = {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        };
+      //   try {
+      //     // config
+      //     const config = {
+      //       headers: {
+      //         'Content-Type': 'multipart/form-data',
+      //       },
+      //     };
 
-        // add car
-        const res = await axios.post('/server/cars', formData, config);
+      //     // add rental offer
+      //     const res = await axios.get('/server/rentals', formData, config);
 
-        // update cars array
-        getCars(state.user_id);
+      //     // update rentals array
+      //     // @TODO
 
-        dispatch({
-          type: UPLOAD_SUCCESS,
-          payload: res.data,
-        });
-      } catch (error) {
-        dispatch({
-          type: UPLOAD_FAIL,
-          payload: error.response.data,
-        });
+      //     // upload success
+      //     dispatch({
+      //       type: UPLOAD_SUCCESS,
+      //       payload: res.data,
+      //     });
+      //   } catch (error) {
+      //     // upload fail
+      //     dispatch({
+      //       type: UPLOAD_FAIL,
+      //       payload: error.response.data,
+      //     });
+      //   }
+      // }
+    } else {
+      // validate input
+      const brandValidated = await validateInput(state.brand, SET_BRAND_ERR);
+      const modelValidated = await validateInput(state.model, SET_MODEL_ERR);
+      const yearValidated = await validateInput(state.year, SET_YEAR_ERR);
+      const kmDrivenValidated = await validateInput(
+        state.kmDriven,
+        SET_KM_DRIVEN_ERR
+      );
+      const fuelTypeValidated = await validateInput(
+        state.fuelType,
+        SET_FUELTYPE_ERR
+      );
+      const seatsValidated = await validateInput(state.seats, SET_SEATS_ERR);
+      const colorValidated = await validateInput(state.color, SET_COLOR_ERR);
+
+      // if validated POST
+      if (
+        brandValidated &&
+        modelValidated &&
+        yearValidated &&
+        kmDrivenValidated &&
+        fuelTypeValidated &&
+        seatsValidated &&
+        colorValidated
+      ) {
+        // Car data
+        let formData = new FormData();
+        formData.append('user_id', state.user_id);
+        formData.append('brand', state.brand);
+        formData.append('model', state.model);
+        formData.append('year', state.year);
+        formData.append('kmDriven', state.kmDriven);
+        formData.append('fueltype', state.fuelType);
+        formData.append('seats', state.seats);
+        formData.append('color', state.color);
+        for (let i = 0; i < state.pictures.length; i++) {
+          formData.append('pictures', state.pictures[i]);
+        }
+
+        setValue(SET_LOADING);
+
+        try {
+          // config
+          const config = {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          };
+
+          // add car
+          const res = await axios.post('/server/cars', formData, config);
+
+          // update cars array
+          getCars(state.user_id);
+
+          dispatch({
+            type: UPLOAD_SUCCESS,
+            payload: res.data,
+          });
+        } catch (error) {
+          dispatch({
+            type: UPLOAD_FAIL,
+            payload: error.response.data,
+          });
+        }
       }
     }
   };
@@ -182,9 +243,11 @@ const ProfileState = (props) => {
         // rental form
         car: state.location,
         price: state.price,
+        billing: state.billing,
         location: state.location,
         carErr: state.carErr,
         priceErr: state.priceErr,
+        billingErr: state.billingErr,
         locationErr: state.locationErr,
         // car form
         brand: state.brand,

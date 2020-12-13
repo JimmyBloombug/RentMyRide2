@@ -51,8 +51,14 @@ export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 
 // Profile
 export const SET_MODAL = 'SET_MODAL';
-
-// Add Car
+export const SET_CAR = 'SET_CAR';
+export const SET_PRICE = 'SET_PRICE';
+export const SET_BILLING = 'SET_BILLING';
+export const SET_LOCATION = 'SET_LOCATION';
+export const SET_CAR_ERR = 'SET_CAR_ERR';
+export const SET_PRICE_ERR = 'SET_PRICE_ERR';
+export const SET_BILLING_ERR = 'SET_BILLING_ERR';
+export const SET_LOCATION_ERR = 'SET_LOCATION_ERR';
 export const SET_BRAND = 'SET_BRAND';
 export const SET_MODEL = 'SET_MODEL';
 export const SET_YEAR = 'SET_YEAR';
@@ -71,15 +77,10 @@ export const SET_COLOR_ERR = 'SET_COLOR_ERR';
 export const DELETE_PICTURE = 'DELETE_PICTURE';
 export const RESET_FORM = 'RESET_CAR_FORM';
 
-// Add Rentals
-export const SET_CAR = 'SET_CAR';
-export const SET_PRICE = 'SET_PRICE';
-
 // Get Cars
 export const SET_USER_CARS = 'SET_USER_CARS';
 
 // Search
-export const SET_LOCATION = 'SET_LOCATION';
 export const SET_CHECK_IN = 'SET_CHECK_IN';
 export const SET_CHECK_OUT = 'SET_CHECK_OUT';
 

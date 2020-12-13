@@ -24,6 +24,11 @@ import {
   SET_USER_CARS,
   SET_CAR,
   SET_PRICE,
+  SET_BILLING,
+  SET_LOCATION_ERR,
+  SET_CAR_ERR,
+  SET_PRICE_ERR,
+  SET_BILLING_ERR,
 } from '../types';
 
 const ProfileReducer = (state, action) => {
@@ -33,27 +38,55 @@ const ProfileReducer = (state, action) => {
         ...state,
         user_id: action.payload,
       };
-    case SET_MODAL: {
+    case SET_MODAL:
       return {
         ...state,
         modal: action.payload,
       };
-    }
     ///////// RENTAL FORM /////////
-    case SET_LOCATION:
+    case SET_CAR:
       return {
         ...state,
-        location: action.payload,
+        car: action.payload,
+        carErr: false,
       };
     case SET_PRICE:
       return {
         ...state,
         price: action.payload,
+        priceErr: false,
       };
-    case SET_CAR:
+    case SET_BILLING:
       return {
         ...state,
-        car: action.payload,
+        billing: action.payload,
+        billingErr: false,
+      };
+    case SET_LOCATION:
+      return {
+        ...state,
+        location: action.payload,
+        locationErr: false,
+      };
+    case SET_CAR_ERR:
+      return {
+        ...state,
+        carErr: true,
+      };
+    case SET_PRICE_ERR:
+      return {
+        ...state,
+        priceErr: true,
+      };
+    case SET_BILLING_ERR:
+      return {
+        ...state,
+        billingErr: true,
+      };
+    case SET_LOCATION_ERR:
+      return {
+        ...state,
+        locationErr: true,
       };
     //////// CAR FORM /////////
     case SET_BRAND:
@@ -106,9 +139,6 @@ const ProfileReducer = (state, action) => {
       return {
         ...state,
         pictures: action.payload,
-        // state.pictures !== undefined
-        //   ? [...state.pictures, action.payload]
-        //   : [action.payload],
         pictureErr: false,
       };
     case SET_BRAND_ERR:
@@ -171,7 +201,13 @@ const ProfileReducer = (state, action) => {
         ...state,
         user_id: undefined,
         car: undefined,
+        price: '',
+        billing: '',
         location: undefined,
+        carErr: false,
+        priceErr: false,
+        billingErr: false,
+        locationErr: false,
         brand: undefined,
         model: '',
         year: undefined,
