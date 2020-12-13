@@ -15,13 +15,22 @@ import {
   SET_COLOR_ERR,
   UPLOAD_SUCCESS,
   UPLOAD_FAIL,
-  RESET_CAR_FORM,
+  RESET_FORM,
   SET_USER_CARS,
 } from '../types';
 
 const ProfileState = (props) => {
   const initialState = {
     user_id: undefined,
+    modal: { open: false, type: '' },
+    loading: true,
+    // rental form
+    car: undefined,
+    price: undefined,
+    location: undefined,
+    carErr: undefined,
+    priceErr: undefined,
+    // car form
     brand: undefined,
     model: '',
     year: undefined,
@@ -37,13 +46,13 @@ const ProfileState = (props) => {
     fuelTypeErr: false,
     seatsErr: false,
     colorErr: false,
+    // server response
     server: {
       msg: '',
       errors: undefined,
     },
+    // user cars
     cars: undefined,
-    modal: { open: false, type: '' },
-    loading: true,
   };
 
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
@@ -158,9 +167,9 @@ const ProfileState = (props) => {
   };
 
   // Reset Form
-  const resetCarForm = () => {
+  const resetForm = () => {
     dispatch({
-      type: RESET_CAR_FORM,
+      type: RESET_FORM,
     });
   };
 
@@ -168,6 +177,16 @@ const ProfileState = (props) => {
     <ProfileContext.Provider
       value={{
         user_id: state.user_id,
+        modal: state.modal,
+        loading: state.loading,
+        // rental form
+        car: state.location,
+        price: state.price,
+        location: state.location,
+        carErr: state.carErr,
+        priceErr: state.priceErr,
+        locationErr: state.locationErr,
+        // car form
         brand: state.brand,
         model: state.model,
         year: state.year,
@@ -183,14 +202,15 @@ const ProfileState = (props) => {
         fuelTypeErr: state.fuelTypeErr,
         seatsErr: state.seatsErr,
         colorErr: state.colorErr,
-        loading: state.loading,
+        // server
         server: state.server,
+        // user cars
         cars: state.cars,
-        modal: state.modal,
+        // functions
         setValue,
         getCars,
         submitForm,
-        resetCarForm,
+        resetForm,
       }}
     >
       {props.children}

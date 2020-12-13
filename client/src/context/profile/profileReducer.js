@@ -1,6 +1,7 @@
 import {
   SET_USER_ID,
   SET_MODAL,
+  SET_LOCATION,
   SET_BRAND,
   SET_MODEL,
   SET_YEAR,
@@ -19,8 +20,10 @@ import {
   SET_LOADING,
   UPLOAD_SUCCESS,
   UPLOAD_FAIL,
-  RESET_CAR_FORM,
+  RESET_FORM,
   SET_USER_CARS,
+  SET_CAR,
+  SET_PRICE,
 } from '../types';
 
 const ProfileReducer = (state, action) => {
@@ -36,6 +39,23 @@ const ProfileReducer = (state, action) => {
         modal: action.payload,
       };
     }
+    ///////// RENTAL FORM /////////
+    case SET_LOCATION:
+      return {
+        ...state,
+        location: action.payload,
+      };
+    case SET_PRICE:
+      return {
+        ...state,
+        price: action.payload,
+      };
+    case SET_CAR:
+      return {
+        ...state,
+        car: action.payload,
+      };
+    //////// CAR FORM /////////
     case SET_BRAND:
       return {
         ...state,
@@ -146,10 +166,12 @@ const ProfileReducer = (state, action) => {
         loading: true,
       };
     }
-    case RESET_CAR_FORM: {
+    case RESET_FORM: {
       return {
         ...state,
         user_id: undefined,
+        car: undefined,
+        location: undefined,
         brand: undefined,
         model: '',
         year: undefined,

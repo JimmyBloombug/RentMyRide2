@@ -14,7 +14,7 @@ app.get('/', (req, res) =>
 );
 
 // Create Public Folder
-app.use(express.static('./public'));
+app.use('/public', express.static('./public'));
 
 // Routes
 app.use('/server/users', require('./routes/users'));

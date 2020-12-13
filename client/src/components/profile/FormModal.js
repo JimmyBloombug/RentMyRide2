@@ -94,19 +94,29 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.4em',
     textAlign: 'center',
   },
+  h4: {
+    fontSize: '1.6em',
+    fontWeight: '500',
+    color: theme.palette.primary.main,
+    marginBottom: 0,
+  },
+  p: {
+    fontSize: '1.3em',
+    textAlign: 'center',
+  },
 }));
 
 const FormModal = (props) => {
   // ===== CONTEXT ======
   const profileContext = useContext(ProfileContext);
-  const { modal, resetCarForm } = profileContext;
+  const { modal, resetForm } = profileContext;
   const alertContext = useContext(AlertContext);
   const { clearAlerts } = alertContext;
 
   // ===== FUNCTIONS ======
   // Handle Close
   const handleClose = async () => {
-    resetCarForm();
+    resetForm();
     await clearAlerts();
     props.handleModal({ open: false, type: '' });
   };
@@ -151,7 +161,7 @@ const FormModal = (props) => {
             </span>
           </h3>
           {modal.type === 'rentals' ? (
-            <RentalForm />
+            <RentalForm classes={classes} handleClose={handleClose} />
           ) : (
             <CarForm classes={classes} handleClose={handleClose} />
           )}

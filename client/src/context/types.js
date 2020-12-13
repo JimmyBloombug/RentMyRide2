@@ -69,7 +69,11 @@ export const SET_FUELTYPE_ERR = 'SET_FUELTYPE_ERR';
 export const SET_SEATS_ERR = 'SET_SEATS_ERR';
 export const SET_COLOR_ERR = 'SET_COLOR_ERR';
 export const DELETE_PICTURE = 'DELETE_PICTURE';
-export const RESET_CAR_FORM = 'RESET_CAR_FORM';
+export const RESET_FORM = 'RESET_CAR_FORM';
+
+// Add Rentals
+export const SET_CAR = 'SET_CAR';
+export const SET_PRICE = 'SET_PRICE';
 
 // Get Cars
 export const SET_USER_CARS = 'SET_USER_CARS';

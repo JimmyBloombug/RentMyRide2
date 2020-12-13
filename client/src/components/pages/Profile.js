@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
   p: {
     fontSize: '1.3em',
+    textAlign: 'center',
   },
   img: {
     maxWidth: 300,
@@ -157,7 +158,7 @@ const Profile = () => {
                 />
                 <h4 className={classes.h4}>No rentals found</h4>
                 <p className={classes.p}>
-                  You don't have any rentals at the moment.
+                  You don't have any rental offers at the moment.
                 </p>
                 <Button
                   color='primary'

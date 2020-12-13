@@ -46,6 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
   carName: {
     height: 80,
+    display: 'flex',
+    alignItems: 'center',
   },
   attributes: {
     color: '#b9babd',
@@ -105,6 +107,7 @@ const CarCards = (props) => {
     setActionField(actionStatesArray);
   }, [props.array]);
 
+  // open/close action fields
   const handleClick = (index) => {
     if (actionFields[index].open === false) {
       // copy items
@@ -243,6 +246,7 @@ const CarCards = (props) => {
 
 CarCards.propTypes = {
   array: PropTypes.array.isRequired,
+  handleModal: PropTypes.func.isRequired,
 };
 
 export default CarCards;

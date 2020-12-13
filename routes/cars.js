@@ -92,8 +92,6 @@ router.post(
         .json({ msg: 'An error occurred', errors: errors.array() });
     }
 
-    let newImagePath = [];
-
     // resize images and remove ./public/ from path
     imagePath.forEach((element) => {
       if (storageEngine.imageHandler(element, 600, 400, 90)) {
@@ -106,8 +104,6 @@ router.post(
           msg: 'Image upload failed. Please try again',
         };
       }
-
-      newImagePath.push(element.substring(7));
     });
 
     // destructure
@@ -123,12 +119,19 @@ router.post(
       pictures,
     } = req.body;
 
-    pictures = newImagePath;
+    // create label
+    const label = `${brand} ${model} ${year}`;
+    // initial active status
+    const active = false;
+
+    // pictures = imagepath
+    pictures = imagePath;
 
     try {
       // instantiate new Car
       const car = new Car({
         user_id,
+        label,
         brand,
         model,
         year,
@@ -137,6 +140,7 @@ router.post(
         seats,
         color,
         pictures,
+        active,
       });
 
       // save car

@@ -47,14 +47,14 @@ const getTheme = (theme) => {
         fontWeight: 'bold',
       },
     },
-    breakpoints: {
-      values: {
-        xs: 576,
-        sm: 768,
-        md: 992,
-        lg: 1200,
-      },
-    },
+    // breakpoints: {
+    //   values: {
+    //     xs: 576,
+    //     sm: 768,
+    //     md: 992,
+    //     lg: 1200,
+    //   },
+    // },
   });
 };
 

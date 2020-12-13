@@ -79,8 +79,6 @@ const CarForm = (props) => {
   const alertContext = useContext(AlertContext);
   const { alerts, setAlert, clearAlerts } = alertContext;
 
-  // ===== STATES ======
-
   // ===== FUNCTIONS ======
 
   // Alerts

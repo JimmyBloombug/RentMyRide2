@@ -5,6 +5,10 @@ const CarSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  label: {
+    type: String,
+    required: true,
+  },
   brand: {
     type: String,
     required: true,
@@ -35,6 +39,10 @@ const CarSchema = mongoose.Schema({
   },
   pictures: {
     type: Array,
+  },
+  active: {
+    type: Boolean,
+    required: true,
   },
   date: {
     type: Date,
