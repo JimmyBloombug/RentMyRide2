@@ -20,12 +20,13 @@ import {
   UPLOAD_SUCCESS,
   UPLOAD_FAIL,
   RESET_FORM,
+  SET_USER_RENTALS,
   SET_USER_CARS,
 } from '../types';
 
 const ProfileState = (props) => {
   const initialState = {
-    user_id: undefined,
+    user_id: '',
     modal: { open: false, type: '' },
     loading: true,
     // rental form
@@ -58,6 +59,8 @@ const ProfileState = (props) => {
       msg: '',
       errors: undefined,
     },
+    // user rentals
+    rentals: undefined,
     // user cars
     cars: undefined,
   };
@@ -69,6 +72,25 @@ const ProfileState = (props) => {
     dispatch({
       type: type,
       payload: data,
+    });
+  };
+
+  // Get Rentals
+  const getRentals = async (id) => {
+    // set headers
+    const config = {
+      headers: {
+        user_id: id,
+      },
+    };
+
+    // server request
+    const res = await axios.get('server/rentals', config);
+
+    // set cars = server response
+    dispatch({
+      type: SET_USER_RENTALS,
+      payload: res.data,
     });
   };
 
@@ -106,7 +128,6 @@ const ProfileState = (props) => {
   // Submit
   const submitForm = async (type) => {
     if (type === 'rentalSubmit') {
-      console.log('test');
       // validate input
       const carValidated = await validateInput(state.car, SET_CAR_ERR);
       const priceValidated = await validateInput(state.price, SET_PRICE_ERR);
@@ -120,43 +141,50 @@ const ProfileState = (props) => {
       );
 
       // if validated POST
-      // if ((carValidated, priceValidated, locationValidated)) {
-      //   // Rental data
-      //   let formData = new FormData();
-      // formData.append('user_id', state.user_id);
-      //   formData.append('car', state.car);
-      //   formData.append('price', state.price);
-      //   formData.append('location', state.location);
+      if (
+        carValidated &&
+        priceValidated &&
+        validateBilling &&
+        locationValidated
+      ) {
+        // Rental data
+        const formData = {
+          user_id: state.user_id,
+          car: state.car,
+          price: state.price,
+          billing: state.billing,
+          location: state.location,
+        };
 
-      //   setValue(SET_LOADING);
+        setValue(SET_LOADING);
 
-      //   try {
-      //     // config
-      //     const config = {
-      //       headers: {
-      //         'Content-Type': 'multipart/form-data',
-      //       },
-      //     };
+        try {
+          // config
+          const config = {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          };
 
-      //     // add rental offer
-      //     const res = await axios.get('/server/rentals', formData, config);
+          // add rental offer
+          const res = await axios.post('/server/rentals', formData, config);
 
-      //     // update rentals array
-      //     // @TODO
+          // update rentals array
+          // @TODO
 
-      //     // upload success
-      //     dispatch({
-      //       type: UPLOAD_SUCCESS,
-      //       payload: res.data,
-      //     });
-      //   } catch (error) {
-      //     // upload fail
-      //     dispatch({
-      //       type: UPLOAD_FAIL,
-      //       payload: error.response.data,
-      //     });
-      //   }
-      // }
+          // upload success
+          dispatch({
+            type: UPLOAD_SUCCESS,
+            payload: res.data,
+          });
+        } catch (error) {
+          // upload fail
+          dispatch({
+            type: UPLOAD_FAIL,
+            payload: error.response.data,
+          });
+        }
+      }
     } else {
       // validate input
       const brandValidated = await validateInput(state.brand, SET_BRAND_ERR);
@@ -267,10 +295,13 @@ const ProfileState = (props) => {
         colorErr: state.colorErr,
         // server
         server: state.server,
+        // user rentals
+        rentals: state.rentals,
         // user cars
         cars: state.cars,
         // functions
         setValue,
+        getRentals,
         getCars,
         submitForm,
         resetForm,

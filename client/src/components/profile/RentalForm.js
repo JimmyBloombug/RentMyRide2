@@ -77,6 +77,7 @@ const RentalForm = (props) => {
   for (let i = 0; i < cars.length; i++) {
     if (cars[i].active === false) {
       let option = {};
+      option._id = cars[i]._id;
       option.label = cars[i].label;
       option.pictures = cars[i].pictures;
       option.kmDriven = cars[i].kmDriven;

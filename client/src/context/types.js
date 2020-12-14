@@ -76,8 +76,7 @@ export const SET_SEATS_ERR = 'SET_SEATS_ERR';
 export const SET_COLOR_ERR = 'SET_COLOR_ERR';
 export const DELETE_PICTURE = 'DELETE_PICTURE';
 export const RESET_FORM = 'RESET_CAR_FORM';
-
-// Get Cars
+export const SET_USER_RENTALS = 'SET_USER_RENTALS';
 export const SET_USER_CARS = 'SET_USER_CARS';
 
 // Search

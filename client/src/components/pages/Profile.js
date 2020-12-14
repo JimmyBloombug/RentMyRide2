@@ -5,6 +5,7 @@ import { Box, Button, Container, makeStyles } from '@material-ui/core';
 
 // Components
 import CarCards from '../profile/CarCards';
+import RentalCards from '../profile/RentalCards';
 import FormModal from '../profile/FormModal';
 import Footer from '../layout/Footer';
 
@@ -78,7 +79,14 @@ const Profile = () => {
   const { user } = authContext;
   // Car Context
   const profileContext = useContext(ProfileContext);
-  const { user_id, cars, setValue, getCars } = profileContext;
+  const {
+    user_id,
+    rentals,
+    cars,
+    setValue,
+    getRentals,
+    getCars,
+  } = profileContext;
 
   // ===== FUNCTIONS =====
   // State
@@ -86,7 +94,7 @@ const Profile = () => {
 
   // Set User ID
   useEffect(() => {
-    if (user_id === undefined) {
+    if (user_id === '') {
       setValue(SET_USER_ID, user._id);
     }
     // eslint-disable-next-line
@@ -94,6 +102,7 @@ const Profile = () => {
 
   // get cars/rentals/bookings
   useEffect(() => {
+    getRentals(user._id);
     getCars(user._id);
     // eslint-disable-next-line
   }, []);
@@ -148,28 +157,37 @@ const Profile = () => {
             </Container>
           </div>
         ) : page === 'rentals' ? (
-          <div className={classes.content}>
-            <Container maxWidth='md'>
-              <div className={classes.noContent}>
-                <img
-                  className={classes.img}
-                  src={NoRentals}
-                  alt='no-cars-yet'
-                />
-                <h4 className={classes.h4}>No rentals found</h4>
-                <p className={classes.p}>
-                  You don't have any rental offers at the moment.
-                </p>
-                <Button
-                  color='primary'
-                  variant='outlined'
-                  onClick={() => handleModal({ open: true, type: 'rentals' })}
-                >
-                  Add rental offer
-                </Button>
-              </div>
-            </Container>
-          </div>
+          rentals.length === 0 ? (
+            <div className={classes.content}>
+              <Container maxWidth='md'>
+                <div className={classes.noContent}>
+                  <img
+                    className={classes.img}
+                    src={NoRentals}
+                    alt='no-cars-yet'
+                  />
+                  <h4 className={classes.h4}>No rentals found</h4>
+                  <p className={classes.p}>
+                    You don't have any rental offers at the moment.
+                  </p>
+                  <Button
+                    color='primary'
+                    variant='outlined'
+                    onClick={() => handleModal({ open: true, type: 'rentals' })}
+                  >
+                    Add rental offer
+                  </Button>
+                </div>
+              </Container>
+            </div>
+          ) : (
+            <Box mt={20}>
+              <h2 style={{ textAlign: 'center' }}>
+                Your <span className={classes.span}>Rental Offers</span>
+              </h2>
+              <RentalCards array={rentals} handleModal={handleModal} />
+            </Box>
+          )
         ) : page === 'cars' ? (
           cars.length === 0 ? (
             <div className={classes.content}>

@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CarCards = (props) => {
+const RentalCards = (props) => {
   // ====== STYLE ======
   const classes = useStyles();
 
@@ -141,9 +141,9 @@ const CarCards = (props) => {
     <div className={classes.container}>
       <Container maxWidth='lg'>
         <Grid container spacing={2}>
-          {props.array.map((car, index) => {
+          {props.array.map((rental, index) => {
             return (
-              <Grid item xs={12} sm={6} md={3} key={car._id}>
+              <Grid item xs={12} sm={6} md={3} key={rental._id}>
                 <Card
                   className={classes.card}
                   onClick={() => handleClick(index)}
@@ -151,8 +151,8 @@ const CarCards = (props) => {
                   <CardActionArea>
                     <CardMedia
                       className={classes.media}
-                      image={car.pictures[0]}
-                      title={car.brand + ' ' + car.model + ' ' + car.year}
+                      image={rental.car.pictures[0]}
+                      title={rental.car.label}
                     />
                     <CardContent className={classes.cont}>
                       <Typography
@@ -162,7 +162,7 @@ const CarCards = (props) => {
                         className={classes.carName}
                         color='primary'
                       >
-                        {car.brand + ' ' + car.model + ' ' + car.year}
+                        {rental.car.label}
                       </Typography>
                       <div className={classes.info}>
                         <Box
@@ -172,7 +172,12 @@ const CarCards = (props) => {
                           lineHeight={3}
                         >
                           <FastForwardIcon />
-                          <Box ml={1}>{car.kmDriven}</Box>
+                          <Box ml={1}>
+                            {'$' +
+                              rental.price +
+                              ' per ' +
+                              rental.billing.replace('ly', '')}
+                          </Box>
                         </Box>
                         <Box
                           display='flex'
@@ -181,7 +186,7 @@ const CarCards = (props) => {
                           lineHeight={3}
                         >
                           <LocalGasStationIcon />
-                          <Box ml={1}>{car.fueltype}</Box>
+                          <Box ml={1}>{rental.location.label}</Box>
                         </Box>
                         <Box
                           display='flex'
@@ -189,12 +194,10 @@ const CarCards = (props) => {
                           mr={2}
                           lineHeight={3}
                         >
-                          <AirlineSeatReclineNormalIcon />
-                          <Box ml={1}>{car.seats}</Box>
-                        </Box>
-                        <Box display='flex' alignItems='center' lineHeight={3}>
-                          <ColorLensIcon />
-                          <Box ml={1}>{car.color}</Box>
+                          <LocalGasStationIcon />
+                          <Box ml={1}>
+                            {rental.booked === true ? 'booked' : 'not booked'}
+                          </Box>
                         </Box>
                       </div>
                     </CardContent>
@@ -228,7 +231,7 @@ const CarCards = (props) => {
           <Grid item xs={12} sm={6} md={3}>
             <Card
               className={clsx(classes.card, classes.addNew)}
-              onClick={() => props.handleModal({ open: true, type: 'cars' })}
+              onClick={() => props.handleModal({ open: true, type: 'rentals' })}
             >
               <CardActionArea>
                 <CardContent className={clsx(classes.cont, classes.addNewCont)}>
@@ -243,9 +246,9 @@ const CarCards = (props) => {
   );
 };
 
-CarCards.propTypes = {
+RentalCards.propTypes = {
   array: PropTypes.array.isRequired,
   handleModal: PropTypes.func.isRequired,
 };
 
-export default CarCards;
+export default RentalCards;

@@ -29,6 +29,7 @@ import {
   SET_CAR_ERR,
   SET_PRICE_ERR,
   SET_BILLING_ERR,
+  SET_USER_RENTALS,
 } from '../types';
 
 const ProfileReducer = (state, action) => {
@@ -43,6 +44,18 @@ const ProfileReducer = (state, action) => {
         ...state,
         modal: action.payload,
       };
+    case SET_USER_RENTALS: {
+      return {
+        ...state,
+        rentals: action.payload,
+      };
+    }
+    case SET_USER_CARS: {
+      return {
+        ...state,
+        cars: action.payload,
+      };
+    }
     ///////// RENTAL FORM /////////
     case SET_CAR:
       return {
@@ -176,6 +189,7 @@ const ProfileReducer = (state, action) => {
         ...state,
         colorErr: true,
       };
+    /////////// SERVER //////////
     case SET_LOADING: {
       return {
         ...state,
@@ -199,7 +213,7 @@ const ProfileReducer = (state, action) => {
     case RESET_FORM: {
       return {
         ...state,
-        user_id: undefined,
+        user_id: '',
         car: undefined,
         price: '',
         billing: '',
@@ -227,12 +241,6 @@ const ProfileReducer = (state, action) => {
           msg: '',
           errors: undefined,
         },
-      };
-    }
-    case SET_USER_CARS: {
-      return {
-        ...state,
-        cars: action.payload,
       };
     }
     default:
