@@ -152,7 +152,7 @@ const CarCards = (props) => {
                     <CardMedia
                       className={classes.media}
                       image={car.pictures[0]}
-                      title={car.brand + ' ' + car.model + ' ' + car.year}
+                      title={car.label}
                     />
                     <CardContent className={classes.cont}>
                       <Typography
@@ -162,7 +162,7 @@ const CarCards = (props) => {
                         className={classes.carName}
                         color='primary'
                       >
-                        {car.brand + ' ' + car.model + ' ' + car.year}
+                        {car.label}
                       </Typography>
                       <div className={classes.info}>
                         <Box

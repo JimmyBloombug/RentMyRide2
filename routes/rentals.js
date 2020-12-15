@@ -11,8 +11,38 @@ const Rental = require('../models/Rental');
 // @route   GET server/rentals
 // @desc    GET rentals
 // @access  Public
+router.get('/public', async (req, res) => {
+  if (req.headers.type === 'all') {
+    try {
+      // get all rentals
+      let rentals = await Rental.find();
+      // response
+      res.json(rentals);
+    } catch (error) {
+      // error
+      console.error(error);
+      // response
+      res.json({ errors: 'Internal Server Error' });
+    }
+  } else {
+    try {
+      // limit
+      const { limit } = req.headers;
+      // get newest rental offers
+      let rentals = await Rental.find().sort({ _id: -1 }).limit(limit);
+      res.json(rentals);
+    } catch (error) {
+      console.error(error);
+      res.json({ errors: 'Internal Server Error' });
+    }
+  }
+});
+
+// @route   GET server/rentals
+// @desc    GET rentals user
+// @access  Private
 router.get(
-  '/',
+  '/user',
   auth,
   [check('user_id', 'No user id found').isString().notEmpty()],
   async (req, res) => {
@@ -50,7 +80,7 @@ router.get(
 // @desc POST rentals
 // @access Private
 router.post(
-  '/',
+  '/user',
   auth,
   [
     check('user_id', 'No user id found').isString().notEmpty(),

@@ -75,18 +75,21 @@ const ProfileState = (props) => {
     });
   };
 
-  // Get Rentals
-  const getRentals = async (id) => {
+  // get rentals
+  const getRentals = async (id, which = 'user', type = 'all', limit = 10) => {
     // set headers
     const config = {
       headers: {
+        type: type,
+        limit: limit,
         user_id: id,
       },
     };
 
-    // server request
-    const res = await axios.get('server/rentals', config);
+    console.log({ id, which, type, limit });
 
+    // server request
+    const res = await axios.get(`server/rentals/${which}`, config);
     // set cars = server response
     dispatch({
       type: SET_USER_RENTALS,
@@ -104,7 +107,7 @@ const ProfileState = (props) => {
     };
 
     // server request
-    const res = await axios.get('server/cars', config);
+    const res = await axios.get('server/cars/user', config);
 
     // set cars = server response
     dispatch({
@@ -167,10 +170,14 @@ const ProfileState = (props) => {
           };
 
           // add rental offer
-          const res = await axios.post('/server/rentals', formData, config);
+          const res = await axios.post(
+            '/server/rentals/user',
+            formData,
+            config
+          );
 
           // update rentals array
-          // @TODO
+          getRentals(state.user_id);
 
           // upload success
           dispatch({
@@ -236,7 +243,7 @@ const ProfileState = (props) => {
           };
 
           // add car
-          const res = await axios.post('/server/cars', formData, config);
+          const res = await axios.post('/server/cars/user', formData, config);
 
           // update cars array
           getCars(state.user_id);

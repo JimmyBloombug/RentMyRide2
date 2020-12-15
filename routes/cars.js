@@ -12,10 +12,10 @@ const StorageEngine = require('../utils/StorageEngine');
 const storageEngine = new StorageEngine('./public/uploads/cars', 5004508);
 
 // @route   GET server/cars
-// @desc    GET cars
+// @desc    GET cars user
 // @access  Private
 router.get(
-  '/',
+  '/user',
   auth,
   [check('user_id', 'No user id found').isString().notEmpty()],
   async (req, res) => {
@@ -53,7 +53,7 @@ router.get(
 // @desc POST car
 // @access Private
 router.post(
-  '/',
+  '/user',
   auth,
   storageEngine.upload.array('pictures', 4),
   [

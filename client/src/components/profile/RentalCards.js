@@ -20,11 +20,11 @@ import {
 // Material UI Icons
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import ColorLensIcon from '@material-ui/icons/ColorLens';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
-import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineNormal';
+import RoomIcon from '@material-ui/icons/Room';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 // Utils
 import hexToRGB from '../../utils/hexToRGB';
@@ -171,10 +171,9 @@ const RentalCards = (props) => {
                           mr={2}
                           lineHeight={3}
                         >
-                          <FastForwardIcon />
+                          <AttachMoneyIcon />
                           <Box ml={1}>
-                            {'$' +
-                              rental.price +
+                            {rental.price +
                               ' per ' +
                               rental.billing.replace('ly', '')}
                           </Box>
@@ -185,7 +184,7 @@ const RentalCards = (props) => {
                           mr={2}
                           lineHeight={3}
                         >
-                          <LocalGasStationIcon />
+                          <RoomIcon />
                           <Box ml={1}>{rental.location.label}</Box>
                         </Box>
                         <Box
@@ -194,7 +193,7 @@ const RentalCards = (props) => {
                           mr={2}
                           lineHeight={3}
                         >
-                          <LocalGasStationIcon />
+                          <BookmarkIcon />
                           <Box ml={1}>
                             {rental.booked === true ? 'booked' : 'not booked'}
                           </Box>

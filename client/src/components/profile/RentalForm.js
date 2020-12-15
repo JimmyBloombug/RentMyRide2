@@ -295,9 +295,9 @@ const RentalForm = (props) => {
                         error={billingErr}
                       >
                         <option aria-label='None' value='' />
-                        <option value={'hourly'}>hourly</option>
-                        <option value={'daily'}>daily</option>
-                        <option value={'weekly'}>weekly</option>
+                        <option value={'per hour'}>hourly</option>
+                        <option value={'per day'}>daily</option>
+                        <option value={'per week'}>weekly</option>
                       </Select>
                     </FormControl>
                   </Grid>
