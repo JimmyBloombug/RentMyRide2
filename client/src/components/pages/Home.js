@@ -293,7 +293,10 @@ const Home = () => {
           <Container maxWidth='lg'>
             <Grid container spacing={xsdown ? 7 : 10}>
               <Grid item xs={12} md={6}>
-                <h3 className={classes.h3}>Own a car? Put it to work!</h3>
+                <h3 className={classes.h3}>
+                  Own a <span className={classes.span}>car</span>? Put it to
+                  <span className={classes.span}> work!</span>
+                </h3>
                 <h4 className={classes.h4}>
                   Choose from a wide range of customers
                 </h4>

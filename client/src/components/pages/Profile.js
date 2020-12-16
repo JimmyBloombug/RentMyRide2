@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 
 // Material UI
 import { Box, Button, Container, makeStyles } from '@material-ui/core';
@@ -7,7 +8,6 @@ import { Box, Button, Container, makeStyles } from '@material-ui/core';
 import CarCards from '../profile/CarCards';
 import RentalCards from '../profile/RentalCards';
 import FormModal from '../profile/FormModal';
-import Footer from '../layout/Footer';
 
 // Assets
 import NoBookings from '../../assets/featback/no-bookings.svg';
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = () => {
+const Profile = (props) => {
   // ===== STYLE =====
   const classes = useStyles();
 
@@ -83,7 +83,21 @@ const Profile = () => {
 
   // ===== FUNCTIONS =====
   // State
-  const [page, setPage] = useState('bookings');
+  const [page, setPage] = useState();
+
+  // router listener setPage
+  useEffect(() => {
+    switch (props.location.search.split('=')[1]) {
+      case 'bookings':
+        setPage('bookings');
+        break;
+      case 'rentals':
+        setPage('rentals');
+        break;
+      case 'cars':
+        setPage('cars');
+    }
+  }, [props.location.search.split('=')[1]]);
 
   // Set User ID
   useEffect(() => {
@@ -98,6 +112,12 @@ const Profile = () => {
     // eslint-disable-next-line
   }, []);
 
+  // Handle Tab
+  const handleTab = (tab) => {
+    props.history.push(`profile?tab=${tab}`);
+  };
+
+  // Handle Modal
   const handleModal = (data) => {
     setValue(SET_MODAL, data);
   };
@@ -107,7 +127,7 @@ const Profile = () => {
       <div className={classes.carsCont}>
         <div className={classes.carsMenuCont}>
           <Button
-            onClick={() => setPage('bookings')}
+            onClick={() => handleTab('bookings')}
             variant='outlined'
             color={page === 'bookings' ? 'primary' : 'default'}
             className={classes.menuButton}
@@ -115,7 +135,7 @@ const Profile = () => {
             bookings
           </Button>
           <Button
-            onClick={() => setPage('rentals')}
+            onClick={() => handleTab('rentals')}
             color={page === 'rentals' ? 'primary' : 'default'}
             variant='outlined'
             className={classes.menuButton}
@@ -123,7 +143,7 @@ const Profile = () => {
             rentals
           </Button>
           <Button
-            onClick={() => setPage('cars')}
+            onClick={() => handleTab('cars')}
             color={page === 'cars' ? 'primary' : 'default'}
             variant='outlined'
           >
@@ -210,9 +230,8 @@ const Profile = () => {
         )}
       </div>
       <FormModal handleModal={handleModal} />
-      <Footer />
     </Fragment>
   );
 };
 
-export default Profile;
+export default withRouter(Profile);

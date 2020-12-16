@@ -227,7 +227,7 @@ const Navbar = () => {
                       <Divider />
                       <MenuItem
                         component={Link}
-                        to='/profile'
+                        to='/profile?tab=bookings'
                         onClick={handleClose}
                       >
                         Profile

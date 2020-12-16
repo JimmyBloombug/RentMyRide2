@@ -1,5 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 // Material UI
 import {
@@ -162,6 +163,9 @@ const RentalForm = (props) => {
   // Handle Modal
   const handleModal = (evt) => {
     evt.preventDefault();
+    // change route
+    props.history.push('/profile?tab=cars');
+    // change modal
     setValue(SET_MODAL, { open: true, type: 'cars' });
   };
 
@@ -383,4 +387,4 @@ RentalForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
 };
 
-export default RentalForm;
+export default withRouter(RentalForm);

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './components/pages/Home';
 import Profile from './components/pages/Profile';
 import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
 import LoadUser from './components/auth/LoadUser';
@@ -31,16 +32,17 @@ function App() {
               <LoadUser>
                 <Router>
                   <Fragment>
-                    <Navbar />
                     <div className='container'>
+                      <Navbar />
                       <Switch>
                         <Route exact path='/' component={Home} />
                         <PrivateRoute
                           exact
-                          path='/profile/'
+                          path='/profile'
                           component={Profile}
                         />
                       </Switch>
+                      <Footer />
                     </div>
                   </Fragment>
                 </Router>
