@@ -20,7 +20,6 @@ import {
 // Material UI Icons
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import FastForwardIcon from '@material-ui/icons/FastForward';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import RoomIcon from '@material-ui/icons/Room';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -173,9 +172,7 @@ const RentalCards = (props) => {
                         >
                           <AttachMoneyIcon />
                           <Box ml={1}>
-                            {rental.price +
-                              ' per ' +
-                              rental.billing.replace('ly', '')}
+                            {rental.price + ' ' + rental.billing}
                           </Box>
                         </Box>
                         <Box

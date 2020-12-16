@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
 
@@ -7,7 +7,7 @@ import {
   // Divider,
   // Button,
   // Grid,
-  // Container,
+  Container,
   Box,
   useTheme,
   useMediaQuery,
@@ -16,11 +16,15 @@ import {
 
 // Components
 import QuickSearch from '../search/QuickSearch';
-// import CarCards from '../cars/CarCards';
+import Cards from '../layout/Cards';
+import Slider from '../layout/Slider';
 import Footer from '../layout/Footer';
 
 // Assets
 import heroBG from '../../assets/landing/carbg.mp4';
+
+// Context
+import ProfileContext from '../../context/profile/profileContext';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
+    textAlign: 'center',
   },
   h1: {
     color: theme.palette.primary.main,
@@ -124,13 +129,31 @@ const Home = () => {
 
   // Media Queries
   let mdup = useMediaQuery(theme.breakpoints.up('md'));
+  let mddown = useMediaQuery(theme.breakpoints.down('md'));
   let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
+
+  // ======== CONTEXT =======
+  const profileContext = useContext(ProfileContext);
+  const { rentals, getRentals } = profileContext;
 
   // ======== FUNCTIONS ========
   // Parallax
   const { scrollY } = useViewportScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, -20]);
   const y2 = useTransform(scrollY, [0, 300], [0, -500]);
+
+  // get rentals
+  useEffect(() => {
+    getRentals('', 'public', 'recent', 3);
+
+    if (mddown && !xsdown) {
+      getRentals('', 'public', 'recent', 2);
+    } else if (xsdown) {
+      getRentals('', 'public', 'recent', 3);
+    }
+
+    // eslint-disable-next-line
+  }, [mddown, xsdown]);
 
   return (
     <Fragment>
@@ -196,7 +219,7 @@ const Home = () => {
         className={classes.homeCont}
         style={!xsdown ? { y: y2 } : null}
       >
-        {/* <section className={classes.homeContSection}>
+        <section className={classes.homeContSection}>
           <Container maxWidth='lg'>
             <Box display='flex' justifyContent='center'>
               <h3 className={classes.h3}>
@@ -204,28 +227,17 @@ const Home = () => {
                 <span className={classes.span}>varity of cars</span>
               </h3>
             </Box>
-            <Box display='flex' justifyContent='center' mt={2}>
-              <CarCards />
-              <CarCards />
-              <CarCards />
-            </Box>
+            {rentals !== undefined && rentals.length > 0 ? (
+              xsdown ? (
+                <Slider array={rentals} />
+              ) : (
+                <Cards array={rentals} bp={{ mdup, mddown, xsdown }} />
+              )
+            ) : (
+              ''
+            )}
           </Container>
         </section>
-        <section className={classes.homeContSection}>
-          <Container maxWidth='lg'>
-            <Box display='flex' justifyContent='center'>
-              <h3 className={classes.h3}>
-                Featured
-                <span className={classes.span}> offers</span>
-              </h3>
-            </Box>
-            <Box display='flex' justifyContent='center' mt={2}>
-              <CarCards />
-              <CarCards />
-              <CarCards />
-            </Box>
-          </Container>
-        </section> */}
         {/* <section className={classes.homeContSection}>
           <Container maxWidth='lg'>
             <Box mb={4}>

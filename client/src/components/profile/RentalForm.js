@@ -54,7 +54,6 @@ const RentalForm = (props) => {
   const {
     server,
     loading,
-    car,
     price,
     billing,
     carErr,
@@ -99,12 +98,6 @@ const RentalForm = (props) => {
     }
     // eslint-disable-next-line
   }, [server]);
-
-  const billinOptions = [
-    { label: 'hourly' },
-    { label: 'weekly' },
-    { label: 'daily' },
-  ];
 
   // Geolocation
   // get API from env

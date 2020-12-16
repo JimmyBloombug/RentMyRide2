@@ -94,11 +94,9 @@ const Profile = () => {
 
   // Set User ID
   useEffect(() => {
-    if (user_id === '') {
-      setValue(SET_USER_ID, user._id);
-    }
+    setValue(SET_USER_ID, user._id);
     // eslint-disable-next-line
-  }, [user_id]);
+  }, []);
 
   // get cars/rentals/bookings
   useEffect(() => {

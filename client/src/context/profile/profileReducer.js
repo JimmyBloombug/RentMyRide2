@@ -213,7 +213,6 @@ const ProfileReducer = (state, action) => {
     case RESET_FORM: {
       return {
         ...state,
-        user_id: '',
         car: undefined,
         price: '',
         billing: '',

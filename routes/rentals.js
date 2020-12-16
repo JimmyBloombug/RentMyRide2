@@ -24,10 +24,12 @@ router.get('/public', async (req, res) => {
       // response
       res.json({ errors: 'Internal Server Error' });
     }
-  } else {
+  } else if (req.headers.type === 'recent') {
     try {
       // limit
-      const { limit } = req.headers;
+      let { limit } = req.headers;
+      limit = parseInt(limit);
+
       // get newest rental offers
       let rentals = await Rental.find().sort({ _id: -1 }).limit(limit);
       res.json(rentals);

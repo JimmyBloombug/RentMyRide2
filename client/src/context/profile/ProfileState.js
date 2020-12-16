@@ -86,8 +86,6 @@ const ProfileState = (props) => {
       },
     };
 
-    console.log({ id, which, type, limit });
-
     // server request
     const res = await axios.get(`server/rentals/${which}`, config);
     // set cars = server response
