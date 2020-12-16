@@ -268,7 +268,7 @@ const AuthReducer = (state, action) => {
         zip: '',
         city: '',
         userNameErr: false,
-        emaiErr: false,
+        emailErr: false,
         passwordErr: false,
         passwordRptErr: false,
         firstNameErr: false,

@@ -221,7 +221,7 @@ const Navbar = () => {
                       >
                         Signed in as
                         <span className={classes.profileInfoUser}>
-                          {user.username}
+                          {user !== null && user.username}
                         </span>
                       </MenuItem>
                       <Divider />

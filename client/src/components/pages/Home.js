@@ -1,11 +1,11 @@
 import React, { Fragment, useContext, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
 
 // Material Ui
 import {
   // Divider,
-  // Button,
+  Button,
   Grid,
   Container,
   Box,
@@ -23,8 +23,11 @@ import Footer from '../layout/Footer';
 // Assets
 import heroBG from '../../assets/landing/carbg.mp4';
 import Car1 from '../../assets/home/car1.jpg';
+import Car2 from '../../assets/home/car2.jpg';
 
 // Context
+import AuthContext from '../../context/auth/authContext';
+import NavbarContext from '../../context/navbar/navbarContext';
 import ProfileContext from '../../context/profile/profileContext';
 
 // Define Style
@@ -109,16 +112,13 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(10),
   },
-  // h3Mobile: {
-  //   textAlign: 'center',
-  // },
-  imgMobile: {
-    width: '100%',
-  },
   heroPMobile: {
     fontSize: '1.7em',
     fontWeight: 400,
     marginTop: theme.spacing(1),
+  },
+  imgMobile: {
+    width: '100%',
   },
 }));
 
@@ -135,6 +135,8 @@ const Home = () => {
   let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
 
   // ======== CONTEXT =======
+  const authContext = useContext(AuthContext);
+  const navbarContext = useContext(NavbarContext);
   const profileContext = useContext(ProfileContext);
   const { rentals, getRentals } = profileContext;
 
@@ -244,7 +246,7 @@ const Home = () => {
           <Container maxWidth='lg'>
             <Grid container spacing={xsdown ? 2 : 10}>
               <Grid item xs={12} md={6}>
-                {xsdown && (
+                {!mdup && (
                   <h3 className={classes.h3}>
                     Your <span className={classes.span}>new way</span> to
                     <span className={classes.span}> rent a car</span> is here
@@ -257,7 +259,7 @@ const Home = () => {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                {!xsdown && (
+                {mdup && (
                   <h3 className={classes.h3}>
                     Your <span className={classes.span}>new way</span> to
                     <span className={classes.span}> rent a car</span> is here
@@ -273,11 +275,77 @@ const Home = () => {
                 <p className={classes.p}>
                   Thousands of cars available from people near you
                 </p>
+                <Box mt={4}>
+                  <Button
+                    component={Link}
+                    to='how-does-it-work'
+                    variant='outlined'
+                    color='primary'
+                  >
+                    How does it work
+                  </Button>
+                </Box>
               </Grid>
             </Grid>
           </Container>
         </section>
-        <section></section>
+        <section className={classes.homeContSection}>
+          <Container maxWidth='lg'>
+            <Grid container spacing={xsdown ? 7 : 10}>
+              <Grid item xs={12} md={6}>
+                <h3 className={classes.h3}>Own a car? Put it to work!</h3>
+                <h4 className={classes.h4}>
+                  Choose from a wide range of customers
+                </h4>
+                <p className={classes.p}>
+                  Lent out your car to a wide range of customers worldwide
+                </p>
+                <h4 className={classes.h4}>
+                  You don't use your car every day?
+                </h4>
+                <p className={classes.p}>
+                  Earn up to $800 per month by sharing your car using the Rent
+                  My Ride platform
+                </p>
+                <h4 className={classes.h4}>
+                  Don't worry about eventual damage
+                </h4>
+                <p className={classes.p}>
+                  All trips are automatically insured by our partners
+                </p>
+                {authContext.isAuthenticated ? (
+                  <Box mt={4}>
+                    <Button
+                      component={Link}
+                      to='profile'
+                      variant='outlined'
+                      color='primary'
+                    >
+                      Add car
+                    </Button>
+                  </Box>
+                ) : (
+                  <Box mt={4}>
+                    <Button
+                      variant='outlined'
+                      color='primary'
+                      onClick={() => navbarContext.setRegisterForm(true)}
+                    >
+                      Register
+                    </Button>
+                  </Box>
+                )}
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <img
+                  className={xsdown ? classes.imgMobile : classes.img}
+                  src={Car2}
+                  alt='car-landing-1'
+                />
+              </Grid>
+            </Grid>
+          </Container>
+        </section>
         <Footer />
       </motion.section>
     </Fragment>

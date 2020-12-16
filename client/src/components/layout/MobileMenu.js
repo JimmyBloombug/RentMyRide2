@@ -82,13 +82,13 @@ const MobileMenu = (props) => {
           </Typography>
         </div>
         <List>
-          {props.loggedIn ? (
+          {authContext.isAuthenticated ? (
             <Fragment>
               <ListItem className={classes.profileInfo}>
                 <ListItemIcon></ListItemIcon>
                 Signed in as
                 <span className={classes.profileInfoUser}>
-                  {authContext.user.username}
+                  {authContext.user !== null && authContext.user.username}
                 </span>
               </ListItem>
               <Divider />
@@ -178,13 +178,11 @@ const MobileMenu = (props) => {
 };
 
 MobileMenu.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
   anchor: PropTypes.string.isRequired,
   menuItems: PropTypes.array.isRequired,
 };
 
 MobileMenu.defaultProps = {
-  loggedIn: false,
   anchor: 'right',
 };
 
