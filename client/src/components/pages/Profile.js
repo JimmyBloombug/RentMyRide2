@@ -79,14 +79,7 @@ const Profile = () => {
   const { user } = authContext;
   // Car Context
   const profileContext = useContext(ProfileContext);
-  const {
-    user_id,
-    rentals,
-    cars,
-    setValue,
-    getRentals,
-    getCars,
-  } = profileContext;
+  const { rentals, cars, setValue, getRentals, getCars } = profileContext;
 
   // ===== FUNCTIONS =====
   // State

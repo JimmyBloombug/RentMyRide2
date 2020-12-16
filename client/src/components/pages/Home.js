@@ -6,7 +6,7 @@ import { motion, useViewportScroll, useTransform } from 'framer-motion';
 import {
   // Divider,
   // Button,
-  // Grid,
+  Grid,
   Container,
   Box,
   useTheme,
@@ -22,6 +22,7 @@ import Footer from '../layout/Footer';
 
 // Assets
 import heroBG from '../../assets/landing/carbg.mp4';
+import Car1 from '../../assets/home/car1.jpg';
 
 // Context
 import ProfileContext from '../../context/profile/profileContext';
@@ -79,11 +80,16 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 0 10px 10px #000c0f',
   },
   homeContSection: {
-    padding: theme.spacing(5, 5, 0, 5),
+    padding: theme.spacing(10, 5, 0, 5),
+  },
+  img: {
+    width: '100%',
+    height: '100%',
   },
   h3: {
     fontSize: '2.1em',
     fontWeight: 500,
+    marginTop: 0,
   },
   h4: {
     fontSize: '1.6em',
@@ -96,22 +102,18 @@ const useStyles = makeStyles((theme) => ({
   p: {
     fontSize: '1.3em',
   },
-  svgCont: {
-    display: 'flex',
-    alignItems: 'center',
-    height: '100%',
-  },
-  svg: {
-    maxWidth: '100%',
-    maxHeight: '400px',
-    display: 'block',
-  },
   h1Mobile: {
     fontSize: '3em',
     color: theme.palette.primary.main,
     fontWeight: 500,
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(10),
+  },
+  // h3Mobile: {
+  //   textAlign: 'center',
+  // },
+  imgMobile: {
+    width: '100%',
   },
   heroPMobile: {
     fontSize: '1.7em',
@@ -238,50 +240,44 @@ const Home = () => {
             )}
           </Container>
         </section>
-        {/* <section className={classes.homeContSection}>
+        <section className={classes.homeContSection}>
           <Container maxWidth='lg'>
-            <Box mb={4}>
-              <h3 className={classes.h3}>You own a car?</h3>
-              <h4 className={classes.h4}>No hidden costs</h4>
-              <p className={classes.p}>
-                Lent out your car without hidden costs.
-              </p>
-              <h4 className={classes.h4}>Everything is up to you</h4>
-              <p className={classes.p}>You decide how much you charge.</p>
-              <h4 className={classes.h4}>Earn up to 800$ per month</h4>
-              <p className={classes.p}>
-                All trips are insured by our partners.
-              </p>
-            </Box>
-            <Button
-              component={Link}
-              to='/profile/cars'
-              variant='outlined'
-              color='primary'
-            >
-              List a car
-            </Button>
-            <Box mb={4}>
-              <h3 className={classes.h3}>How does it work?</h3>
-              <h4 className={classes.h4}>No subscription needed</h4>
-              <p className={classes.p}>Book a car and acces it 24/7.</p>
-              <h4 className={classes.h4}>Prices by the hour, day or week</h4>
-              <p className={classes.p}>Rent as long as you need.</p>
-              <h4 className={classes.h4}>Powered by locals</h4>
-              <p className={classes.p}>
-                Thousands of cars available from people near you.
-              </p>
-            </Box>
-            <Button
-              component={Link}
-              to='/how-does-it-work'
-              variant='outlined'
-              color='primary'
-            >
-              See how it works
-            </Button>
+            <Grid container spacing={xsdown ? 2 : 10}>
+              <Grid item xs={12} md={6}>
+                {xsdown && (
+                  <h3 className={classes.h3}>
+                    Your <span className={classes.span}>new way</span> to
+                    <span className={classes.span}> rent a car</span> is here
+                  </h3>
+                )}
+                <img
+                  className={xsdown ? classes.imgMobile : classes.img}
+                  src={Car1}
+                  alt='car-landing-1'
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                {!xsdown && (
+                  <h3 className={classes.h3}>
+                    Your <span className={classes.span}>new way</span> to
+                    <span className={classes.span}> rent a car</span> is here
+                  </h3>
+                )}
+                <h4 className={classes.h4}>No subscription needed</h4>
+                <p className={classes.p}>
+                  Book a car and access it 24/7 with your phone
+                </p>
+                <h4 className={classes.h4}>Prices by the hour, day, or week</h4>
+                <p className={classes.p}>Rent for as long as you need</p>
+                <h4 className={classes.h4}>Powered by locals</h4>
+                <p className={classes.p}>
+                  Thousands of cars available from people near you
+                </p>
+              </Grid>
+            </Grid>
           </Container>
-        </section> */}
+        </section>
+        <section></section>
         <Footer />
       </motion.section>
     </Fragment>

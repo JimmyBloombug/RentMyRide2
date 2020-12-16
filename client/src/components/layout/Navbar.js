@@ -12,6 +12,7 @@ import {
   Button,
   Menu,
   MenuItem,
+  Divider,
   makeStyles,
   useTheme,
   useMediaQuery,
@@ -64,6 +65,17 @@ const useStyles = makeStyles((theme) => ({
   profile: {
     transform: 'translateY(-3px)',
   },
+  profileInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+  profileInfoUser: {
+    fontWeight: 600,
+  },
+  profileLogout: {
+    color: theme.palette.error.main,
+  },
 }));
 
 // Menu Items Mobile Menu
@@ -86,7 +98,7 @@ const Navbar = () => {
 
   // Auth Context
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, logoutUser } = authContext;
+  const { user, isAuthenticated, logoutUser } = authContext;
 
   // ======= STATES ========
   const [anchorEl, setAnchorEl] = useState(null);
@@ -203,13 +215,30 @@ const Navbar = () => {
                     >
                       <MenuItem
                         component={Link}
+                        to='/settings'
+                        onClick={handleClose}
+                        className={classes.profileInfo}
+                      >
+                        Signed in as
+                        <span className={classes.profileInfoUser}>
+                          {user.username}
+                        </span>
+                      </MenuItem>
+                      <Divider />
+                      <MenuItem
+                        component={Link}
                         to='/profile'
                         onClick={handleClose}
                       >
-                        Your Profile
+                        Profile
                       </MenuItem>
                       <MenuItem onClick={handleClose}>Settings</MenuItem>
-                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                      <MenuItem
+                        onClick={handleLogout}
+                        className={classes.profileLogout}
+                      >
+                        Logout
+                      </MenuItem>
                     </Menu>
                   </Fragment>
                 )}

@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     height: 460,
     position: 'relative',
   },
+  cont: {
+    height: 460,
+  },
   media: {
     height: 200,
   },
@@ -87,7 +90,7 @@ const Slider = (props) => {
             image={rental.car.pictures[0]}
             title={rental.car.label}
           />
-          <CardContent>
+          <CardContent className={classes.cont}>
             <Typography
               gutterBottom
               variant='h5'

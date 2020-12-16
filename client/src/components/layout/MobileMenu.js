@@ -39,6 +39,18 @@ const useStyles = makeStyles((theme) => ({
   spanTitle: {
     color: theme.palette.primary.main,
   },
+  profileInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+  profileInfoUser: {
+    fontWeight: 600,
+    fontSize: '1.1em',
+  },
+  profileLogout: {
+    color: theme.palette.error.main,
+  },
 }));
 
 const MobileMenu = (props) => {
@@ -72,6 +84,14 @@ const MobileMenu = (props) => {
         <List>
           {props.loggedIn ? (
             <Fragment>
+              <ListItem className={classes.profileInfo}>
+                <ListItemIcon></ListItemIcon>
+                Signed in as
+                <span className={classes.profileInfoUser}>
+                  {authContext.user.username}
+                </span>
+              </ListItem>
+              <Divider />
               <ListItem
                 button
                 component={Link}
@@ -95,8 +115,12 @@ const MobileMenu = (props) => {
                 </ListItemIcon>
                 <ListItemText primary='Settings' />
               </ListItem>
-              <ListItem button onClick={handleLogout}>
-                <ListItemIcon>
+              <ListItem
+                button
+                onClick={handleLogout}
+                className={classes.profileLogout}
+              >
+                <ListItemIcon className={classes.profileLogout}>
                   <ExitToAppIcon />
                 </ListItemIcon>
                 <ListItemText primary='Logout' />
