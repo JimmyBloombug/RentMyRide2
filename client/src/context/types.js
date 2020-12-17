@@ -42,9 +42,6 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const RESET_LOGIN = 'RESET_LOGIN';
 
-// Add User Id to Forms
-export const SET_USER_ID = 'SET_USER_ID';
-
 // UPLOAD RESPONSE
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
@@ -84,6 +81,8 @@ export const SET_CARS = 'SET_CARS';
 // Search
 export const SET_CHECK_IN = 'SET_CHECK_IN';
 export const SET_CHECK_OUT = 'SET_CHECK_OUT';
+
+export const SET_OWNER = 'SET_OWNER';
 
 // Alert
 export const SET_ALERT = 'SET_ALERT';

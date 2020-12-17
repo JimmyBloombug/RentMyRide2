@@ -68,7 +68,7 @@ const Offers = (props) => {
 
   // ====== CONTEXT =======
   const queryContext = useContext(QueryContext);
-  const { rental, getRentals } = queryContext;
+  const { rental, owner, getRentals, getOwner } = queryContext;
 
   // ====== FUNCTIONS =======
 
@@ -77,7 +77,15 @@ const Offers = (props) => {
   // get rental
   useEffect(() => {
     getRentals(id, 'public', 'single');
+    // eslint-disable-next-line
   }, [id]);
+
+  // get owner
+  useEffect(() => {
+    if (rental) {
+      getOwner(rental.user_id);
+    }
+  }, [rental]);
 
   return (
     <div className={classes.container}>

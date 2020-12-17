@@ -15,6 +15,27 @@ const User = require('../models/User');
 // Password Regex
 const pwReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
 
+// @route GET server/user
+// @desc Get user
+// @access Public
+router.get('/public', async (req, res) => {
+  const { user_id } = req.headers;
+
+  try {
+    const user = await User.findById(user_id);
+    const { username, country, city } = user;
+    const resUser = {
+      username,
+      country,
+      city,
+    };
+    res.json(resUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ errors: 'Internatl Server Error' });
+  }
+});
+
 // @route GET server/users
 // @desc Get registered users
 // @access Public

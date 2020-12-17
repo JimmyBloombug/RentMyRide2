@@ -4,13 +4,15 @@ import axios from 'axios';
 import QueryContext from './queryContext';
 import QuueryReducer from './queryReducer';
 
-import { SET_RENTALS, SET_RENTAL, SET_CARS } from '../types';
+import { SET_RENTALS, SET_RENTAL, SET_CARS, SET_OWNER } from '../types';
 
 const QueryState = (props) => {
   const initialState = {
     location: {},
     checkIn: null,
     checkOut: null,
+    // rental owner,
+    user: undefined,
     // rental
     rental: undefined,
     // rentals
@@ -52,8 +54,6 @@ const QueryState = (props) => {
       const config = {
         headers: {
           type: type,
-          limit: limit,
-          user_id: id,
         },
       };
       // server request
@@ -67,20 +67,29 @@ const QueryState = (props) => {
   };
 
   // Get Cars
-  const getCars = async (id) => {
-    // set headers
-    const config = {
-      headers: {
-        user_id: id,
-      },
-    };
-
+  const getCars = async () => {
     // server request
-    const res = await axios.get('server/cars/user', config);
+    const res = await axios.get('server/cars/user');
 
     // set cars = server response
     dispatch({
       type: SET_CARS,
+      payload: res.data,
+    });
+  };
+
+  // Get User
+  const getOwner = async (user_id) => {
+    const config = {
+      headers: {
+        user_id: user_id,
+      },
+    };
+    // server request
+    const res = await axios.get('server/users/public', config);
+
+    dispatch({
+      type: SET_OWNER,
       payload: res.data,
     });
   };
@@ -91,12 +100,14 @@ const QueryState = (props) => {
         location: state.location,
         checkIn: state.checkIn,
         checkOut: state.checkOut,
+        user: state.user,
         rental: state.rental,
         rentals: state.rentals,
         cars: state.cars,
         setValue,
         getRentals,
         getCars,
+        getOwner,
       }}
     >
       {props.children}

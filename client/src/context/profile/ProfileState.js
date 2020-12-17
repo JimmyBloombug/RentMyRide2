@@ -24,7 +24,6 @@ import {
 
 const ProfileState = (props) => {
   const initialState = {
-    user_id: '',
     modal: { open: false, type: '' },
     loading: true,
     // rental form
@@ -105,7 +104,6 @@ const ProfileState = (props) => {
       ) {
         // Rental data
         const formData = {
-          user_id: state.user_id,
           car: state.car,
           price: state.price,
           billing: state.billing,
@@ -170,7 +168,6 @@ const ProfileState = (props) => {
       ) {
         // Car data
         let formData = new FormData();
-        formData.append('user_id', state.user_id);
         formData.append('brand', state.brand);
         formData.append('model', state.model);
         formData.append('year', state.year);
@@ -219,7 +216,6 @@ const ProfileState = (props) => {
   return (
     <ProfileContext.Provider
       value={{
-        user_id: state.user_id,
         modal: state.modal,
         loading: state.loading,
         // rental form

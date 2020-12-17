@@ -14,40 +14,29 @@ const storageEngine = new StorageEngine('./public/uploads/cars', 5004508);
 // @route   GET server/cars
 // @desc    GET cars user
 // @access  Private
-router.get(
-  '/user',
-  auth,
-  [check('user_id', 'No user id found').isString().notEmpty()],
-  async (req, res) => {
-    // validate formData
-    const errors = validationResult(req);
+router.get('/user', auth, async (req, res) => {
+  // destructure
+  const { id } = req.user;
 
-    // validation failed
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+  console.log(id);
+
+  // search cars
+  try {
+    // find cars with matching user_id
+    let cars = await Car.find({ user_id: id });
+
+    // no cars were found
+    if (!cars) {
+      res.status(400).json({ errors: 'No cars found' });
     }
 
-    // destructure
-    const { user_id } = req.headers;
-
-    // search cars
-    try {
-      // find cars with matching user_id
-      let cars = await Car.find({ user_id });
-
-      // no cars were found
-      if (!cars) {
-        res.status(400).json({ errors: 'No cars found' });
-      }
-
-      // response
-      res.json(cars);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ errors: 'Internal Server Error' });
-    }
+    // response
+    res.json(cars);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ errors: 'Internal Server Error' });
   }
-);
+});
 
 // @route POST server/cars
 // @desc POST car
@@ -57,7 +46,6 @@ router.post(
   auth,
   storageEngine.upload.array('pictures', 4),
   [
-    check('user_id', 'No user id found').isString().notEmpty(),
     check('brand', 'Please enter car brand').isString().notEmpty(),
     check('model', 'Please enter car model').isString().notEmpty(),
     check('year', 'Please enter manufacturing year').isString().notEmpty(),
@@ -108,7 +96,6 @@ router.post(
 
     // destructure
     let {
-      user_id,
       brand,
       model,
       year,
@@ -118,6 +105,9 @@ router.post(
       color,
       pictures,
     } = req.body;
+
+    // user id
+    const user_id = req.user.id;
 
     // create label
     const label = `${brand} ${model} ${year}`;

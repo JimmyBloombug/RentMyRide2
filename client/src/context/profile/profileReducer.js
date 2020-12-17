@@ -1,5 +1,4 @@
 import {
-  SET_USER_ID,
   SET_MODAL,
   SET_LOCATION,
   SET_BRAND,
@@ -32,11 +31,6 @@ import {
 
 const ProfileReducer = (state, action) => {
   switch (action.type) {
-    case SET_USER_ID:
-      return {
-        ...state,
-        user_id: action.payload,
-      };
     case SET_MODAL:
       return {
         ...state,

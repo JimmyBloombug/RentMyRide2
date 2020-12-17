@@ -5,6 +5,7 @@ import {
   SET_RENTAL,
   SET_RENTALS,
   SET_CARS,
+  SET_OWNER,
 } from '../types';
 
 const QueryReducer = (state, action) => {
@@ -24,6 +25,11 @@ const QueryReducer = (state, action) => {
       return {
         ...state,
         checkOut: action.payload,
+      };
+    case SET_OWNER:
+      return {
+        ...state,
+        owner: action.payload,
       };
     case SET_RENTAL:
       return {

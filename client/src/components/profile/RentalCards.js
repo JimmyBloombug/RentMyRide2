@@ -140,6 +140,18 @@ const RentalCards = (props) => {
     <div className={classes.container}>
       <Container maxWidth='lg'>
         <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+              className={clsx(classes.card, classes.addNew)}
+              onClick={() => props.handleModal({ open: true, type: 'rentals' })}
+            >
+              <CardActionArea>
+                <CardContent className={clsx(classes.cont, classes.addNewCont)}>
+                  <AddIcon className={classes.addIcon} />
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
           {props.array.map((rental, index) => {
             return (
               <Grid item xs={12} sm={6} md={3} key={rental._id}>
@@ -224,18 +236,6 @@ const RentalCards = (props) => {
               </Grid>
             );
           })}
-          <Grid item xs={12} sm={6} md={3}>
-            <Card
-              className={clsx(classes.card, classes.addNew)}
-              onClick={() => props.handleModal({ open: true, type: 'rentals' })}
-            >
-              <CardActionArea>
-                <CardContent className={clsx(classes.cont, classes.addNewCont)}>
-                  <AddIcon className={classes.addIcon} />
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
         </Grid>
       </Container>
     </div>

@@ -15,10 +15,9 @@ import NoRentals from '../../assets/featback/no-rentals.svg';
 import NoCars from '../../assets/featback/no-cars.svg';
 
 // Context
-import AuthContext from '../../context/auth/authContext';
 import ProfileContext from '../../context/profile/profileContext';
 import QueryContext from '../../context/query/queryContext';
-import { SET_MODAL, SET_USER_ID } from '../../context/types';
+import { SET_MODAL } from '../../context/types';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -78,9 +77,6 @@ const Profile = (props) => {
   const classes = useStyles();
 
   // ===== CONTEXT ======
-  // Auth Context
-  const authContext = useContext(AuthContext);
-  const { user } = authContext;
   // Profile Context
   const profileContext = useContext(ProfileContext);
   const { setValue } = profileContext;
@@ -106,16 +102,10 @@ const Profile = (props) => {
     }
   }, [props.location.search.split('=')[1]]);
 
-  // Set User ID
-  useEffect(() => {
-    setValue(SET_USER_ID, user._id);
-    // eslint-disable-next-line
-  }, []);
-
   // get bookings/rentals/cars
   useEffect(() => {
-    getRentals(user._id);
-    getCars(user._id);
+    getRentals();
+    getCars();
     // eslint-disable-next-line
   }, []);
 
