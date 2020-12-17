@@ -17,10 +17,14 @@ import NoCars from '../../assets/featback/no-cars.svg';
 // Context
 import AuthContext from '../../context/auth/authContext';
 import ProfileContext from '../../context/profile/profileContext';
+import QueryContext from '../../context/query/queryContext';
 import { SET_MODAL, SET_USER_ID } from '../../context/types';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
+  carsCont: {
+    minHeight: '100vh',
+  },
   carsMenuCont: {
     padding: theme.spacing(2, 5),
     minHeight: '120px',
@@ -34,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 2,
   },
   content: {
-    marginTop: theme.spacing(30),
+    paddingTop: theme.spacing(30),
     minHeight: '60vh',
   },
   noContent: {
@@ -77,9 +81,12 @@ const Profile = (props) => {
   // Auth Context
   const authContext = useContext(AuthContext);
   const { user } = authContext;
-  // Car Context
+  // Profile Context
   const profileContext = useContext(ProfileContext);
-  const { rentals, cars, setValue, getRentals, getCars } = profileContext;
+  const { setValue } = profileContext;
+  // Query Context
+  const queryContext = useContext(QueryContext);
+  const { rentals, cars, getRentals, getCars } = queryContext;
 
   // ===== FUNCTIONS =====
   // State
@@ -105,7 +112,7 @@ const Profile = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  // get cars/rentals/bookings
+  // get bookings/rentals/cars
   useEffect(() => {
     getRentals(user._id);
     getCars(user._id);

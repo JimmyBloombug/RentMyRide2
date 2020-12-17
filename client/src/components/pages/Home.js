@@ -28,7 +28,7 @@ import Car2 from '../../assets/home/car2.jpg';
 // Context
 import AuthContext from '../../context/auth/authContext';
 import NavbarContext from '../../context/navbar/navbarContext';
-import ProfileContext from '../../context/profile/profileContext';
+import QueryContext from '../../context/query/queryContext';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -137,8 +137,8 @@ const Home = () => {
   // ======== CONTEXT =======
   const authContext = useContext(AuthContext);
   const navbarContext = useContext(NavbarContext);
-  const profileContext = useContext(ProfileContext);
-  const { rentals, getRentals } = profileContext;
+  const queryContext = useContext(QueryContext);
+  const { rentals, getRentals } = queryContext;
 
   // ======== FUNCTIONS ========
   // Parallax

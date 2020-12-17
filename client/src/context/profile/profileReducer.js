@@ -21,7 +21,6 @@ import {
   UPLOAD_SUCCESS,
   UPLOAD_FAIL,
   RESET_FORM,
-  SET_USER_CARS,
   SET_CAR,
   SET_PRICE,
   SET_BILLING,
@@ -29,7 +28,6 @@ import {
   SET_CAR_ERR,
   SET_PRICE_ERR,
   SET_BILLING_ERR,
-  SET_USER_RENTALS,
 } from '../types';
 
 const ProfileReducer = (state, action) => {
@@ -44,18 +42,6 @@ const ProfileReducer = (state, action) => {
         ...state,
         modal: action.payload,
       };
-    case SET_USER_RENTALS: {
-      return {
-        ...state,
-        rentals: action.payload,
-      };
-    }
-    case SET_USER_CARS: {
-      return {
-        ...state,
-        cars: action.payload,
-      };
-    }
     ///////// RENTAL FORM /////////
     case SET_CAR:
       return {

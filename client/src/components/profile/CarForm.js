@@ -37,6 +37,7 @@ import colorSelect from '../../constants/colorselect.json';
 
 // Context
 import ProfileContext from '../../context/profile/profileContext';
+import QueryContext from '../../context/query/queryContext';
 import AlertContext from '../../context/alert/alertContext';
 
 // Types
@@ -55,6 +56,7 @@ const CarForm = (props) => {
   // ===== CONTEXT ======
   const profileContext = useContext(ProfileContext);
   const {
+    user_id,
     brand,
     model,
     year,
@@ -75,6 +77,8 @@ const CarForm = (props) => {
     setValue,
     submitForm,
   } = profileContext;
+  const queryContext = useContext(QueryContext);
+  const { getCars } = queryContext;
 
   const alertContext = useContext(AlertContext);
   const { alerts, setAlert, clearAlerts } = alertContext;
@@ -89,6 +93,11 @@ const CarForm = (props) => {
           setAlert(element.msg, 'error', 0);
         });
       }
+    }
+
+    // reload car list after successfull upload
+    if (server.msg === 'Your car has been saved successfully') {
+      getCars(user_id);
     }
     // eslint-disable-next-line
   }, [server]);

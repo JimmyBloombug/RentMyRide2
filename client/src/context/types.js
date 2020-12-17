@@ -78,6 +78,8 @@ export const DELETE_PICTURE = 'DELETE_PICTURE';
 export const RESET_FORM = 'RESET_CAR_FORM';
 export const SET_USER_RENTALS = 'SET_USER_RENTALS';
 export const SET_USER_CARS = 'SET_USER_CARS';
+export const SET_RENTALS = 'SET_RENTALS';
+export const SET_CARS = 'SET_CARS';
 
 // Search
 export const SET_CHECK_IN = 'SET_CHECK_IN';

@@ -9,10 +9,11 @@ const LoadUser = (props) => {
 
   useEffect(() => {
     loadUser();
+    console.log('test');
     // eslint-disable-next-line
   }, []);
 
-  return props.children;
+  return <div>{props.children}</div>;
 };
 
 export default LoadUser;

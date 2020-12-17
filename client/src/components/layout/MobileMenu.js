@@ -95,7 +95,7 @@ const MobileMenu = (props) => {
               <ListItem
                 button
                 component={Link}
-                to='/profile'
+                to='/profile?tab=bookings'
                 onClick={() => setMenu(false)}
               >
                 <ListItemIcon>

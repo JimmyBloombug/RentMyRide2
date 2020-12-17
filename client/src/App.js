@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Components
 import Home from './components/pages/Home';
+import Offer from './components/pages/Offer';
 import Profile from './components/pages/Profile';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -14,7 +15,7 @@ import LoadUser from './components/auth/LoadUser';
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
 import NavbarState from './context/navbar/NavbarState';
-import SearchState from './context/search/SearchState';
+import QueryState from './context/query/QueryState';
 import ProfileState from './context/profile/ProfileState';
 
 // Set Auth Token in Axios
@@ -27,7 +28,7 @@ function App() {
     <AlertState>
       <NavbarState>
         <AuthState>
-          <SearchState>
+          <QueryState>
             <ProfileState>
               <LoadUser>
                 <Router>
@@ -36,6 +37,7 @@ function App() {
                       <Navbar />
                       <Switch>
                         <Route exact path='/' component={Home} />
+                        <Route exact path='/offer' component={Offer} />
                         <PrivateRoute
                           exact
                           path='/profile'
@@ -48,7 +50,7 @@ function App() {
                 </Router>
               </LoadUser>
             </ProfileState>
-          </SearchState>
+          </QueryState>
         </AuthState>
       </NavbarState>
     </AlertState>

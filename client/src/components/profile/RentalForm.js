@@ -32,6 +32,7 @@ import Success from '../layout/Success';
 
 // Context
 import ProfileContext from '../../context/profile/profileContext';
+import QueryContext from '../../context/query/queryContext';
 import AlertContext from '../../context/alert/alertContext';
 
 import {
@@ -53,6 +54,7 @@ const RentalForm = (props) => {
   // ===== CONTEXT ======
   const profileContext = useContext(ProfileContext);
   const {
+    user_id,
     server,
     loading,
     price,
@@ -61,11 +63,12 @@ const RentalForm = (props) => {
     priceErr,
     billingErr,
     locationErr,
-    cars,
     setValue,
     submitForm,
     resetForm,
   } = profileContext;
+  const queryContext = useContext(QueryContext);
+  const { cars, getRentals } = queryContext;
 
   const alertContext = useContext(AlertContext);
   const { alerts, setAlert, clearAlerts } = alertContext;
@@ -96,6 +99,11 @@ const RentalForm = (props) => {
           setAlert(element.msg, 'error', 0);
         });
       }
+    }
+
+    // reload rental list after successfull upload
+    if (server.msg === 'Your offer has been saved successfully') {
+      getRentals(user_id);
     }
     // eslint-disable-next-line
   }, [server]);

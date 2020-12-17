@@ -20,8 +20,6 @@ import {
   UPLOAD_SUCCESS,
   UPLOAD_FAIL,
   RESET_FORM,
-  SET_USER_RENTALS,
-  SET_USER_CARS,
 } from '../types';
 
 const ProfileState = (props) => {
@@ -59,10 +57,6 @@ const ProfileState = (props) => {
       msg: '',
       errors: undefined,
     },
-    // user rentals
-    rentals: undefined,
-    // user cars
-    cars: undefined,
   };
 
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
@@ -72,45 +66,6 @@ const ProfileState = (props) => {
     dispatch({
       type: type,
       payload: data,
-    });
-  };
-
-  // get rentals
-  const getRentals = async (id, which = 'user', type = 'all', limit = 10) => {
-    // set headers
-    const config = {
-      headers: {
-        type: type,
-        limit: limit,
-        user_id: id,
-      },
-    };
-
-    // server request
-    const res = await axios.get(`server/rentals/${which}`, config);
-    // set cars = server response
-    dispatch({
-      type: SET_USER_RENTALS,
-      payload: res.data,
-    });
-  };
-
-  // Get Cars
-  const getCars = async (id) => {
-    // set headers
-    const config = {
-      headers: {
-        user_id: id,
-      },
-    };
-
-    // server request
-    const res = await axios.get('server/cars/user', config);
-
-    // set cars = server response
-    dispatch({
-      type: SET_USER_CARS,
-      payload: res.data,
     });
   };
 
@@ -173,9 +128,6 @@ const ProfileState = (props) => {
             formData,
             config
           );
-
-          // update rentals array
-          getRentals(state.user_id);
 
           // upload success
           dispatch({
@@ -243,9 +195,6 @@ const ProfileState = (props) => {
           // add car
           const res = await axios.post('/server/cars/user', formData, config);
 
-          // update cars array
-          getCars(state.user_id);
-
           dispatch({
             type: UPLOAD_SUCCESS,
             payload: res.data,
@@ -300,14 +249,8 @@ const ProfileState = (props) => {
         colorErr: state.colorErr,
         // server
         server: state.server,
-        // user rentals
-        rentals: state.rentals,
-        // user cars
-        cars: state.cars,
         // functions
         setValue,
-        getRentals,
-        getCars,
         submitForm,
         resetForm,
       }}

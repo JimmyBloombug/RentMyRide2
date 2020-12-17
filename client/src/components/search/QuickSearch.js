@@ -23,7 +23,7 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 
 // Context
-import SearchContext from '../../context/search/searchContext';
+import QueryContext from '../../context/query/queryContext';
 import { SET_LOCATION, SET_CHECK_IN, SET_CHECK_OUT } from '../../context/types';
 
 // Define Styles
@@ -40,8 +40,8 @@ const RES_NUM = 5;
 
 const QuickSearch = () => {
   // ====== CONTEXT ======
-  const searchContext = useContext(SearchContext);
-  const { checkIn, checkOut, setValue } = searchContext;
+  const queryContext = useContext(QueryContext);
+  const { checkIn, checkOut, setValue } = queryContext;
 
   // ====== STATES =======
 
