@@ -94,11 +94,11 @@ router.post(
 
     // resize images and remove ./public/ from path
     imagePath.forEach((element) => {
-      if (storageEngine.imageHandler(element, 600, 400, 90)) {
+      try {
+        storageEngine.imageHandler(element, 600, 400, 90);
         console.log(element + ' has been resized');
-      } else {
-        console.error(element + ' resize error');
-        // delet image
+      } catch (error) {
+        // delete image
         storageEngine.unlink(element);
         errors = {
           msg: 'Image upload failed. Please try again',

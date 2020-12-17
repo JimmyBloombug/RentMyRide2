@@ -33,7 +33,7 @@ import {
   AUTH_ERROR,
   SET_SLIDE,
   SET_LOADING,
-  RESET_REGISTER,
+  RESET_FORM,
 } from '../types';
 
 const AuthReducer = (state, action) => {
@@ -253,7 +253,7 @@ const AuthReducer = (state, action) => {
         ...state,
         loading: false,
       };
-    case RESET_REGISTER:
+    case RESET_FORM:
       return {
         ...state,
         firstName: '',

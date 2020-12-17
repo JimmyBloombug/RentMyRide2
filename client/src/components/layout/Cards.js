@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 // Material UI
 import {
@@ -63,6 +64,12 @@ const Cards = (props) => {
   // ====== STYLE ======
   const classes = useStyles();
 
+  // ===== Functions ======
+  // Handle Click
+  const handleClick = (id) => {
+    props.history.push(`/offers?id=${id}`);
+  };
+
   return (
     <div className={classes.container}>
       {props.array.map((rental, index) => {
@@ -70,7 +77,7 @@ const Cards = (props) => {
           <Card
             className={classes.card}
             key={rental._id}
-            // onClick={() => handleClick(index)}
+            onClick={() => handleClick(rental._id)}
           >
             <CardActionArea>
               <CardMedia
@@ -136,4 +143,4 @@ Cards.defaultProps = {
   lg: 3,
 };
 
-export default Cards;
+export default withRouter(Cards);

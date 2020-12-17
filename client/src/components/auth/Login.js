@@ -98,6 +98,7 @@ const Login = () => {
     serverErr,
     loading,
     loginUser,
+    resetForm,
   } = authContext;
 
   const alertContext = useContext(AlertContext);
@@ -122,6 +123,8 @@ const Login = () => {
 
   // Handle Change
   const handleClick = (type) => {
+    resetForm();
+    clearAlerts();
     setLoginForm(false);
   };
 

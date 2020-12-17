@@ -31,7 +31,7 @@ import {
   SET_STREET_ERR,
   SET_ZIP_ERR,
   SET_CITY_ERR,
-  RESET_REGISTER,
+  RESET_FORM,
 } from '../types';
 
 // REGEX
@@ -329,8 +329,8 @@ const AuthState = (props) => {
   };
 
   // Reset Register
-  const resetRegister = () => {
-    dispatch({ type: RESET_REGISTER });
+  const resetForm = () => {
+    dispatch({ type: RESET_FORM });
   };
 
   // ======= LOGIN ========
@@ -443,7 +443,7 @@ const AuthState = (props) => {
         validateCountry,
         validateFirstSlide,
         setSlide,
-        resetRegister,
+        resetForm,
       }}
     >
       {props.children}

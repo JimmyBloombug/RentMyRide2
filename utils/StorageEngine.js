@@ -54,7 +54,7 @@ class StorageEngine {
     jimp
       .read(image)
       .then((carImage) => {
-        return true;
+        return carImage.cover(width, height).quality(quality).write(image);
       })
       .catch((err) => {
         return false;
