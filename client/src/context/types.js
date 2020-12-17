@@ -49,7 +49,6 @@ export const SET_USER_ID = 'SET_USER_ID';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 
-// Profile
 export const SET_MODAL = 'SET_MODAL';
 export const SET_CAR = 'SET_CAR';
 export const SET_PRICE = 'SET_PRICE';
@@ -78,6 +77,7 @@ export const DELETE_PICTURE = 'DELETE_PICTURE';
 export const RESET_FORM = 'RESET_FORM';
 export const SET_USER_RENTALS = 'SET_USER_RENTALS';
 export const SET_USER_CARS = 'SET_USER_CARS';
+export const SET_RENTAL = 'SET_RENTAL';
 export const SET_RENTALS = 'SET_RENTALS';
 export const SET_CARS = 'SET_CARS';
 

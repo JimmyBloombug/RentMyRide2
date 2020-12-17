@@ -11,9 +11,6 @@ import {
   CardMedia,
   makeStyles,
   Typography,
-  Grid,
-  useTheme,
-  useMediaQuery,
 } from '@material-ui/core';
 
 // Material UI Icons
@@ -132,15 +129,6 @@ const Cards = (props) => {
 
 Cards.propTypes = {
   array: PropTypes.array.isRequired,
-  bp: PropTypes.object.isRequired,
-};
-
-Cards.defaultProps = {
-  map: 'all',
-  xs: 12,
-  sm: 4,
-  md: 3,
-  lg: 3,
 };
 
 export default withRouter(Cards);

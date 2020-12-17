@@ -12,31 +12,45 @@ const Rental = require('../models/Rental');
 // @desc    GET rentals
 // @access  Public
 router.get('/public', async (req, res) => {
-  if (req.headers.type === 'all') {
-    try {
-      // get all rentals
-      let rentals = await Rental.find();
-      // response
-      res.json(rentals);
-    } catch (error) {
-      // error
-      console.error(error);
-      // response
-      res.json({ errors: 'Internal Server Error' });
-    }
-  } else if (req.headers.type === 'recent') {
-    try {
-      // limit
-      let { limit } = req.headers;
-      limit = parseInt(limit);
+  switch (req.headers.type) {
+    case 'recent':
+      try {
+        // limit
+        let { limit } = req.headers;
+        limit = parseInt(limit);
 
-      // get newest rental offers
-      let rentals = await Rental.find().sort({ _id: -1 }).limit(limit);
-      res.json(rentals);
-    } catch (error) {
-      console.error(error);
-      res.json({ errors: 'Internal Server Error' });
-    }
+        // get newest rental offers
+        let rentals = await Rental.find().sort({ _id: -1 }).limit(limit);
+        res.json(rentals);
+      } catch (error) {
+        console.error(error);
+        res.json({ errors: 'Internal Server Error' });
+      }
+      break;
+    case 'single':
+      try {
+        console.log(req.headers.type);
+        console.log(req.headers.id);
+        // find by id
+        let rental = await Rental.findById(req.headers.id);
+        res.json(rental);
+      } catch (error) {
+        console.error(error);
+        res.json({ errors: 'Internal Server Error' });
+      }
+      break;
+    case 'all':
+      try {
+        // get all rentals
+        let rentals = await Rental.find();
+        // response
+        res.json(rentals);
+      } catch (error) {
+        // error
+        console.error(error);
+        // response
+        res.json({ errors: 'Internal Server Error' });
+      }
   }
 });
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
@@ -76,13 +77,18 @@ const Slider = (props) => {
   // ======= FUNCTIONS =========
   const handleDragStart = (e) => e.preventDefault();
 
+  // Handle Click
+  const handleClick = (id) => {
+    props.history.push(`/offers?id=${id}`);
+  };
+
   // ====== ITEMS =======
   let items = props.array.map((rental, index) => {
     return (
       <Card
         className={classes.card}
         onDragStart={handleDragStart}
-        // onClick={() => handleClick(index)}
+        onClick={() => handleClick(rental._id)}
       >
         <CardActionArea>
           <CardMedia
@@ -152,4 +158,4 @@ Slider.propTypes = {
   array: PropTypes.array.isRequired,
 };
 
-export default Slider;
+export default withRouter(Slider);

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Components
 import Home from './components/pages/Home';
-import Offer from './components/pages/Offer';
+import Offers from './components/pages/Offers';
 import Profile from './components/pages/Profile';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -37,7 +37,7 @@ function App() {
                       <Navbar />
                       <Switch>
                         <Route exact path='/' component={Home} />
-                        <Route exact path='/offer' component={Offer} />
+                        <Route exact path='/offers' component={Offers} />
                         <PrivateRoute
                           exact
                           path='/profile'
