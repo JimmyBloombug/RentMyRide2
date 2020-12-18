@@ -12,7 +12,7 @@ const QueryState = (props) => {
     checkIn: null,
     checkOut: null,
     // rental owner,
-    user: undefined,
+    owner: undefined,
     // rental
     rental: undefined,
     // rentals
@@ -54,10 +54,12 @@ const QueryState = (props) => {
       const config = {
         headers: {
           type: type,
+          id: id,
         },
       };
       // server request
       const res = await axios.get(`server/rentals/${which}`, config);
+      console.log(res);
       // set rentals = server response
       dispatch({
         type: SET_RENTALS,
@@ -100,7 +102,7 @@ const QueryState = (props) => {
         location: state.location,
         checkIn: state.checkIn,
         checkOut: state.checkOut,
-        user: state.user,
+        owner: state.owner,
         rental: state.rental,
         rentals: state.rentals,
         cars: state.cars,

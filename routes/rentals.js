@@ -41,12 +41,13 @@ router.get('/public', async (req, res) => {
     case 'user':
       try {
         // find by user id
-        let rentals = await Rental.find(req.headers.user_id);
+        let rentals = await Rental.find({ user_id: req.headers.id });
         res.json(rentals);
       } catch (error) {
         console.error(error);
         res.status(500).json({ errors: 'Internatl Server Error' });
       }
+      break;
     case 'all':
       try {
         // get all rentals

@@ -23,11 +23,13 @@ router.get('/public', async (req, res) => {
 
   try {
     const user = await User.findById(user_id);
-    const { username, country, city } = user;
+    const { username, image, country, city, date } = user;
     const resUser = {
       username,
+      image,
       country,
       city,
+      date,
     };
     res.json(resUser);
   } catch (error) {
