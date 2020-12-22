@@ -28,7 +28,6 @@ import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineNormal';
 
 // Components
-import Slider from '../layout/Slider';
 import Loading from '../layout/Loading';
 
 // Context
@@ -63,9 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
   h4: {
     fontSize: '1.6em',
-    fontWeight: '500',
-    color: theme.palette.primary.main,
-    marginBottom: 0,
+    fontWeight: '400',
   },
   p: {
     fontSize: '1.3em',
@@ -77,20 +74,16 @@ const useStyles = makeStyles((theme) => ({
   img: {
     width: 150,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  span: {
-    color: theme.palette.primary.main,
+  rentalCont: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    position: 'relative',
   },
   loading: {
     width: 500,
   },
   imgMobile: {
     width: 120,
-  },
-  display: {
-    display: 'none',
   },
 }));
 
@@ -110,6 +103,11 @@ const Offers = (props) => {
     buttons: {
       backgroundColor: hexToRGB(theme.palette.background.paper, 0.1),
       iconColor: theme.palette.primary.light,
+      showDownloadButton: false,
+      showThumbnailsButton: false,
+    },
+    thumbnails: {
+      showThumbnails: false,
     },
   };
 
@@ -207,7 +205,6 @@ const Offers = (props) => {
                         autoPlay={true}
                         autoPlayInterval={3000}
                         infinite={true}
-                        controlsStrategy='responsive'
                         disableButtonsControls={true}
                         disableSlideInfo={true}
                         disableDotsControls={true}
@@ -228,18 +225,19 @@ const Offers = (props) => {
                   <CardContent>
                     <Typography
                       gutterBottom
-                      variant='h5'
+                      variant='h3'
                       component='h2'
                       color='primary'
                     >
                       {rental.car.label}
                     </Typography>
-                    <div>
+                    <div className={classes.rentalCont}>
                       <Box
                         display='flex'
                         alignItems='center'
-                        mr={2}
                         lineHeight={3}
+                        className={classes.h4}
+                        mr={3}
                       >
                         <AttachMoneyIcon />
                         <Box ml={1}>{rental.price + ' ' + rental.billing}</Box>
@@ -247,8 +245,9 @@ const Offers = (props) => {
                       <Box
                         display='flex'
                         alignItems='center'
-                        mr={2}
                         lineHeight={3}
+                        className={classes.h4}
+                        mr={3}
                       >
                         <RoomIcon />
                         <Box ml={1}>{rental.location.label}</Box>
@@ -256,8 +255,9 @@ const Offers = (props) => {
                       <Box
                         display='flex'
                         alignItems='center'
-                        mr={2}
+                        mr={3}
                         lineHeight={3}
+                        className={classes.h4}
                       >
                         <FastForwardIcon />
                         <Box ml={1}>{rental.car.kmDriven}</Box>
@@ -265,8 +265,9 @@ const Offers = (props) => {
                       <Box
                         display='flex'
                         alignItems='center'
-                        mr={2}
+                        mr={3}
                         lineHeight={3}
+                        className={classes.h4}
                       >
                         <LocalGasStationIcon />
                         <Box ml={1}>{rental.car.fueltype}</Box>
@@ -274,15 +275,31 @@ const Offers = (props) => {
                       <Box
                         display='flex'
                         alignItems='center'
-                        mr={2}
+                        mr={3}
                         lineHeight={3}
+                        className={classes.h4}
                       >
                         <AirlineSeatReclineNormalIcon />
                         <Box ml={1}>{rental.car.seats}</Box>
                       </Box>
-                      <Box display='flex' alignItems='center' lineHeight={3}>
+                      <Box
+                        display='flex'
+                        alignItems='center'
+                        mr={3}
+                        lineHeight={3}
+                        className={classes.h4}
+                      >
                         <ColorLensIcon />
                         <Box ml={1}>{rental.car.color}</Box>
+                      </Box>
+                      <Box
+                        display='flex'
+                        alignItems='center'
+                        lineHeight={3}
+                        className={classes.h4}
+                      >
+                        <ColorLensIcon />
+                        <Box ml={1}>{rental.car.year}</Box>
                       </Box>
                     </div>
                   </CardContent>

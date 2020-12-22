@@ -110,7 +110,7 @@ router.post(
     const user_id = req.user.id;
 
     // create label
-    const label = `${brand} ${model} ${year}`;
+    const label = `${brand} ${model}`;
     // initial active status
     const active = false;
 

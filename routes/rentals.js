@@ -141,15 +141,6 @@ router.post(
         });
       }
 
-      let userExists = await User.findById(user_id);
-
-      // error if user doesn't exist
-      if (!userExists) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: "The user wasn't found" }] });
-      }
-
       // set car is active
       carExists.active = true;
       // save updated car
