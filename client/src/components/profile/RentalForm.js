@@ -83,6 +83,7 @@ const RentalForm = (props) => {
       option._id = cars[i]._id;
       option.label = cars[i].label;
       option.pictures = cars[i].pictures;
+      option.year = cars[i].year;
       option.kmDriven = cars[i].kmDriven;
       option.fueltype = cars[i].fueltype;
       option.seats = cars[i].seats;

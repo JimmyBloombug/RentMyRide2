@@ -6,6 +6,7 @@ import {
   SET_RENTALS,
   SET_CARS,
   SET_OWNER,
+  CLEAR_VALUES,
 } from '../types';
 
 const QueryReducer = (state, action) => {
@@ -46,6 +47,14 @@ const QueryReducer = (state, action) => {
       return {
         ...state,
         cars: action.payload,
+      };
+    }
+    case CLEAR_VALUES: {
+      return {
+        ...state,
+        rental: undefined,
+        rentals: undefined,
+        owner: undefined,
       };
     }
     default:

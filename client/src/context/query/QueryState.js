@@ -4,7 +4,13 @@ import axios from 'axios';
 import QueryContext from './queryContext';
 import QuueryReducer from './queryReducer';
 
-import { SET_RENTALS, SET_RENTAL, SET_CARS, SET_OWNER } from '../types';
+import {
+  SET_RENTALS,
+  SET_RENTAL,
+  SET_CARS,
+  SET_OWNER,
+  CLEAR_VALUES,
+} from '../types';
 
 const QueryState = (props) => {
   const initialState = {
@@ -13,12 +19,16 @@ const QueryState = (props) => {
     checkOut: null,
     // rental owner,
     owner: undefined,
+    ownerErr: undefined,
     // rental
     rental: undefined,
+    rentalErr: undefined,
     // rentals
     rentals: undefined,
+    rentalsErr: undefined,
     // cars
     cars: undefined,
+    carsErr: undefined,
   };
 
   const [state, dispatch] = useReducer(QuueryReducer, initialState);
@@ -31,9 +41,16 @@ const QueryState = (props) => {
     });
   };
 
+  // Clear Values
+  const clearValues = () => {
+    dispatch({
+      type: CLEAR_VALUES,
+    });
+  };
+
   // get rentals
-  const getRentals = async (id, which = 'user', type = 'all', limit = 10) => {
-    // set headers
+  const getRentals = async (id, route = 'user', type = 'all', limit = 10) => {
+    // GET SINGLE ENTRY
     if (type === 'single') {
       // set headers
       const config = {
@@ -43,23 +60,25 @@ const QueryState = (props) => {
         },
       };
       // server request
-      const res = await axios.get(`server/rentals/${which}`, config);
+      const res = await axios.get(`server/rentals/${route}`, config);
       // set rental = server response
       dispatch({
         type: SET_RENTAL,
         payload: res.data,
       });
     } else {
+      // GET MULTIPLE ENTRIES
       // set headers
       const config = {
         headers: {
           type: type,
           id: id,
+          limit: limit,
         },
       };
       // server request
-      const res = await axios.get(`server/rentals/${which}`, config);
-      console.log(res);
+      const res = await axios.get(`server/rentals/${route}`, config);
+
       // set rentals = server response
       dispatch({
         type: SET_RENTALS,
@@ -107,6 +126,7 @@ const QueryState = (props) => {
         rentals: state.rentals,
         cars: state.cars,
         setValue,
+        clearValues,
         getRentals,
         getCars,
         getOwner,

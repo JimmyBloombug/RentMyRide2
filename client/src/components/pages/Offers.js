@@ -6,9 +6,6 @@ import { SRLWrapper } from 'simple-react-lightbox';
 // Material UI
 import {
   Grid,
-  Card,
-  CardActionArea,
-  CardMedia,
   CardContent,
   Box,
   Typography,
@@ -22,6 +19,7 @@ import {
 // Material UI Icons
 import RoomIcon from '@material-ui/icons/Room';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
@@ -41,27 +39,46 @@ const useStyles = makeStyles((theme) => ({
   container: {
     minHeight: '100vh',
     paddingTop: '64px',
-    // paddingRight: theme.spacing(5),
-    // paddingLeft: theme.spacing(5),
   },
   profile: {
     borderRadius: 5,
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(5, 5),
+    padding: theme.spacing(5),
   },
   profileInfo: {
     fontSize: '1.1em',
     lineHeight: 2.5,
   },
+  properties: {
+    marginTop: theme.spacing(2),
+    borderRadius: 5,
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(2),
+  },
   card: {
+    // height: '100%',
     borderRadius: 5,
     backgroundColor: theme.palette.background.paper,
   },
+  cardCont: {
+    position: 'relative',
+  },
+  carName: {
+    fontSize: '2.8em',
+    fontWeight: 600,
+    position: 'absolute',
+    top: '-30px',
+  },
+  rentalInfo: {
+    marginTop: '10px',
+    fontSize: '1.2em',
+    fontWeight: '500',
+  },
   h2: {
-    fontSize: '1.8em',
+    fontSize: '1.4em',
   },
   h4: {
-    fontSize: '1.6em',
+    fontSize: '1.1em',
     fontWeight: '400',
   },
   p: {
@@ -70,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     width: '100%',
+    filter: 'brightness(.7)',
   },
   img: {
     width: 150,
@@ -78,6 +96,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     position: 'relative',
+  },
+  loadingCont: {
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   loading: {
     width: 500,
@@ -106,6 +131,9 @@ const Offers = (props) => {
       showDownloadButton: false,
       showThumbnailsButton: false,
     },
+    caption: {
+      showCaption: false,
+    },
     thumbnails: {
       showThumbnails: false,
     },
@@ -115,7 +143,14 @@ const Offers = (props) => {
 
   // ====== CONTEXT =======
   const queryContext = useContext(QueryContext);
-  const { rental, rentals, owner, getRentals, getOwner } = queryContext;
+  const {
+    rental,
+    rentals,
+    owner,
+    getRentals,
+    getOwner,
+    clearValues,
+  } = queryContext;
 
   // ====== FUNCTIONS =======
 
@@ -127,7 +162,6 @@ const Offers = (props) => {
     // eslint-disable-next-line
   }, [id]);
 
-  let rentalImages;
   // push images, get other offers, get owner
   useEffect(() => {
     if (rental) {
@@ -136,7 +170,12 @@ const Offers = (props) => {
     }
   }, [rental]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // Component Mount ScrollToTop
+    window.scrollTo(0, 0);
+    // Component Unmount Clear Values
+    return () => clearValues();
+  }, []);
 
   return (
     <Fragment>
@@ -144,7 +183,69 @@ const Offers = (props) => {
         <div className={classes.container}>
           <Container maxWidth='lg'>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={5} md={4}>
+              <Grid item xs={12} sm={7} md={9}>
+                <div className={classes.card}>
+                  <div className={classes.mediaCont}>
+                    <SRLWrapper options={lightboxOptions}>
+                      <AliceCarousel
+                        mouseTracking
+                        animationType='fadeout'
+                        autoPlay={true}
+                        autoPlayInterval={3000}
+                        infinite={true}
+                        disableButtonsControls={true}
+                        disableSlideInfo={true}
+                        disableDotsControls={true}
+                      >
+                        {rental.car.pictures.map((el, index) => {
+                          return (
+                            <img
+                              key={index}
+                              src={el}
+                              alt={'Image ' + index}
+                              className={classes.media}
+                            />
+                          );
+                        })}
+                      </AliceCarousel>
+                    </SRLWrapper>
+                  </div>
+                  <CardContent className={classes.cardCont}>
+                    <Typography
+                      gutterBottom
+                      variant='h4'
+                      component='h2'
+                      color='primary'
+                      className={classes.carName}
+                    >
+                      {rental.car.label}
+                    </Typography>
+                    <div className={classes.rentalCont}>
+                      <Box
+                        display='flex'
+                        alignItems='center'
+                        lineHeight={3}
+                        className={classes.rentalInfo}
+                        mr={3}
+                      >
+                        <AttachMoneyIcon />
+                        <Box ml={1}>{rental.price + ' ' + rental.billing}</Box>
+                      </Box>
+                      <Box
+                        display='flex'
+                        alignItems='center'
+                        lineHeight={3}
+                        className={classes.rentalInfo}
+                        mr={3}
+                      >
+                        <RoomIcon />
+                        <Box ml={1}>{rental.location.label}</Box>
+                      </Box>
+                    </div>
+                  </CardContent>
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={5} md={3}>
                 <div className={classes.profile}>
                   <Grid container spacing={2}>
                     <Grid item xs={6} sm={12}>
@@ -173,7 +274,7 @@ const Offers = (props) => {
                         >
                           <h2 className={classes.h2}>{owner.username}</h2>
                           <div className={classes.profileInfo}>
-                            {owner.city + ', ' + owner.country.label}
+                            {owner.city}
                           </div>
                           <div className={classes.profileInfo}>
                             Registered {owner.date.split('T')[0]}
@@ -183,7 +284,7 @@ const Offers = (props) => {
                         <Fragment>
                           <h2 className={classes.h2}>{owner.username}</h2>
                           <div className={classes.profileInfo}>
-                            {owner.city + ', ' + owner.country.label}
+                            {owner.city}
                           </div>
                           <div className={classes.profileInfo}>
                             Registered {owner.date.split('T')[0]}
@@ -193,65 +294,10 @@ const Offers = (props) => {
                     </Grid>
                   </Grid>
                 </div>
-              </Grid>
-              <Grid item xs={12} sm={7} md={8}>
-                <div className={classes.card}>
-                  <div className={classes.mediaCont}>
-                    <SRLWrapper options={lightboxOptions}>
-                      <AliceCarousel
-                        mouseTracking
-                        items={rentalImages}
-                        animationType='fadeout'
-                        autoPlay={true}
-                        autoPlayInterval={3000}
-                        infinite={true}
-                        disableButtonsControls={true}
-                        disableSlideInfo={true}
-                        disableDotsControls={true}
-                      >
-                        {rental.car.pictures.map((el, index) => {
-                          return (
-                            <img
-                              key={index}
-                              src={el}
-                              alt={'Image ' + index}
-                              className={classes.media}
-                            />
-                          );
-                        })}
-                      </AliceCarousel>
-                    </SRLWrapper>
-                  </div>
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant='h3'
-                      component='h2'
-                      color='primary'
-                    >
-                      {rental.car.label}
-                    </Typography>
-                    <div className={classes.rentalCont}>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        lineHeight={3}
-                        className={classes.h4}
-                        mr={3}
-                      >
-                        <AttachMoneyIcon />
-                        <Box ml={1}>{rental.price + ' ' + rental.billing}</Box>
-                      </Box>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        lineHeight={3}
-                        className={classes.h4}
-                        mr={3}
-                      >
-                        <RoomIcon />
-                        <Box ml={1}>{rental.location.label}</Box>
-                      </Box>
+                <div className={classes.properties}>
+                  <Box display='flex' justifyContent='center'>
+                    <div>
+                      <h3>Car Properties</h3>
                       <Box
                         display='flex'
                         alignItems='center'
@@ -298,26 +344,18 @@ const Offers = (props) => {
                         lineHeight={3}
                         className={classes.h4}
                       >
-                        <ColorLensIcon />
+                        <AccessTimeIcon />
                         <Box ml={1}>{rental.car.year}</Box>
                       </Box>
                     </div>
-                  </CardContent>
+                  </Box>
                 </div>
               </Grid>
             </Grid>
           </Container>
         </div>
       ) : (
-        <div
-          style={{
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <div className={classes.loadingCont}>
           <Loading classes={classes.loading} />
         </div>
       )}

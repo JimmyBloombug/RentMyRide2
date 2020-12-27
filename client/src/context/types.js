@@ -82,7 +82,11 @@ export const SET_CARS = 'SET_CARS';
 export const SET_CHECK_IN = 'SET_CHECK_IN';
 export const SET_CHECK_OUT = 'SET_CHECK_OUT';
 
+export const CLEAR_VALUES = 'CLEAR_VALUES';
 export const SET_OWNER = 'SET_OWNER';
+export const SET_OWNER_ERR = 'SET_OWNER_ERR';
+export const SET_RENTAL_ERR = 'SET_RENTAL_ERR';
+export const SET_RENTALS_ERR = 'SET_RENTALS_ERR';
 
 // Alert
 export const SET_ALERT = 'SET_ALERT';
