@@ -18,6 +18,7 @@ import AlertState from './context/alert/AlertState';
 import NavbarState from './context/navbar/NavbarState';
 import QueryState from './context/query/QueryState';
 import ProfileState from './context/profile/ProfileState';
+import BookingState from './context/booking/BookingState';
 
 // Set Auth Token in Axios
 if (localStorage.token) {
@@ -31,27 +32,29 @@ function App() {
         <AuthState>
           <QueryState>
             <ProfileState>
-              <LoadUser>
-                <SimpleReactLightBox>
-                  <Router>
-                    <Fragment>
-                      <div className='container'>
-                        <Navbar />
-                        <Switch>
-                          <Route exact path='/' component={Home} />
-                          <Route exact path='/offers' component={Offers} />
-                          <PrivateRoute
-                            exact
-                            path='/profile'
-                            component={Profile}
-                          />
-                        </Switch>
-                        <Footer />
-                      </div>
-                    </Fragment>
-                  </Router>
-                </SimpleReactLightBox>
-              </LoadUser>
+              <BookingState>
+                <LoadUser>
+                  <SimpleReactLightBox>
+                    <Router>
+                      <Fragment>
+                        <div className='container'>
+                          <Navbar />
+                          <Switch>
+                            <Route exact path='/' component={Home} />
+                            <Route exact path='/offers' component={Offers} />
+                            <PrivateRoute
+                              exact
+                              path='/profile'
+                              component={Profile}
+                            />
+                          </Switch>
+                          <Footer />
+                        </div>
+                      </Fragment>
+                    </Router>
+                  </SimpleReactLightBox>
+                </LoadUser>
+              </BookingState>
             </ProfileState>
           </QueryState>
         </AuthState>

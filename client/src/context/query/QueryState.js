@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 
 import QueryContext from './queryContext';
-import QuueryReducer from './queryReducer';
+import QueryReducer from './queryReducer';
 
 import {
   SET_RENTALS,
@@ -31,7 +31,7 @@ const QueryState = (props) => {
     carsErr: undefined,
   };
 
-  const [state, dispatch] = useReducer(QuueryReducer, initialState);
+  const [state, dispatch] = useReducer(QueryReducer, initialState);
 
   // Set Value
   const setValue = (type, data) => {

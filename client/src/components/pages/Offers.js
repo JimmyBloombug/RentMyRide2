@@ -3,18 +3,25 @@ import { withRouter } from 'react-router-dom';
 import AliceCarousel from 'react-alice-carousel';
 import { SRLWrapper } from 'simple-react-lightbox';
 
+// Date
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+
 // Material UI
 import {
   Grid,
   CardContent,
   Box,
   Typography,
-  Button,
   Container,
   makeStyles,
   useMediaQuery,
   useTheme,
 } from '@material-ui/core';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDateTimePicker,
+} from '@material-ui/pickers';
 
 // Material UI Icons
 import RoomIcon from '@material-ui/icons/Room';
@@ -29,7 +36,10 @@ import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineN
 import Loading from '../layout/Loading';
 
 // Context
+import AuthContext from '../../context/auth/authContext';
 import QueryContext from '../../context/query/queryContext';
+import BookingContext from '../../context/booking/bookingContext';
+import { SET_CHECK_IN, SET_CHECK_OUT } from '../../context/types';
 
 // Utils
 import hexToRGB from '../../utils/hexToRGB';
@@ -54,6 +64,13 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(2),
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  propertiesMobile: {
+    marginTop: theme.spacing(3),
+    display: 'flex',
+    flexWrap: 'wrap',
   },
   card: {
     // height: '100%',
@@ -73,6 +90,20 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '10px',
     fontSize: '1.2em',
     fontWeight: '500',
+  },
+  datepicker: {
+    marginTop: theme.spacing(3),
+  },
+  bookingBtn: {
+    marginTop: theme.spacing(2),
+    border: 'none',
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    width: '100%',
+    backgroundColor: theme.palette.primary.main,
+    height: '50px',
+    fontSize: '1.2em',
+    outline: 'none',
   },
   h2: {
     fontSize: '1.4em',
@@ -139,9 +170,12 @@ const Offers = (props) => {
     },
   };
 
+  let mddown = useMediaQuery(theme.breakpoints.down('md'));
   let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
 
   // ====== CONTEXT =======
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated } = authContext;
   const queryContext = useContext(QueryContext);
   const {
     rental,
@@ -151,6 +185,9 @@ const Offers = (props) => {
     getOwner,
     clearValues,
   } = queryContext;
+
+  const bookingContext = useContext(BookingContext);
+  const { checkIn, checkOut, setValue } = bookingContext;
 
   // ====== FUNCTIONS =======
 
@@ -171,11 +208,18 @@ const Offers = (props) => {
   }, [rental]);
 
   useEffect(() => {
+    // set booking date
+    setValue(SET_CHECK_IN, queryContext.checkIn);
+    setValue(SET_CHECK_OUT, queryContext.checkOut);
     // Component Mount ScrollToTop
     window.scrollTo(0, 0);
     // Component Unmount Clear Values
     return () => clearValues();
   }, []);
+
+  const handleDateChange = (date, value, type) => {
+    setValue(type, date);
+  };
 
   return (
     <Fragment>
@@ -242,7 +286,111 @@ const Offers = (props) => {
                         <Box ml={1}>{rental.location.label}</Box>
                       </Box>
                     </div>
+                    {mddown && (
+                      <div className={classes.propertiesMobile}>
+                        <Box
+                          display='flex'
+                          alignItems='center'
+                          mr={3}
+                          lineHeight={3}
+                          className={classes.h4}
+                        >
+                          <FastForwardIcon />
+                          <Box ml={1}>{rental.car.kmDriven}</Box>
+                        </Box>
+                        <Box
+                          display='flex'
+                          alignItems='center'
+                          mr={3}
+                          lineHeight={3}
+                          className={classes.h4}
+                        >
+                          <LocalGasStationIcon />
+                          <Box ml={1}>{rental.car.fueltype}</Box>
+                        </Box>
+                        <Box
+                          display='flex'
+                          alignItems='center'
+                          mr={3}
+                          lineHeight={3}
+                          className={classes.h4}
+                        >
+                          <AirlineSeatReclineNormalIcon />
+                          <Box ml={1}>{rental.car.seats}</Box>
+                        </Box>
+                        <Box
+                          display='flex'
+                          alignItems='center'
+                          mr={3}
+                          lineHeight={3}
+                          className={classes.h4}
+                        >
+                          <ColorLensIcon />
+                          <Box ml={1}>{rental.car.color}</Box>
+                        </Box>
+                        <Box
+                          display='flex'
+                          alignItems='center'
+                          lineHeight={3}
+                          className={classes.h4}
+                        >
+                          <AccessTimeIcon />
+                          <Box ml={1}>{rental.car.year}</Box>
+                        </Box>
+                      </div>
+                    )}
+                    <div className={classes.datepicker}>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <Grid container spacing={1}>
+                          <Grid item xs={6} sm={6}>
+                            <KeyboardDateTimePicker
+                              fullWidth
+                              autoOk
+                              ampm={false}
+                              variant='inline'
+                              size='small'
+                              inputVariant='outlined'
+                              disablePast
+                              format='MM/dd/yyyy HH:mm'
+                              id='dateFrom'
+                              label='Check In'
+                              value={checkIn}
+                              onChange={(date, value) =>
+                                handleDateChange(date, value, SET_CHECK_IN)
+                              }
+                              KeyboardButtonProps={{
+                                'aria-label': 'Check in day',
+                              }}
+                            />
+                          </Grid>
+                          <Grid item xs={6} sm={6}>
+                            <KeyboardDateTimePicker
+                              fullWidth
+                              autoOk
+                              ampm={false}
+                              variant='inline'
+                              size='small'
+                              inputVariant='outlined'
+                              disablePast
+                              format='MM/dd/yyyy HH:mm'
+                              id='dateTo'
+                              label='Check Out'
+                              value={checkOut}
+                              onChange={(date, value) =>
+                                handleDateChange(date, value, SET_CHECK_OUT)
+                              }
+                              KeyboardButtonProps={{
+                                'aria-label': 'Check out day',
+                              }}
+                            />
+                          </Grid>
+                        </Grid>
+                      </MuiPickersUtilsProvider>
+                    </div>
                   </CardContent>
+                  <button className={classes.bookingBtn} type='click'>
+                    {isAuthenticated ? 'BOOK NOW' : 'LOGIN TO BOOK'}
+                  </button>
                 </div>
               </Grid>
               <Grid item xs={12} sm={5} md={3}>
@@ -294,8 +442,8 @@ const Offers = (props) => {
                     </Grid>
                   </Grid>
                 </div>
-                <div className={classes.properties}>
-                  <Box display='flex' justifyContent='center'>
+                {!mddown && (
+                  <div className={classes.properties}>
                     <div>
                       <h3>Car Properties</h3>
                       <Box
@@ -348,8 +496,8 @@ const Offers = (props) => {
                         <Box ml={1}>{rental.car.year}</Box>
                       </Box>
                     </div>
-                  </Box>
-                </div>
+                  </div>
+                )}
               </Grid>
             </Grid>
           </Container>
