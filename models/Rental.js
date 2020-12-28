@@ -21,9 +21,13 @@ const RentalSchema = mongoose.Schema({
     type: Object,
     required: true,
   },
+  bookingRequested: {
+    type: Boolean,
+    default: false,
+  },
   booked: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   date: {
     type: Date,

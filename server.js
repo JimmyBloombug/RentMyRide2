@@ -19,6 +19,7 @@ app.use('/public', express.static('./public'));
 // Routes
 app.use('/server/users', require('./routes/users'));
 app.use('/server/auth', require('./routes/auth'));
+app.use('/server/bookings', require('./routes/bookings'));
 app.use('/server/rentals', require('./routes/rentals'));
 app.use('/server/cars', require('./routes/cars'));
 

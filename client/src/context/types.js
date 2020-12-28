@@ -78,15 +78,17 @@ export const SET_RENTAL = 'SET_RENTAL';
 export const SET_RENTALS = 'SET_RENTALS';
 export const SET_CARS = 'SET_CARS';
 
-// Search
 export const SET_CHECK_IN = 'SET_CHECK_IN';
 export const SET_CHECK_OUT = 'SET_CHECK_OUT';
-
+export const SET_CHECK_IN_ERR = 'SET_CHECK_IN_ERR';
+export const SET_CHECK_OUT_ERR = 'SET_CHECK_OUT_ERR';
 export const CLEAR_VALUES = 'CLEAR_VALUES';
 export const SET_OWNER = 'SET_OWNER';
 export const SET_OWNER_ERR = 'SET_OWNER_ERR';
 export const SET_RENTAL_ERR = 'SET_RENTAL_ERR';
 export const SET_RENTALS_ERR = 'SET_RENTALS_ERR';
+export const BOOKING_SUCCESS = 'BOOKING_SUCCESS';
+export const BOOKING_FAIL = 'BOOKING_FAIL';
 
 // Alert
 export const SET_ALERT = 'SET_ALERT';

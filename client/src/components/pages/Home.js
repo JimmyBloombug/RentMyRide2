@@ -235,7 +235,7 @@ const Home = () => {
               xsdown ? (
                 <Slider array={rentals} />
               ) : (
-                <Cards array={rentals} bp={{ mdup, mddown, xsdown }} />
+                <Cards array={rentals} />
               )
             ) : (
               ''

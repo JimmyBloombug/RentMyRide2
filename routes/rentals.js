@@ -5,7 +5,6 @@ const { check, validationResult } = require('express-validator');
 // Middleware
 const auth = require('../middleware/auth');
 // Schema
-const User = require('../models/User');
 const Car = require('../models/Car');
 const Rental = require('../models/Rental');
 
@@ -120,8 +119,8 @@ router.post(
     const { car, price, billing, location } = req.body;
     // get user id
     const user_id = req.user.id;
-    // initial booking status
-    const booked = false;
+    // // initial booking status
+    // const booked = false;
 
     try {
       // // check if car exists
@@ -153,7 +152,6 @@ router.post(
         price,
         billing,
         location,
-        booked,
       });
 
       // sace rental offer

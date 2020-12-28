@@ -33,10 +33,13 @@ import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineNormal';
 
 // Components
+import Slider from '../layout/Slider';
+import Cards from '../layout/Cards';
 import Loading from '../layout/Loading';
 
 // Context
 import AuthContext from '../../context/auth/authContext';
+import NavbarContext from '../../context/navbar/navbarContext';
 import QueryContext from '../../context/query/queryContext';
 import BookingContext from '../../context/booking/bookingContext';
 import { SET_CHECK_IN, SET_CHECK_OUT } from '../../context/types';
@@ -170,24 +173,26 @@ const Offers = (props) => {
     },
   };
 
-  let mddown = useMediaQuery(theme.breakpoints.down('md'));
+  // Media Queries
   let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
 
   // ====== CONTEXT =======
   const authContext = useContext(AuthContext);
   const { isAuthenticated } = authContext;
+  const navbarContext = useContext(NavbarContext);
+  const { setLoginForm } = navbarContext;
   const queryContext = useContext(QueryContext);
-  const {
-    rental,
-    rentals,
-    owner,
-    getRentals,
-    getOwner,
-    clearValues,
-  } = queryContext;
+  const { rental, owner, getRentals, getOwner, clearValues } = queryContext;
 
   const bookingContext = useContext(BookingContext);
-  const { checkIn, checkOut, setValue } = bookingContext;
+  const {
+    checkIn,
+    checkOut,
+    checkInErr,
+    checkOutErr,
+    setValue,
+    submitBooking,
+  } = bookingContext;
 
   // ====== FUNCTIONS =======
 
@@ -202,7 +207,6 @@ const Offers = (props) => {
   // push images, get other offers, get owner
   useEffect(() => {
     if (rental) {
-      getRentals(rental.user_id, 'public', 'user');
       getOwner(rental.user_id);
     }
   }, [rental]);
@@ -217,16 +221,80 @@ const Offers = (props) => {
     return () => clearValues();
   }, []);
 
+  // Handle Click
+  const handleClick = () => {
+    if (isAuthenticated) {
+      submitBooking(rental._id);
+    } else {
+      setLoginForm(true);
+    }
+  };
+
+  // Handle Date
   const handleDateChange = (date, value, type) => {
     setValue(type, date);
   };
 
   return (
     <Fragment>
-      {rental && rentals && owner ? (
+      {rental && owner ? (
         <div className={classes.container}>
           <Container maxWidth='lg'>
+            {/* Profile Info Mobile */}
             <Grid container spacing={2}>
+              {xsdown && (
+                <Grid item xs={12}>
+                  <div className={classes.profile}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={6} sm={12}>
+                        {!xsdown ? (
+                          <Box display='flex' justifyContent='center'>
+                            <img
+                              src={owner.image}
+                              alt='profile-img'
+                              className={classes.img}
+                            />
+                          </Box>
+                        ) : (
+                          <img
+                            src={owner.image}
+                            alt='profile-img'
+                            className={classes.imgMobile}
+                          />
+                        )}
+                      </Grid>
+                      <Grid item xs={6} sm={12}>
+                        {!xsdown ? (
+                          <Box
+                            display='flex'
+                            flexDirection='column'
+                            alignItems='center'
+                          >
+                            <h2 className={classes.h2}>{owner.username}</h2>
+                            <div className={classes.profileInfo}>
+                              {owner.city}
+                            </div>
+                            <div className={classes.profileInfo}>
+                              Registered {owner.date.split('T')[0]}
+                            </div>
+                          </Box>
+                        ) : (
+                          <Fragment>
+                            <h2 className={classes.h2}>{owner.username}</h2>
+                            <div className={classes.profileInfo}>
+                              {owner.city}
+                            </div>
+                            <div className={classes.profileInfo}>
+                              Registered {owner.date.split('T')[0]}
+                            </div>
+                          </Fragment>
+                        )}
+                      </Grid>
+                    </Grid>
+                  </div>
+                </Grid>
+              )}
+              {/* Rental Info */}
               <Grid item xs={12} sm={7} md={9}>
                 <div className={classes.card}>
                   <div className={classes.mediaCont}>
@@ -260,7 +328,7 @@ const Offers = (props) => {
                       variant='h4'
                       component='h2'
                       color='primary'
-                      className={classes.carName}
+                      className={!xsdown ? classes.carName : ''}
                     >
                       {rental.car.label}
                     </Typography>
@@ -286,7 +354,7 @@ const Offers = (props) => {
                         <Box ml={1}>{rental.location.label}</Box>
                       </Box>
                     </div>
-                    {mddown && (
+                    {xsdown && (
                       <div className={classes.propertiesMobile}>
                         <Box
                           display='flex'
@@ -353,8 +421,9 @@ const Offers = (props) => {
                               disablePast
                               format='MM/dd/yyyy HH:mm'
                               id='dateFrom'
-                              label='Check In'
+                              label='From'
                               value={checkIn}
+                              error={checkInErr}
                               onChange={(date, value) =>
                                 handleDateChange(date, value, SET_CHECK_IN)
                               }
@@ -374,8 +443,9 @@ const Offers = (props) => {
                               disablePast
                               format='MM/dd/yyyy HH:mm'
                               id='dateTo'
-                              label='Check Out'
+                              label='To'
                               value={checkOut}
+                              error={checkOutErr}
                               onChange={(date, value) =>
                                 handleDateChange(date, value, SET_CHECK_OUT)
                               }
@@ -388,115 +458,122 @@ const Offers = (props) => {
                       </MuiPickersUtilsProvider>
                     </div>
                   </CardContent>
-                  <button className={classes.bookingBtn} type='click'>
-                    {isAuthenticated ? 'BOOK NOW' : 'LOGIN TO BOOK'}
+                  <button
+                    className={classes.bookingBtn}
+                    type='click'
+                    onClick={handleClick}
+                  >
+                    {isAuthenticated ? 'BOOK NOW' : 'BOOK NOW (LOGIN)'}
                   </button>
                 </div>
               </Grid>
+              {/* Profile and Car Info Web */}
               <Grid item xs={12} sm={5} md={3}>
-                <div className={classes.profile}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6} sm={12}>
-                      {!xsdown ? (
-                        <Box display='flex' justifyContent='center'>
-                          <img
-                            src={owner.image}
-                            alt='profile-img'
-                            className={classes.img}
-                          />
-                        </Box>
-                      ) : (
-                        <img
-                          src={owner.image}
-                          alt='profile-img'
-                          className={classes.imgMobile}
-                        />
-                      )}
-                    </Grid>
-                    <Grid item xs={6} sm={12}>
-                      {!xsdown ? (
+                {!xsdown && (
+                  <Fragment>
+                    <div className={classes.profile}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={6} sm={12}>
+                          {!xsdown ? (
+                            <Box display='flex' justifyContent='center'>
+                              <img
+                                src={owner.image}
+                                alt='profile-img'
+                                className={classes.img}
+                              />
+                            </Box>
+                          ) : (
+                            <img
+                              src={owner.image}
+                              alt='profile-img'
+                              className={classes.imgMobile}
+                            />
+                          )}
+                        </Grid>
+                        <Grid item xs={6} sm={12}>
+                          {!xsdown ? (
+                            <Box
+                              display='flex'
+                              flexDirection='column'
+                              alignItems='center'
+                            >
+                              <h2 className={classes.h2}>{owner.username}</h2>
+                              <div className={classes.profileInfo}>
+                                {owner.city}
+                              </div>
+                              <div className={classes.profileInfo}>
+                                Registered {owner.date.split('T')[0]}
+                              </div>
+                            </Box>
+                          ) : (
+                            <Fragment>
+                              <h2 className={classes.h2}>{owner.username}</h2>
+                              <div className={classes.profileInfo}>
+                                {owner.city}
+                              </div>
+                              <div className={classes.profileInfo}>
+                                Registered {owner.date.split('T')[0]}
+                              </div>
+                            </Fragment>
+                          )}
+                        </Grid>
+                      </Grid>
+                    </div>
+                    <div className={classes.properties}>
+                      <div>
+                        <h3>Car Properties</h3>
                         <Box
                           display='flex'
-                          flexDirection='column'
                           alignItems='center'
+                          mr={3}
+                          lineHeight={3}
+                          className={classes.h4}
                         >
-                          <h2 className={classes.h2}>{owner.username}</h2>
-                          <div className={classes.profileInfo}>
-                            {owner.city}
-                          </div>
-                          <div className={classes.profileInfo}>
-                            Registered {owner.date.split('T')[0]}
-                          </div>
+                          <FastForwardIcon />
+                          <Box ml={1}>{rental.car.kmDriven}</Box>
                         </Box>
-                      ) : (
-                        <Fragment>
-                          <h2 className={classes.h2}>{owner.username}</h2>
-                          <div className={classes.profileInfo}>
-                            {owner.city}
-                          </div>
-                          <div className={classes.profileInfo}>
-                            Registered {owner.date.split('T')[0]}
-                          </div>
-                        </Fragment>
-                      )}
-                    </Grid>
-                  </Grid>
-                </div>
-                {!mddown && (
-                  <div className={classes.properties}>
-                    <div>
-                      <h3>Car Properties</h3>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        mr={3}
-                        lineHeight={3}
-                        className={classes.h4}
-                      >
-                        <FastForwardIcon />
-                        <Box ml={1}>{rental.car.kmDriven}</Box>
-                      </Box>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        mr={3}
-                        lineHeight={3}
-                        className={classes.h4}
-                      >
-                        <LocalGasStationIcon />
-                        <Box ml={1}>{rental.car.fueltype}</Box>
-                      </Box>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        mr={3}
-                        lineHeight={3}
-                        className={classes.h4}
-                      >
-                        <AirlineSeatReclineNormalIcon />
-                        <Box ml={1}>{rental.car.seats}</Box>
-                      </Box>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        mr={3}
-                        lineHeight={3}
-                        className={classes.h4}
-                      >
-                        <ColorLensIcon />
-                        <Box ml={1}>{rental.car.color}</Box>
-                      </Box>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        lineHeight={3}
-                        className={classes.h4}
-                      >
-                        <AccessTimeIcon />
-                        <Box ml={1}>{rental.car.year}</Box>
-                      </Box>
+                        <Box
+                          display='flex'
+                          alignItems='center'
+                          mr={3}
+                          lineHeight={3}
+                          className={classes.h4}
+                        >
+                          <LocalGasStationIcon />
+                          <Box ml={1}>{rental.car.fueltype}</Box>
+                        </Box>
+                        <Box
+                          display='flex'
+                          alignItems='center'
+                          mr={3}
+                          lineHeight={3}
+                          className={classes.h4}
+                        >
+                          <AirlineSeatReclineNormalIcon />
+                          <Box ml={1}>{rental.car.seats}</Box>
+                        </Box>
+                        <Box
+                          display='flex'
+                          alignItems='center'
+                          mr={3}
+                          lineHeight={3}
+                          className={classes.h4}
+                        >
+                          <ColorLensIcon />
+                          <Box ml={1}>{rental.car.color}</Box>
+                        </Box>
+                        <Box
+                          display='flex'
+                          alignItems='center'
+                          lineHeight={3}
+                          className={classes.h4}
+                        >
+                          <AccessTimeIcon />
+                          <Box ml={1}>{rental.car.year}</Box>
+                        </Box>
+                      </div>
                     </div>
-                  </div>
+                  </Fragment>
                 )}
               </Grid>
             </Grid>

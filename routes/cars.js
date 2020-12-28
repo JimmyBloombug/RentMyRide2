@@ -18,8 +18,6 @@ router.get('/user', auth, async (req, res) => {
   // destructure
   const { id } = req.user;
 
-  console.log(id);
-
   // search cars
   try {
     // find cars with matching user_id

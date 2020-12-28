@@ -1,4 +1,9 @@
-import { SET_CHECK_IN, SET_CHECK_OUT } from '../types';
+import {
+  SET_CHECK_IN,
+  SET_CHECK_IN_ERR,
+  SET_CHECK_OUT,
+  SET_CHECK_OUT_ERR,
+} from '../types';
 
 const BookingReducer = (state, action) => {
   switch (action.type) {
@@ -6,12 +11,26 @@ const BookingReducer = (state, action) => {
       return {
         ...state,
         checkIn: action.payload,
+        checkInErr: false,
       };
     case SET_CHECK_OUT:
       return {
         ...state,
         checkOut: action.payload,
+        checkOutErr: false,
       };
+    case SET_CHECK_IN_ERR: {
+      return {
+        ...state,
+        checkInErr: true,
+      };
+    }
+    case SET_CHECK_OUT_ERR: {
+      return {
+        ...state,
+        checkOutErr: true,
+      };
+    }
     default:
       return;
   }
