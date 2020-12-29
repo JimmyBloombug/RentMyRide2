@@ -8,7 +8,7 @@ const UserSchema = mongoose.Schema({
   },
   image: {
     type: String,
-    required: true,
+    default: 'public/default/profile/profile.svg',
   },
   email: {
     type: String,

@@ -20,11 +20,15 @@ router.get('/public', async (req, res) => {
         limit = parseInt(limit);
 
         // get newest rental offers
-        let rentals = await Rental.find().sort({ _id: -1 }).limit(limit);
+        let rentals = await Rental.find({
+          booked: { $ne: true },
+        })
+          .sort({ _id: -1 })
+          .limit(limit);
         res.json(rentals);
       } catch (error) {
         console.error(error);
-        res.status(500).json({ errors: 'Internatl Server Error' });
+        res.status(500).json({ errors: 'Internal Server Error' });
       }
       break;
     case 'single':
@@ -34,7 +38,7 @@ router.get('/public', async (req, res) => {
         res.json(rental);
       } catch (error) {
         console.error(error);
-        res.status(500).json({ errors: 'Internatl Server Error' });
+        res.status(500).json({ errors: 'Internal Server Error' });
       }
       break;
     case 'user':
@@ -44,7 +48,7 @@ router.get('/public', async (req, res) => {
         res.json(rentals);
       } catch (error) {
         console.error(error);
-        res.status(500).json({ errors: 'Internatl Server Error' });
+        res.status(500).json({ errors: 'Internal Server Error' });
       }
       break;
     case 'all':
@@ -57,7 +61,7 @@ router.get('/public', async (req, res) => {
         // error
         console.error(error);
         // response
-        res.status(500).json({ errors: 'Internatl Server Error' });
+        res.status(500).json({ errors: 'Internal Server Error' });
       }
   }
 });

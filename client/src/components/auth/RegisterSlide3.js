@@ -49,7 +49,7 @@ const RegisterSlide3 = (props) => {
 
   return (
     <Fragment>
-      {serverErr == null ? (
+      {serverErr === undefined ? (
         <Fragment>
           <Success classes={props.classes} />
           <Typography className={props.classes.slide3Message}>

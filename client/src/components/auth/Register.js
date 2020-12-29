@@ -116,7 +116,7 @@ const Register = () => {
     setSlide,
     registerUser,
     validateFirstSlide,
-    resetForm,
+    resetRegister,
   } = authContext;
 
   // AlertContext
@@ -134,7 +134,7 @@ const Register = () => {
     } else if (type === 'next' && registerSlide === 2) {
       registerUser();
     } else if (type === 'close') {
-      resetForm();
+      resetRegister();
       setRegisterForm(false);
     }
   };

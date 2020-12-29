@@ -33,7 +33,8 @@ import {
   AUTH_ERROR,
   SET_SLIDE,
   SET_LOADING,
-  RESET_FORM,
+  RESET_REGISTER,
+  RESET_LOGIN,
 } from '../types';
 
 const AuthReducer = (state, action) => {
@@ -194,6 +195,7 @@ const AuthReducer = (state, action) => {
         token: action.payload,
         isAuthenticated: true,
         serverErr: undefined,
+        loading: true,
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload);
@@ -253,7 +255,7 @@ const AuthReducer = (state, action) => {
         ...state,
         loading: false,
       };
-    case RESET_FORM:
+    case RESET_REGISTER:
       return {
         ...state,
         firstName: '',
@@ -281,6 +283,15 @@ const AuthReducer = (state, action) => {
         userExists: { takenName: '', takenEmail: '' },
         serverErr: undefined,
         registerSlide: 1,
+      };
+    case RESET_LOGIN:
+      return {
+        ...state,
+        email: '',
+        password: '',
+        emailErr: false,
+        passwordErr: false,
+        serverErr: undefined,
       };
     default:
       return;

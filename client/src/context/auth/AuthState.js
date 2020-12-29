@@ -31,7 +31,8 @@ import {
   SET_STREET_ERR,
   SET_ZIP_ERR,
   SET_CITY_ERR,
-  RESET_FORM,
+  RESET_REGISTER,
+  RESET_LOGIN,
 } from '../types';
 
 // REGEX
@@ -300,7 +301,7 @@ const AuthState = (props) => {
           payload: res.data.token,
         });
 
-        loadUser();
+        // loadUser();
       } catch (error) {
         dispatch({
           type: REGISTER_FAIL,
@@ -329,8 +330,8 @@ const AuthState = (props) => {
   };
 
   // Reset Register
-  const resetForm = () => {
-    dispatch({ type: RESET_FORM });
+  const resetRegister = () => {
+    dispatch({ type: RESET_REGISTER });
   };
 
   // ======= LOGIN ========
@@ -367,6 +368,11 @@ const AuthState = (props) => {
         payload: error.response.data.errors,
       });
     }
+  };
+
+  // Reset Login
+  const resetLogin = () => {
+    dispatch({ type: RESET_LOGIN });
   };
 
   // ======= LOGOUT =======
@@ -443,7 +449,8 @@ const AuthState = (props) => {
         validateCountry,
         validateFirstSlide,
         setSlide,
-        resetForm,
+        resetRegister,
+        resetLogin,
       }}
     >
       {props.children}

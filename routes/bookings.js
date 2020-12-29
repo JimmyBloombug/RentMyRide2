@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 // Middleware
 const auth = require('../middleware/auth');
 // Schema
+const Booking = require('../models/Booking');
 
 // @route POST server/bookings
 // @desc POST rentals
