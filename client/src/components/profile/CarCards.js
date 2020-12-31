@@ -139,106 +139,101 @@ const CarCards = (props) => {
 
   return (
     <div className={classes.container}>
-      <Container maxWidth='lg'>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card
-              className={clsx(classes.card, classes.addNew)}
-              onClick={() => props.handleModal({ open: true, type: 'cars' })}
-            >
-              <CardActionArea>
-                <CardContent className={clsx(classes.cont, classes.addNewCont)}>
-                  <AddIcon className={classes.addIcon} />
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-          {props.array.map((car, index) => {
-            return (
-              <Grid item xs={12} sm={6} md={3} key={car._id}>
-                <Card
-                  className={classes.card}
-                  onClick={() => handleClick(index)}
-                >
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image={car.pictures[0]}
-                      title={car.label}
-                    />
-                    <CardContent className={classes.cont}>
-                      <Typography
-                        gutterBottom
-                        variant='h5'
-                        component='h2'
-                        className={classes.carName}
-                        color='primary'
-                      >
-                        {car.label}
-                      </Typography>
-                      <div className={classes.info}>
-                        <Box
-                          display='flex'
-                          alignItems='center'
-                          mr={2}
-                          lineHeight={3}
-                        >
-                          <FastForwardIcon />
-                          <Box ml={1}>{car.kmDriven}</Box>
-                        </Box>
-                        <Box
-                          display='flex'
-                          alignItems='center'
-                          mr={2}
-                          lineHeight={3}
-                        >
-                          <LocalGasStationIcon />
-                          <Box ml={1}>{car.fueltype}</Box>
-                        </Box>
-                        <Box
-                          display='flex'
-                          alignItems='center'
-                          mr={2}
-                          lineHeight={3}
-                        >
-                          <AirlineSeatReclineNormalIcon />
-                          <Box ml={1}>{car.seats}</Box>
-                        </Box>
-                        <Box display='flex' alignItems='center' lineHeight={3}>
-                          <ColorLensIcon />
-                          <Box ml={1}>{car.color}</Box>
-                        </Box>
-                      </div>
-                    </CardContent>
-                  </CardActionArea>
-                  <motion.div
-                    transition={{
-                      duration: 0.5,
-                      type: 'tween',
-                      damping: 10,
-                      stiffness: 50,
-                    }}
-                    initial={{ y: 50 }}
-                    animate={
-                      actionFields[index] !== undefined && {
-                        y: actionFields[index].open === true ? 0 : 50,
-                      }
-                    }
-                    className={classes.cardEditInfo}
-                  >
-                    <IconButton color='inherit'>
-                      <DeleteForeverIcon />
-                    </IconButton>
-                    <IconButton color='primary'>
-                      <EditIcon />
-                    </IconButton>
-                  </motion.div>
-                </Card>
-              </Grid>
-            );
-          })}
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6} md={3}>
+          <Card
+            className={clsx(classes.card, classes.addNew)}
+            onClick={() => props.handleModal({ open: true, type: 'cars' })}
+          >
+            <CardActionArea>
+              <CardContent className={clsx(classes.cont, classes.addNewCont)}>
+                <AddIcon className={classes.addIcon} />
+              </CardContent>
+            </CardActionArea>
+          </Card>
         </Grid>
-      </Container>
+        {props.array.map((car, index) => {
+          return (
+            <Grid item xs={12} sm={6} md={3} key={car._id}>
+              <Card className={classes.card} onClick={() => handleClick(index)}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={car.pictures[0]}
+                    title={car.label}
+                  />
+                  <CardContent className={classes.cont}>
+                    <Typography
+                      gutterBottom
+                      variant='h5'
+                      component='h2'
+                      className={classes.carName}
+                      color='primary'
+                    >
+                      {car.label}
+                    </Typography>
+                    <div className={classes.info}>
+                      <Box
+                        display='flex'
+                        alignItems='center'
+                        mr={2}
+                        lineHeight={3}
+                      >
+                        <FastForwardIcon />
+                        <Box ml={1}>{car.kmDriven}</Box>
+                      </Box>
+                      <Box
+                        display='flex'
+                        alignItems='center'
+                        mr={2}
+                        lineHeight={3}
+                      >
+                        <LocalGasStationIcon />
+                        <Box ml={1}>{car.fueltype}</Box>
+                      </Box>
+                      <Box
+                        display='flex'
+                        alignItems='center'
+                        mr={2}
+                        lineHeight={3}
+                      >
+                        <AirlineSeatReclineNormalIcon />
+                        <Box ml={1}>{car.seats}</Box>
+                      </Box>
+                      <Box display='flex' alignItems='center' lineHeight={3}>
+                        <ColorLensIcon />
+                        <Box ml={1}>{car.color}</Box>
+                      </Box>
+                    </div>
+                  </CardContent>
+                </CardActionArea>
+                <motion.div
+                  transition={{
+                    duration: 0.5,
+                    type: 'tween',
+                    damping: 10,
+                    stiffness: 50,
+                  }}
+                  initial={{ y: 50 }}
+                  animate={
+                    actionFields[index] !== undefined && {
+                      y: actionFields[index].open === true ? 0 : 50,
+                    }
+                  }
+                  className={classes.cardEditInfo}
+                >
+                  <IconButton color='inherit'>
+                    <DeleteForeverIcon />
+                  </IconButton>
+                  <IconButton color='primary'>
+                    <EditIcon />
+                  </IconButton>
+                </motion.div>
+              </Card>
+            </Grid>
+          );
+        })}
+      </Grid>
     </div>
   );
 };

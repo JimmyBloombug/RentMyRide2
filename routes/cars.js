@@ -9,7 +9,7 @@ const Car = require('../models/Car');
 
 // Utils
 const StorageEngine = require('../utils/StorageEngine');
-const storageEngine = new StorageEngine('./public/uploads/cars', 5004508);
+const storageEngine = new StorageEngine('./public/uploads/cars', 10004508);
 
 // @route   GET server/cars
 // @desc    GET cars user
@@ -108,7 +108,12 @@ router.post(
     const user_id = req.user.id;
 
     // create label
-    const label = `${brand} ${model}`;
+    let label = `${brand} ${model}`;
+    // remove brand from label if too long
+    if (label.length > 15) {
+      label = model;
+    }
+
     // initial active status
     const active = false;
 

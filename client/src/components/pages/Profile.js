@@ -22,7 +22,12 @@ import { SET_MODAL } from '../../context/types';
 // Define Style
 const useStyles = makeStyles((theme) => ({
   carsCont: {
-    minHeight: '100vh',
+    // minHeight: '100vh',
+    // width: '100%',
+    // display: 'flex',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    width: '100%',
   },
   carsMenuCont: {
     padding: theme.spacing(2, 5),
@@ -149,7 +154,7 @@ const Profile = (props) => {
         </div>
         {page === 'bookings' ? (
           <div className={classes.content}>
-            <Container maxWidth='md'>
+            <Container maxWidth='lg'>
               <div className={classes.noContent}>
                 <img
                   className={classes.img}
@@ -167,7 +172,7 @@ const Profile = (props) => {
         ) : page === 'rentals' ? (
           rentals.length === 0 ? (
             <div className={classes.content}>
-              <Container maxWidth='md'>
+              <Container maxWidth='lg'>
                 <div className={classes.noContent}>
                   <img
                     className={classes.img}
@@ -199,7 +204,7 @@ const Profile = (props) => {
         ) : page === 'cars' ? (
           cars.length === 0 ? (
             <div className={classes.content}>
-              <Container maxWidth='md'>
+              <Container maxWidth='lg'>
                 <div className={classes.noContent}>
                   <img className={classes.img} src={NoCars} alt='no-cars-yet' />
                   <h4 className={classes.h4}>No cars found</h4>

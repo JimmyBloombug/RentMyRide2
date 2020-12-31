@@ -33,8 +33,8 @@ import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineNormal';
 
 // Components
-import Slider from '../layout/Slider';
-import Cards from '../layout/Cards';
+// import Slider from '../layout/Slider';
+// import Cards from '../layout/Cards';
 import Loading from '../layout/Loading';
 
 // Context
@@ -468,7 +468,7 @@ const Offers = (props) => {
                 </div>
               </Grid>
               {/* Profile and Car Info Web */}
-              <Grid item xs={12} sm={5} md={3}>
+              <Grid item xs={12} sm={4} md={3}>
                 {!xsdown && (
                   <Fragment>
                     <div className={classes.profile}>

@@ -354,9 +354,10 @@ const CarForm = (props) => {
                   buttonClassName={props.classes.imgButton}
                   withIcon={false}
                   withPreview={false}
+                  maxFileSize={10004508}
                   label={
                     pictures.length === 0 ? (
-                      'Max file size: 5mb, accepted: jpg, jpeg, png'
+                      'Max file size: 10mb, accepted: jpg, jpeg, png'
                     ) : (
                       <div style={{ display: 'flex' }}>
                         {pictures.map((el, index) => {

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const BookingSchema = mongoose.model({
+const BookingSchema = mongoose.Schema({
   user_id: {
     type: String,
     required: true,
