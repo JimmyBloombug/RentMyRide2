@@ -3,6 +3,7 @@ import {
   SET_CHECK_IN_ERR,
   SET_CHECK_OUT,
   SET_CHECK_OUT_ERR,
+  CLEAR_VALUES,
 } from '../types';
 
 const BookingReducer = (state, action) => {
@@ -29,6 +30,15 @@ const BookingReducer = (state, action) => {
       return {
         ...state,
         checkOutErr: true,
+      };
+    }
+    case CLEAR_VALUES: {
+      return {
+        ...state,
+        server: {
+          msg: '',
+          errors: undefined,
+        },
       };
     }
     default:

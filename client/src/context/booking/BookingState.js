@@ -8,6 +8,7 @@ import {
   SET_CHECK_OUT_ERR,
   BOOKING_SUCCESS,
   BOOKING_FAIL,
+  CLEAR_VALUES,
 } from '../types';
 
 const BookingState = (props) => {
@@ -84,6 +85,13 @@ const BookingState = (props) => {
         });
       }
     }
+  };
+
+  // clear
+  const clearValues = () => {
+    dispatch({
+      type: CLEAR_VALUES,
+    });
   };
 
   return (

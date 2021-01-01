@@ -158,7 +158,7 @@ router.post(
         location,
       });
 
-      // sace rental offer
+      // save rental offer
       await rental.save();
 
       // response
