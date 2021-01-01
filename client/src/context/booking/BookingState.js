@@ -9,6 +9,7 @@ import {
   BOOKING_SUCCESS,
   BOOKING_FAIL,
   CLEAR_VALUES,
+  SET_LOADING,
 } from '../types';
 
 const BookingState = (props) => {
@@ -17,10 +18,12 @@ const BookingState = (props) => {
     checkOut: null,
     checkInErr: false,
     checkOutErr: false,
+    bookingModalOpen: false,
     server: {
       msg: '',
       errors: undefined,
     },
+    loading: true,
   };
 
   const [state, dispatch] = useReducer(BookingReducer, initialState);
@@ -69,9 +72,13 @@ const BookingState = (props) => {
           },
         };
 
-        // add booking
-        const res = axios.post('server/bookings/user', formData, config);
+        // set loading
+        setValue(SET_LOADING);
 
+        // add booking
+        const res = await axios.post('server/bookings/user', formData, config);
+
+        console.log('in BookingState: ' + res.data);
         // booking success
         dispatch({
           type: BOOKING_SUCCESS,
@@ -79,6 +86,7 @@ const BookingState = (props) => {
         });
       } catch (error) {
         // booking error
+        console.log(error);
         dispatch({
           type: BOOKING_FAIL,
           payload: error.response.data,
@@ -101,9 +109,12 @@ const BookingState = (props) => {
         checkOut: state.checkOut,
         checkInErr: state.checkInErr,
         checkOutErr: state.checkOutErr,
+        bookingModalOpen: state.bookingModalOpen,
         server: state.server,
+        loading: state.loading,
         setValue,
         submitBooking,
+        clearValues,
       }}
     >
       {props.children}

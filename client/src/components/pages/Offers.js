@@ -35,6 +35,7 @@ import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineN
 // Components
 // import Slider from '../layout/Slider';
 // import Cards from '../layout/Cards';
+import FormModal from '../offers/BookingModal';
 import Loading from '../layout/Loading';
 
 // Context
@@ -107,6 +108,7 @@ const useStyles = makeStyles((theme) => ({
     height: '50px',
     fontSize: '1.2em',
     outline: 'none',
+    cursor: 'pointer',
   },
   h2: {
     fontSize: '1.4em',
@@ -122,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     width: '100%',
     filter: 'brightness(.7)',
+    cursor: 'pointer',
   },
   img: {
     width: 150,
@@ -182,7 +185,7 @@ const Offers = (props) => {
   const navbarContext = useContext(NavbarContext);
   const { setLoginForm } = navbarContext;
   const queryContext = useContext(QueryContext);
-  const { rental, owner, getRentals, getOwner, clearValues } = queryContext;
+  const { rental, owner, getRentals, getOwner } = queryContext;
 
   const bookingContext = useContext(BookingContext);
   const {
@@ -218,11 +221,15 @@ const Offers = (props) => {
     // Component Mount ScrollToTop
     window.scrollTo(0, 0);
     // Component Unmount Clear Values
-    return () => clearValues();
+    return () => {
+      queryContext.clearValues();
+      bookingContext.clearValues();
+    };
   }, []);
 
   // Handle Click
-  const handleClick = () => {
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
     if (isAuthenticated) {
       submitBooking(rental._id);
     } else {
@@ -297,174 +304,174 @@ const Offers = (props) => {
               {/* Rental Info */}
               <Grid item xs={12} sm={7} md={9}>
                 <div className={classes.card}>
-                  <div className={classes.mediaCont}>
-                    <SRLWrapper options={lightboxOptions}>
-                      <AliceCarousel
-                        mouseTracking
-                        animationType='fadeout'
-                        autoPlay={true}
-                        autoPlayInterval={3000}
-                        infinite={true}
-                        disableButtonsControls={true}
-                        disableSlideInfo={true}
-                        disableDotsControls={true}
-                      >
-                        {rental.car.pictures.map((el, index) => {
-                          return (
-                            <img
-                              key={index}
-                              src={el}
-                              alt={'Image ' + index}
-                              className={classes.media}
-                            />
-                          );
-                        })}
-                      </AliceCarousel>
-                    </SRLWrapper>
-                  </div>
-                  <CardContent className={classes.cardCont}>
-                    <Typography
-                      gutterBottom
-                      variant='h4'
-                      component='h2'
-                      color='primary'
-                      className={!xsdown ? classes.carName : ''}
-                    >
-                      {rental.car.label}
-                    </Typography>
-                    <div className={classes.rentalCont}>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        lineHeight={3}
-                        className={classes.rentalInfo}
-                        mr={3}
-                      >
-                        <AttachMoneyIcon />
-                        <Box ml={1}>{rental.price + ' ' + rental.billing}</Box>
-                      </Box>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        lineHeight={3}
-                        className={classes.rentalInfo}
-                        mr={3}
-                      >
-                        <RoomIcon />
-                        <Box ml={1}>{rental.location.label}</Box>
-                      </Box>
+                  <form onSubmit={handleSubmit}>
+                    <div className={classes.mediaCont}>
+                      <SRLWrapper options={lightboxOptions}>
+                        <AliceCarousel
+                          mouseTracking
+                          animationType='fadeout'
+                          autoPlay={true}
+                          autoPlayInterval={3000}
+                          infinite={true}
+                          disableButtonsControls={true}
+                          disableSlideInfo={true}
+                          disableDotsControls={true}
+                        >
+                          {rental.car.pictures.map((el, index) => {
+                            return (
+                              <img
+                                key={index}
+                                src={el}
+                                alt={'Image ' + index}
+                                className={classes.media}
+                              />
+                            );
+                          })}
+                        </AliceCarousel>
+                      </SRLWrapper>
                     </div>
-                    {xsdown && (
-                      <div className={classes.propertiesMobile}>
+                    <CardContent className={classes.cardCont}>
+                      <Typography
+                        gutterBottom
+                        variant='h4'
+                        component='h2'
+                        color='primary'
+                        className={!xsdown ? classes.carName : ''}
+                      >
+                        {rental.car.label}
+                      </Typography>
+                      <div className={classes.rentalCont}>
                         <Box
                           display='flex'
                           alignItems='center'
-                          mr={3}
                           lineHeight={3}
-                          className={classes.h4}
-                        >
-                          <FastForwardIcon />
-                          <Box ml={1}>{rental.car.kmDriven}</Box>
-                        </Box>
-                        <Box
-                          display='flex'
-                          alignItems='center'
+                          className={classes.rentalInfo}
                           mr={3}
-                          lineHeight={3}
-                          className={classes.h4}
                         >
-                          <LocalGasStationIcon />
-                          <Box ml={1}>{rental.car.fueltype}</Box>
-                        </Box>
-                        <Box
-                          display='flex'
-                          alignItems='center'
-                          mr={3}
-                          lineHeight={3}
-                          className={classes.h4}
-                        >
-                          <AirlineSeatReclineNormalIcon />
-                          <Box ml={1}>{rental.car.seats}</Box>
-                        </Box>
-                        <Box
-                          display='flex'
-                          alignItems='center'
-                          mr={3}
-                          lineHeight={3}
-                          className={classes.h4}
-                        >
-                          <ColorLensIcon />
-                          <Box ml={1}>{rental.car.color}</Box>
+                          <AttachMoneyIcon />
+                          <Box ml={1}>
+                            {rental.price + ' ' + rental.billing}
+                          </Box>
                         </Box>
                         <Box
                           display='flex'
                           alignItems='center'
                           lineHeight={3}
-                          className={classes.h4}
+                          className={classes.rentalInfo}
+                          mr={3}
                         >
-                          <AccessTimeIcon />
-                          <Box ml={1}>{rental.car.year}</Box>
+                          <RoomIcon />
+                          <Box ml={1}>{rental.location.label}</Box>
                         </Box>
                       </div>
-                    )}
-                    <div className={classes.datepicker}>
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={6} sm={6}>
-                            <KeyboardDateTimePicker
-                              fullWidth
-                              autoOk
-                              ampm={false}
-                              variant='inline'
-                              size='small'
-                              inputVariant='outlined'
-                              disablePast
-                              format='MM/dd/yyyy HH:mm'
-                              id='dateFrom'
-                              label='From'
-                              value={checkIn}
-                              error={checkInErr}
-                              onChange={(date, value) =>
-                                handleDateChange(date, value, SET_CHECK_IN)
-                              }
-                              KeyboardButtonProps={{
-                                'aria-label': 'Check in day',
-                              }}
-                            />
+                      {xsdown && (
+                        <div className={classes.propertiesMobile}>
+                          <Box
+                            display='flex'
+                            alignItems='center'
+                            mr={3}
+                            lineHeight={3}
+                            className={classes.h4}
+                          >
+                            <FastForwardIcon />
+                            <Box ml={1}>{rental.car.kmDriven}</Box>
+                          </Box>
+                          <Box
+                            display='flex'
+                            alignItems='center'
+                            mr={3}
+                            lineHeight={3}
+                            className={classes.h4}
+                          >
+                            <LocalGasStationIcon />
+                            <Box ml={1}>{rental.car.fueltype}</Box>
+                          </Box>
+                          <Box
+                            display='flex'
+                            alignItems='center'
+                            mr={3}
+                            lineHeight={3}
+                            className={classes.h4}
+                          >
+                            <AirlineSeatReclineNormalIcon />
+                            <Box ml={1}>{rental.car.seats}</Box>
+                          </Box>
+                          <Box
+                            display='flex'
+                            alignItems='center'
+                            mr={3}
+                            lineHeight={3}
+                            className={classes.h4}
+                          >
+                            <ColorLensIcon />
+                            <Box ml={1}>{rental.car.color}</Box>
+                          </Box>
+                          <Box
+                            display='flex'
+                            alignItems='center'
+                            lineHeight={3}
+                            className={classes.h4}
+                          >
+                            <AccessTimeIcon />
+                            <Box ml={1}>{rental.car.year}</Box>
+                          </Box>
+                        </div>
+                      )}
+                      <div className={classes.datepicker}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <Grid container spacing={1}>
+                            <Grid item xs={6} sm={6}>
+                              <KeyboardDateTimePicker
+                                fullWidth
+                                autoOk
+                                ampm={false}
+                                variant='inline'
+                                size='small'
+                                inputVariant='outlined'
+                                disablePast
+                                format='MM/dd/yyyy HH:mm'
+                                id='dateFrom'
+                                label='From'
+                                value={checkIn}
+                                error={checkInErr}
+                                onChange={(date, value) =>
+                                  handleDateChange(date, value, SET_CHECK_IN)
+                                }
+                                KeyboardButtonProps={{
+                                  'aria-label': 'Check in day',
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={6} sm={6}>
+                              <KeyboardDateTimePicker
+                                fullWidth
+                                autoOk
+                                ampm={false}
+                                variant='inline'
+                                size='small'
+                                inputVariant='outlined'
+                                disablePast
+                                format='MM/dd/yyyy HH:mm'
+                                id='dateTo'
+                                label='To'
+                                value={checkOut}
+                                error={checkOutErr}
+                                onChange={(date, value) =>
+                                  handleDateChange(date, value, SET_CHECK_OUT)
+                                }
+                                KeyboardButtonProps={{
+                                  'aria-label': 'Check out day',
+                                }}
+                              />
+                            </Grid>
                           </Grid>
-                          <Grid item xs={6} sm={6}>
-                            <KeyboardDateTimePicker
-                              fullWidth
-                              autoOk
-                              ampm={false}
-                              variant='inline'
-                              size='small'
-                              inputVariant='outlined'
-                              disablePast
-                              format='MM/dd/yyyy HH:mm'
-                              id='dateTo'
-                              label='To'
-                              value={checkOut}
-                              error={checkOutErr}
-                              onChange={(date, value) =>
-                                handleDateChange(date, value, SET_CHECK_OUT)
-                              }
-                              KeyboardButtonProps={{
-                                'aria-label': 'Check out day',
-                              }}
-                            />
-                          </Grid>
-                        </Grid>
-                      </MuiPickersUtilsProvider>
-                    </div>
-                  </CardContent>
-                  <button
-                    className={classes.bookingBtn}
-                    type='click'
-                    onClick={handleClick}
-                  >
-                    {isAuthenticated ? 'BOOK NOW' : 'BOOK NOW (LOGIN)'}
-                  </button>
+                        </MuiPickersUtilsProvider>
+                      </div>
+                    </CardContent>
+                    <button className={classes.bookingBtn} type='submit'>
+                      {isAuthenticated ? 'BOOK NOW' : 'BOOK NOW (LOGIN)'}
+                    </button>
+                  </form>
                 </div>
               </Grid>
               {/* Profile and Car Info Web */}
@@ -584,6 +591,7 @@ const Offers = (props) => {
           <Loading classes={classes.loading} />
         </div>
       )}
+      <FormModal />
     </Fragment>
   );
 };

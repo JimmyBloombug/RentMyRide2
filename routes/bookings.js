@@ -24,10 +24,6 @@ router.post(
     // destructure
     let { rental_id, checkIn, checkOut } = req.body;
 
-    console.log(rental_id);
-    console.log(checkIn);
-    console.log(checkOut);
-
     // return validation errors
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -56,10 +52,12 @@ router.post(
       // get rental owner
       const owner_id = rentalExists.user_id;
 
-      // set rental booked
-      rentalExists.booked = true;
-      // save updated car
-      await rentalExists.save();
+      // error if user tries to book his own offer
+      if (user_id === owner_id) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "You can't book your own offer" }] });
+      }
 
       // create booking
       booking = new Booking({
@@ -73,8 +71,13 @@ router.post(
       // save booking
       await booking.save();
 
+      // set rental booked
+      rentalExists.booked = true;
+      // save updated car
+      await rentalExists.save();
+
       // response
-      res.json({ msg: 'Your offer has been saved successfully', errors });
+      res.json({ msg: 'Your offer has been saved successfully' });
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
