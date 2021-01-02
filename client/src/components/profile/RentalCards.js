@@ -13,7 +13,6 @@ import {
   makeStyles,
   Typography,
   Grid,
-  Container,
   IconButton,
 } from '@material-ui/core';
 
@@ -24,9 +23,12 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import RoomIcon from '@material-ui/icons/Room';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import BlockIcon from '@material-ui/icons/Block';
+import ChatIcon from '@material-ui/icons/Chat';
 
 // Utils
 import hexToRGB from '../../utils/hexToRGB';
+import { Fragment } from 'react';
 
 // Style
 const useStyles = makeStyles((theme) => ({
@@ -219,12 +221,42 @@ const RentalCards = (props) => {
                   }
                   className={classes.cardEditInfo}
                 >
-                  <IconButton color='inherit'>
-                    <DeleteForeverIcon />
-                  </IconButton>
-                  <IconButton color='primary'>
-                    <EditIcon />
-                  </IconButton>
+                  {rental.booked === false ? (
+                    <Fragment>
+                      <IconButton
+                        color='inherit'
+                        aria-label='Delete rental offer'
+                        onClick={() =>
+                          props.handleDelete(rental._id, 'rentals')
+                        }
+                      >
+                        <DeleteForeverIcon />
+                      </IconButton>
+                      <IconButton
+                        color='primary'
+                        aria-label='Edit rental offer'
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      <IconButton
+                        color='inherit'
+                        aria-label='Close offer'
+                        title='Close offer'
+                      >
+                        <BlockIcon />
+                      </IconButton>
+                      <IconButton
+                        color='primary'
+                        aria-label='Message customer'
+                        title='Message customer'
+                      >
+                        <ChatIcon />
+                      </IconButton>
+                    </Fragment>
+                  )}
                 </motion.div>
               </Card>
             </Grid>
@@ -238,6 +270,7 @@ const RentalCards = (props) => {
 RentalCards.propTypes = {
   array: PropTypes.array.isRequired,
   handleModal: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default RentalCards;

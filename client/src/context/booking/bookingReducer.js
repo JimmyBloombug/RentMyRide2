@@ -43,7 +43,7 @@ const BookingReducer = (state, action) => {
       };
     }
     case BOOKING_SUCCESS: {
-      console.log('in BookingReducer Booking_Success: ' + action.payload);
+      // console.log('in BookingReducer Booking_Success: ' + action.payload);
       return {
         ...state,
         loading: true,
@@ -52,7 +52,7 @@ const BookingReducer = (state, action) => {
       };
     }
     case BOOKING_FAIL: {
-      console.log('in BookingReducer Booking_Fail: ' + action.payload);
+      // console.log('in BookingReducer Booking_Fail: ' + action.payload);
       return {
         ...state,
         loading: true,

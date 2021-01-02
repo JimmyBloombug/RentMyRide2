@@ -35,7 +35,7 @@ import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineN
 // Components
 // import Slider from '../layout/Slider';
 // import Cards from '../layout/Cards';
-import FormModal from '../offers/BookingModal';
+import ServerResponse from '../layout/ServerResponse';
 import Loading from '../layout/Loading';
 
 // Context
@@ -182,8 +182,10 @@ const Offers = (props) => {
   // ====== CONTEXT =======
   const authContext = useContext(AuthContext);
   const { isAuthenticated } = authContext;
+
   const navbarContext = useContext(NavbarContext);
   const { setLoginForm } = navbarContext;
+
   const queryContext = useContext(QueryContext);
   const { rental, owner, getRentals, getOwner } = queryContext;
 
@@ -193,6 +195,9 @@ const Offers = (props) => {
     checkOut,
     checkInErr,
     checkOutErr,
+    bookingModalOpen,
+    loading,
+    server,
     setValue,
     submitBooking,
   } = bookingContext;
@@ -591,7 +596,13 @@ const Offers = (props) => {
           <Loading classes={classes.loading} />
         </div>
       )}
-      <FormModal />
+      <ServerResponse
+        type='Booking'
+        loading={loading}
+        modalOpen={bookingModalOpen}
+        server={server}
+        close={setValue}
+      />
     </Fragment>
   );
 };

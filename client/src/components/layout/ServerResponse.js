@@ -1,4 +1,5 @@
 import React, { Fragment, useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
@@ -18,15 +19,14 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 
 // Components
-import Success from '../layout/Success';
-import Loading from '../layout/Loading';
-import Alerts from '../layout/Alerts';
+import Success from './Success';
+import Loading from './Loading';
+import Alerts from './Alerts';
 
 // Assets
 import ServerErrorSVG from '../../assets/featback/server_error.svg';
 
 // Context
-import BookingContext from '../../context/booking/bookingContext';
 import AlertContext from '../../context/alert/alertContext';
 import { SET_MODAL } from '../../context/types';
 
@@ -116,34 +116,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BookingModal = (props) => {
+const ServerResponse = (props) => {
   // ===== CONTEXT ======
-  const bookingContext = useContext(BookingContext);
-  const { loading, bookingModalOpen, server, setValue } = bookingContext;
   const alertContext = useContext(AlertContext);
   const { alerts, setAlert, clearAlerts } = alertContext;
 
   // ===== FUNCTIONS ======
   // Alerts
   useEffect(() => {
-    console.log(server);
-    if (server.errors !== undefined) {
-      server.errors.forEach((element) => {
+    console.log(props.server);
+    if (props.server.errors !== undefined) {
+      props.server.errors.forEach((element) => {
         setAlert(element.msg, 'error', 0);
       });
-    } else if (server === 'Internal Server Error') {
-      setAlert(server, 'error', 0);
+    } else if (props.server === 'Internal Server Error') {
+      setAlert(props.server, 'error', 0);
     }
-  }, [server]);
+  }, [props.server]);
 
-  console.log(alerts);
+  // console.log(alerts);
 
   // Handle Close
   const handleClose = async () => {
     await clearAlerts();
-    setValue(SET_MODAL);
-    if (server.errors === undefined) {
-      props.history.push(`/`);
+    if (props.type === 'Booking') {
+      // close modal
+      props.close(SET_MODAL);
+      // no errors go to home
+      if (props.server.errors === undefined) {
+        props.history.push(`/`);
+      }
+    } else if (props.type === 'Delete') {
+      props.close();
     }
   };
 
@@ -159,7 +163,7 @@ const BookingModal = (props) => {
 
   return (
     <Modal
-      open={bookingModalOpen}
+      open={props.modalOpen}
       onClose={handleClose}
       aria-labelledby='profile-form'
       className={classes.modal}
@@ -184,10 +188,10 @@ const BookingModal = (props) => {
             <span
               className={alerts.length === 0 ? classes.span : classes.spanErr}
             >
-              Booking
+              {props.type}
             </span>
           </h3>
-          {alerts.length > 0 && loading ? (
+          {alerts.length > 0 && props.loading ? (
             // Server Error
             <Fragment>
               <img
@@ -205,15 +209,12 @@ const BookingModal = (props) => {
                 <Alerts />
               </Box>
             </Fragment>
-          ) : alerts.length === 0 && loading ? (
+          ) : alerts.length === 0 && props.loading ? (
             // Server Success
             <Fragment>
               <Success classes={classes} />
               <Typography className={classes.message}>
-                The offer
-                <span className={classes.span}> was booked successfully</span>.
-                It can be found in your profile. Please contact the owner for
-                further information.
+                {props.server.msg}
               </Typography>
               <Box mt={4}>
                 <Button
@@ -235,4 +236,11 @@ const BookingModal = (props) => {
   );
 };
 
-export default withRouter(BookingModal);
+ServerResponse.propTypes = {
+  type: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
+  modalOpen: PropTypes.bool.isRequired,
+  close: PropTypes.func.isRequired,
+};
+
+export default withRouter(ServerResponse);

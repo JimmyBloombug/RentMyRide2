@@ -8,6 +8,7 @@ import { Box, Button, Container, makeStyles } from '@material-ui/core';
 import CarCards from '../profile/CarCards';
 import RentalCards from '../profile/RentalCards';
 import FormModal from '../profile/FormModal';
+import ServerResponse from '../layout/ServerResponse';
 
 // Assets
 import NoBookings from '../../assets/featback/no-bookings.svg';
@@ -84,7 +85,14 @@ const Profile = (props) => {
   // ===== CONTEXT ======
   // Profile Context
   const profileContext = useContext(ProfileContext);
-  const { setValue } = profileContext;
+  const {
+    loading,
+    serverModalOpen,
+    server,
+    resetForm,
+    deleteFromDatabase,
+    setValue,
+  } = profileContext;
   // Query Context
   const queryContext = useContext(QueryContext);
   const { rentals, cars, getRentals, getCars } = queryContext;
@@ -113,6 +121,8 @@ const Profile = (props) => {
     getCars();
     // eslint-disable-next-line
   }, []);
+
+  //
 
   // Handle Tab
   const handleTab = (tab) => {
@@ -198,7 +208,11 @@ const Profile = (props) => {
               <h2 style={{ textAlign: 'center' }}>
                 Your <span className={classes.span}>Rental Offers</span>
               </h2>
-              <RentalCards array={rentals} handleModal={handleModal} />
+              <RentalCards
+                array={rentals}
+                handleModal={handleModal}
+                handleDelete={deleteFromDatabase}
+              />
             </Box>
           )
         ) : page === 'cars' ? (
@@ -232,6 +246,13 @@ const Profile = (props) => {
         )}
       </div>
       <FormModal handleModal={handleModal} />
+      <ServerResponse
+        type='Delete'
+        loading={loading}
+        modalOpen={serverModalOpen}
+        server={server}
+        close={resetForm}
+      />
     </Fragment>
   );
 };

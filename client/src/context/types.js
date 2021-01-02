@@ -77,6 +77,8 @@ export const SET_USER_CARS = 'SET_USER_CARS';
 export const SET_RENTAL = 'SET_RENTAL';
 export const SET_RENTALS = 'SET_RENTALS';
 export const SET_CARS = 'SET_CARS';
+export const DELETE_SUCCESS = 'DELETE_SUCCESS';
+export const DELETE_FAIL = 'DELETE_FAIL';
 
 export const SET_CHECK_IN = 'SET_CHECK_IN';
 export const SET_CHECK_OUT = 'SET_CHECK_OUT';

@@ -78,7 +78,8 @@ const BookingState = (props) => {
         // add booking
         const res = await axios.post('server/bookings/user', formData, config);
 
-        console.log('in BookingState: ' + res.data);
+        // console.log('in BookingState: ' + res.data);
+
         // booking success
         dispatch({
           type: BOOKING_SUCCESS,

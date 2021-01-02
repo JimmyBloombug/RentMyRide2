@@ -162,7 +162,7 @@ router.post(
       await rental.save();
 
       // response
-      res.json({ msg: 'Your offer has been saved successfully', errors });
+      res.json({ msg: 'Your offer has been saved successfully' });
     } catch (error) {
       // console error
       console.error(error.message);
@@ -170,5 +170,58 @@ router.post(
     }
   }
 );
+
+// @route DELETE server/rental
+// @desc DELETE rental
+// @access Private
+router.delete('/delete', auth, async (req, res) => {
+  // user id
+  const user_id = req.user.id;
+
+  // destructure
+  const { rental_id } = req.headers;
+
+  try {
+    // check if rental offer exists
+    let rentalExists = await Rental.findById(rental_id);
+
+    // rental offer doesn't exist
+    if (!rentalExists) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "The rental offer wasn't found" }] });
+    }
+
+    // find car
+    let carExists = await Car.findById(rentalExists.car._id);
+
+    // user doesn't own rental offer
+    if (user_id !== rentalExists.user_id) {
+      return res
+        .status(401)
+        .json({ errors: [{ msg: 'Authorization denied' }] });
+    }
+
+    // rental offer is booked
+    if (rentalExists.booked === true) {
+      return res.status(400).json({
+        errors: [{ msg: "You can't delete an offer when it's booked" }],
+      });
+    }
+
+    // update car
+    carExists.active = false;
+    // save car
+    await carExists.save();
+
+    // delete
+    await Rental.findByIdAndDelete({ _id: rental_id });
+    // response
+    res.json({ msg: 'Your offer has been deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 module.exports = router;

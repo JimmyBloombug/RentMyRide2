@@ -20,6 +20,8 @@ import {
   UPLOAD_SUCCESS,
   UPLOAD_FAIL,
   RESET_FORM,
+  DELETE_FAIL,
+  DELETE_SUCCESS,
 } from '../types';
 
 const ProfileState = (props) => {
@@ -52,6 +54,7 @@ const ProfileState = (props) => {
     seatsErr: false,
     colorErr: false,
     // server response
+    serverModalOpen: false,
     server: {
       msg: '',
       errors: undefined,
@@ -126,6 +129,8 @@ const ProfileState = (props) => {
             formData,
             config
           );
+
+          console.log('Add rental offer: ' + res.data);
 
           // upload success
           dispatch({
@@ -206,6 +211,32 @@ const ProfileState = (props) => {
     }
   };
 
+  // Delete entry
+  const deleteFromDatabase = async (id, route) => {
+    setValue(SET_LOADING);
+    try {
+      // config
+      const config = {
+        headers: {
+          rental_id: id,
+        },
+      };
+
+      // delete entry
+      const res = await axios.delete(`/server/${route}/delete`, config);
+
+      dispatch({
+        type: DELETE_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: DELETE_FAIL,
+        payload: error.response.data,
+      });
+    }
+  };
+
   // Reset Form
   const resetForm = () => {
     dispatch({
@@ -244,11 +275,13 @@ const ProfileState = (props) => {
         seatsErr: state.seatsErr,
         colorErr: state.colorErr,
         // server
+        serverModalOpen: state.serverModalOpen,
         server: state.server,
         // functions
         setValue,
         submitForm,
         resetForm,
+        deleteFromDatabase,
       }}
     >
       {props.children}

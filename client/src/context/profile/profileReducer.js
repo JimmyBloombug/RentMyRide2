@@ -27,6 +27,8 @@ import {
   SET_CAR_ERR,
   SET_PRICE_ERR,
   SET_BILLING_ERR,
+  DELETE_SUCCESS,
+  DELETE_FAIL,
 } from '../types';
 
 const ProfileReducer = (state, action) => {
@@ -176,18 +178,21 @@ const ProfileReducer = (state, action) => {
         loading: false,
       };
     }
-    case UPLOAD_SUCCESS: {
+    case UPLOAD_SUCCESS:
+    case UPLOAD_FAIL: {
       return {
         ...state,
         loading: true,
         server: action.payload,
       };
     }
-    case UPLOAD_FAIL: {
+    case DELETE_SUCCESS:
+    case DELETE_FAIL: {
       return {
         ...state,
-        server: action.payload,
         loading: true,
+        server: action.payload,
+        serverModalOpen: true,
       };
     }
     case RESET_FORM: {
@@ -216,6 +221,7 @@ const ProfileReducer = (state, action) => {
         fuelTypeErr: false,
         seatsErr: false,
         colorErr: false,
+        serverModalOpen: false,
         server: {
           msg: '',
           errors: undefined,
