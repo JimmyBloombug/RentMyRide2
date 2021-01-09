@@ -179,11 +179,11 @@ router.delete('/delete', auth, async (req, res) => {
   const user_id = req.user.id;
 
   // destructure
-  const { rental_id } = req.headers;
+  const { id } = req.headers;
 
   try {
     // check if rental offer exists
-    let rentalExists = await Rental.findById(rental_id);
+    let rentalExists = await Rental.findById(id);
 
     // rental offer doesn't exist
     if (!rentalExists) {
@@ -215,7 +215,7 @@ router.delete('/delete', auth, async (req, res) => {
     await carExists.save();
 
     // delete
-    await Rental.findByIdAndDelete({ _id: rental_id });
+    await Rental.findByIdAndDelete({ _id: id });
     // response
     res.json({ msg: 'Your offer has been deleted successfully' });
   } catch (error) {

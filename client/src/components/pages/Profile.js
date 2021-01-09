@@ -108,11 +108,14 @@ const Profile = (props) => {
         setPage('bookings');
         break;
       case 'rentals':
+        getRentals();
         setPage('rentals');
         break;
       case 'cars':
+        getCars();
         setPage('cars');
     }
+    // eslint-disable-next-line
   }, [props.location.search.split('=')[1]]);
 
   // get bookings/rentals/cars
@@ -238,7 +241,11 @@ const Profile = (props) => {
               <h2 style={{ textAlign: 'center' }}>
                 Your <span className={classes.span}>Cars</span>
               </h2>
-              <CarCards array={cars} handleModal={handleModal} />
+              <CarCards
+                array={cars}
+                handleModal={handleModal}
+                handleDelete={deleteFromDatabase}
+              />
             </Box>
           )
         ) : (
@@ -252,6 +259,7 @@ const Profile = (props) => {
         modalOpen={serverModalOpen}
         server={server}
         close={resetForm}
+        reload={{ getRentals, getCars }}
       />
     </Fragment>
   );

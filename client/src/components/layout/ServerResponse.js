@@ -124,7 +124,7 @@ const ServerResponse = (props) => {
   // ===== FUNCTIONS ======
   // Alerts
   useEffect(() => {
-    console.log(props.server);
+    // console.log(props.server);
     if (props.server.errors !== undefined) {
       props.server.errors.forEach((element) => {
         setAlert(element.msg, 'error', 0);
@@ -148,6 +148,8 @@ const ServerResponse = (props) => {
       }
     } else if (props.type === 'Delete') {
       props.close();
+      props.reload.getRentals();
+      props.reload.getCars();
     }
   };
 

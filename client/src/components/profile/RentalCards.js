@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { motion } from 'framer-motion';
 import clsx from 'clsx';
 
 // Material UI
@@ -36,14 +35,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, 4),
   },
   card: {
-    height: 460,
+    height: 500,
     position: 'relative',
   },
   media: {
     height: 200,
   },
   cont: {
-    height: 460,
+    height: 500,
   },
   info: {
     display: 'flex',
@@ -65,13 +64,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
   },
   cardEditInfo: {
-    zIndex: 10,
+    zIndex: 1,
     position: 'absolute',
     bottom: 0,
     left: 0,
     width: '100%',
     height: 50,
-    backgroundColor: hexToRGB('#171719', 0.9),
+    backgroundColor: hexToRGB(theme.palette.primary.main, 0.2),
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -99,45 +98,6 @@ const RentalCards = (props) => {
   // ====== STYLE ======
   const classes = useStyles();
 
-  // ===== FUNCTIONS ======
-
-  // States
-  let [actionFields, setActionField] = useState([]);
-
-  // define car action field states
-  let actionStatesArray = [];
-  useEffect(() => {
-    actionStatesArray = [];
-    for (let i = 0; i < props.array.length; i++) {
-      let stateObject = { index: i, open: false };
-      actionStatesArray.push(stateObject);
-    }
-    setActionField(actionStatesArray);
-  }, [props.array]);
-
-  // open/close action fields
-  const handleClick = (index) => {
-    if (actionFields[index].open === false) {
-      // copy items
-      let items = [...actionFields];
-      // copy item
-      let item = { ...items[index] };
-      // open actionfield
-      item.open = true;
-      items[index] = item;
-      setActionField(items);
-    } else {
-      // copy items
-      let items = [...actionFields];
-      // copy item
-      let item = { ...items[index] };
-      // close actionfield
-      item.open = false;
-      items[index] = item;
-      setActionField(items);
-    }
-  };
-
   return (
     <div className={classes.container}>
       <Grid container spacing={2}>
@@ -156,7 +116,7 @@ const RentalCards = (props) => {
         {props.array.map((rental, index) => {
           return (
             <Grid item xs={12} sm={6} md={3} key={rental._id}>
-              <Card className={classes.card} onClick={() => handleClick(index)}>
+              <Card className={classes.card}>
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
@@ -206,26 +166,12 @@ const RentalCards = (props) => {
                     </div>
                   </CardContent>
                 </CardActionArea>
-                <motion.div
-                  transition={{
-                    duration: 0.5,
-                    type: 'tween',
-                    damping: 10,
-                    stiffness: 50,
-                  }}
-                  initial={{ y: 50 }}
-                  animate={
-                    actionFields[index] !== undefined && {
-                      y: actionFields[index].open === true ? 0 : 50,
-                    }
-                  }
-                  className={classes.cardEditInfo}
-                >
+                <div className={classes.cardEditInfo}>
                   {rental.booked === false ? (
                     <Fragment>
                       <IconButton
                         color='inherit'
-                        aria-label='Delete rental offer'
+                        title='Delete rental offer'
                         onClick={() =>
                           props.handleDelete(rental._id, 'rentals')
                         }
@@ -234,30 +180,24 @@ const RentalCards = (props) => {
                       </IconButton>
                       <IconButton
                         color='primary'
-                        aria-label='Edit rental offer'
+                        Edit='Edit rental offer'
+                        rental
+                        offer='Edit rental offer'
                       >
                         <EditIcon />
                       </IconButton>
                     </Fragment>
                   ) : (
                     <Fragment>
-                      <IconButton
-                        color='inherit'
-                        aria-label='Close offer'
-                        title='Close offer'
-                      >
+                      <IconButton color='inherit' title='Close offer'>
                         <BlockIcon />
                       </IconButton>
-                      <IconButton
-                        color='primary'
-                        aria-label='Message customer'
-                        title='Message customer'
-                      >
+                      <IconButton color='primary' title='Message customer'>
                         <ChatIcon />
                       </IconButton>
                     </Fragment>
                   )}
-                </motion.div>
+                </div>
               </Card>
             </Grid>
           );

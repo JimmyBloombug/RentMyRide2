@@ -67,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
   span: {
     color: theme.palette.primary.main,
   },
+  err: {
+    color: theme.palette.error.main,
+  },
   web: {
     width: 500,
   },
@@ -111,7 +114,7 @@ const FormModal = (props) => {
   const profileContext = useContext(ProfileContext);
   const { modal, resetForm } = profileContext;
   const alertContext = useContext(AlertContext);
-  const { clearAlerts } = alertContext;
+  const { alerts, clearAlerts } = alertContext;
 
   // ===== FUNCTIONS ======
   // Handle Close
@@ -156,7 +159,7 @@ const FormModal = (props) => {
           </Button>
           <h3 className={classes.h3}>
             Add{' '}
-            <span className={classes.span}>
+            <span className={alerts.length === 0 ? classes.span : classes.err}>
               {modal.type === 'rentals' ? 'Offer' : 'Car'}
             </span>
           </h3>

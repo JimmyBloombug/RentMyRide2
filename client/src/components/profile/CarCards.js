@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { motion } from 'framer-motion';
 import clsx from 'clsx';
 
 // Material UI
@@ -13,8 +12,8 @@ import {
   makeStyles,
   Typography,
   Grid,
-  Container,
   IconButton,
+  Icon,
 } from '@material-ui/core';
 
 // Material UI Icons
@@ -28,6 +27,7 @@ import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineN
 
 // Utils
 import hexToRGB from '../../utils/hexToRGB';
+import { Fragment } from 'react';
 
 // Style
 const useStyles = makeStyles((theme) => ({
@@ -35,14 +35,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, 4),
   },
   card: {
-    height: 460,
+    height: 500,
     position: 'relative',
   },
   media: {
     height: 200,
   },
   cont: {
-    height: 460,
+    height: 500,
   },
   info: {
     display: 'flex',
@@ -64,14 +64,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
   },
   cardEditInfo: {
-    zIndex: 10,
     position: 'absolute',
     bottom: 0,
     left: 0,
     width: '100%',
     height: 50,
-    backgroundColor: hexToRGB('#171719', 0.9),
     display: 'flex',
+    backgroundColor: hexToRGB(theme.palette.primary.main, 0.2),
     justifyContent: 'space-around',
     alignItems: 'center',
     fontSize: '1.3em',
@@ -98,45 +97,6 @@ const CarCards = (props) => {
   // ====== STYLE ======
   const classes = useStyles();
 
-  // ===== FUNCTIONS ======
-
-  // States
-  let [actionFields, setActionField] = useState([]);
-
-  // define car action field states
-  let actionStatesArray = [];
-  useEffect(() => {
-    actionStatesArray = [];
-    for (let i = 0; i < props.array.length; i++) {
-      let stateObject = { index: i, open: false };
-      actionStatesArray.push(stateObject);
-    }
-    setActionField(actionStatesArray);
-  }, [props.array]);
-
-  // open/close action fields
-  const handleClick = (index) => {
-    if (actionFields[index].open === false) {
-      // copy items
-      let items = [...actionFields];
-      // copy item
-      let item = { ...items[index] };
-      // open actionfield
-      item.open = true;
-      items[index] = item;
-      setActionField(items);
-    } else {
-      // copy items
-      let items = [...actionFields];
-      // copy item
-      let item = { ...items[index] };
-      // close actionfield
-      item.open = false;
-      items[index] = item;
-      setActionField(items);
-    }
-  };
-
   return (
     <div className={classes.container}>
       <Grid container spacing={2}>
@@ -155,7 +115,7 @@ const CarCards = (props) => {
         {props.array.map((car, index) => {
           return (
             <Grid item xs={12} sm={6} md={3} key={car._id}>
-              <Card className={classes.card} onClick={() => handleClick(index)}>
+              <Card className={classes.card}>
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
@@ -207,28 +167,26 @@ const CarCards = (props) => {
                     </div>
                   </CardContent>
                 </CardActionArea>
-                <motion.div
-                  transition={{
-                    duration: 0.5,
-                    type: 'tween',
-                    damping: 10,
-                    stiffness: 50,
-                  }}
-                  initial={{ y: 50 }}
-                  animate={
-                    actionFields[index] !== undefined && {
-                      y: actionFields[index].open === true ? 0 : 50,
-                    }
-                  }
-                  className={classes.cardEditInfo}
-                >
-                  <IconButton color='inherit'>
-                    <DeleteForeverIcon />
-                  </IconButton>
-                  <IconButton color='primary'>
-                    <EditIcon />
-                  </IconButton>
-                </motion.div>
+                <div className={classes.cardEditInfo}>
+                  {car.active ? (
+                    <div style={{ color: 'white', fontWeight: 400 }}>
+                      Active in rentals
+                    </div>
+                  ) : (
+                    <Fragment>
+                      <IconButton
+                        color='inherit'
+                        title='Delete car'
+                        onClick={() => props.handleDelete(car._id, 'cars')}
+                      >
+                        <DeleteForeverIcon />
+                      </IconButton>
+                      <IconButton color='primary' title='Edit car'>
+                        <EditIcon />
+                      </IconButton>
+                    </Fragment>
+                  )}
+                </div>
               </Card>
             </Grid>
           );
@@ -241,6 +199,7 @@ const CarCards = (props) => {
 CarCards.propTypes = {
   array: PropTypes.array.isRequired,
   handleModal: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default CarCards;

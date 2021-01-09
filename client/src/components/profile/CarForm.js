@@ -87,14 +87,6 @@ const CarForm = (props) => {
 
   // Alerts
   useEffect(() => {
-    if (server.msg === 'An error occurred') {
-      if (server.errors !== undefined) {
-        server.errors.forEach((element) => {
-          setAlert(element.msg, 'error', 0);
-        });
-      }
-    }
-
     // reload car list after successfull upload
     if (server.msg === 'Your car has been saved successfully') {
       getCars(user_id);
@@ -162,7 +154,7 @@ const CarForm = (props) => {
             <Box mt={2}>
               <Typography className={props.classes.message}>
                 Opps! Looks like something went{' '}
-                <span className={props.classes.span}>wrong</span>
+                <span className={props.classes.err}>wrong</span>
               </Typography>
             </Box>
             <Box mt={2} width='100%'>

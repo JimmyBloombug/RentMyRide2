@@ -54,7 +54,6 @@ const RentalForm = (props) => {
   // ===== CONTEXT ======
   const profileContext = useContext(ProfileContext);
   const {
-    user_id,
     server,
     loading,
     price,
@@ -94,17 +93,9 @@ const RentalForm = (props) => {
 
   // Alerts
   useEffect(() => {
-    if (server.msg === 'An error occurred') {
-      if (server.errors !== undefined) {
-        server.errors.forEach((element) => {
-          setAlert(element.msg, 'error', 0);
-        });
-      }
-    }
-
     // reload rental list after successfull upload
     if (server.msg === 'Your offer has been saved successfully') {
-      getRentals(user_id);
+      getRentals();
     }
     // eslint-disable-next-line
   }, [server]);
@@ -216,7 +207,7 @@ const RentalForm = (props) => {
             <Box mt={2}>
               <Typography className={props.classes.message}>
                 Opps! Looks like something went{' '}
-                <span className={props.classes.span}>wrong</span>
+                <span className={props.classes.err}>wrong</span>
               </Typography>
             </Box>
             <Box mt={2} width='100%'>

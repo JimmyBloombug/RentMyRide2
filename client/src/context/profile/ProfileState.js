@@ -218,7 +218,7 @@ const ProfileState = (props) => {
       // config
       const config = {
         headers: {
-          rental_id: id,
+          id,
         },
       };
 

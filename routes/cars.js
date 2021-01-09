@@ -140,7 +140,7 @@ router.post(
       await car.save();
 
       // response
-      res.json({ msg: 'Your car has been saved successfully', errors });
+      res.json({ msg: 'Your car has been saved successfully' });
     } catch (error) {
       // console error
       console.error(error.message);
@@ -148,5 +148,57 @@ router.post(
     }
   }
 );
+
+// @route DELETE server/car
+// @desc DELETE car
+// @access Private
+router.delete('/delete', auth, async (req, res) => {
+  // user id
+  const user_id = req.user.id;
+
+  // destructure
+  const { id } = req.headers;
+
+  try {
+    // check if car exists
+    let carExists = await Car.findById(id);
+
+    // car doesn't exist
+    if (!carExists) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "The car wasn't found" }] });
+    }
+
+    // user doesn't own car
+    if (user_id !== carExists.user_id) {
+      return res
+        .status(401)
+        .json({ errors: [{ msg: 'Authorization denied' }] });
+    }
+
+    // car is active
+    if (carExists.active === true) {
+      return res.status(400).json({
+        errors: [{ msg: "You can't delete a car that is active in rentals" }],
+      });
+    }
+
+    // delete pictures
+    if (carExists.pictures.length > 0) {
+      carExists.pictures.forEach((element) => {
+        storageEngine.unlink(element);
+      });
+    }
+
+    // delete
+    await Car.findByIdAndDelete({ _id: id });
+    // response
+    res.json({ msg: 'Your car has been deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 module.exports = router;
