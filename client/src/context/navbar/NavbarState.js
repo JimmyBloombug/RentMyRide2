@@ -3,11 +3,20 @@ import React, { useReducer } from 'react';
 import NavbarContext from './navbarContext';
 import NavbarReducer from './navbarReducer';
 
-import { SET_MENU, SET_LOGIN_FORM, SET_REGISTER_FORM } from '../types';
+import {
+  SET_MENU,
+  SET_LOGIN_FORM,
+  SET_REGISTER_FORM,
+  SET_MESSAGES_MENU,
+} from '../types';
 
 const NavbarState = (props) => {
   const initialState = {
     menuOpen: false,
+    messagesOpen: {
+      open: false,
+      message: '',
+    },
     loginFormOpen: false,
     registerFormOpen: false,
   };
@@ -38,13 +47,23 @@ const NavbarState = (props) => {
     });
   };
 
+  // SET MESSAGES
+  const setMessagesMenu = (messagesOpen) => {
+    dispatch({
+      type: SET_MESSAGES_MENU,
+      payload: messagesOpen,
+    });
+  };
+
   return (
     <NavbarContext.Provider
       value={{
         menuOpen: state.menuOpen,
         loginFormOpen: state.loginFormOpen,
         registerFormOpen: state.registerFormOpen,
+        messagesOpen: state.messagesOpen,
         setMenu,
+        setMessagesMenu,
         setLoginForm,
         setRegisterForm,
       }}

@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     // display: 'flex',
     // alignItems: 'center',
     // justifyContent: 'center',
+    minHeight: '100vh',
     width: '100%',
   },
   carsMenuCont: {
@@ -104,9 +105,6 @@ const Profile = (props) => {
   // router listener setPage
   useEffect(() => {
     switch (props.location.search.split('=')[1]) {
-      case 'bookings':
-        setPage('bookings');
-        break;
       case 'rentals':
         getRentals();
         setPage('rentals');
@@ -114,6 +112,10 @@ const Profile = (props) => {
       case 'cars':
         getCars();
         setPage('cars');
+        break;
+      default:
+        setPage('bookings');
+        break;
     }
     // eslint-disable-next-line
   }, [props.location.search.split('=')[1]]);

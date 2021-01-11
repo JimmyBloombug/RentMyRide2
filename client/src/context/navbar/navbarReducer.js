@@ -1,4 +1,9 @@
-import { SET_MENU, SET_LOGIN_FORM, SET_REGISTER_FORM } from '../types';
+import {
+  SET_MENU,
+  SET_LOGIN_FORM,
+  SET_REGISTER_FORM,
+  SET_MESSAGES_MENU,
+} from '../types';
 
 const NavbarReducer = (state, action) => {
   switch (action.type) {
@@ -8,6 +13,12 @@ const NavbarReducer = (state, action) => {
         ...state,
         menuOpen: action.payload,
       };
+    case SET_MESSAGES_MENU: {
+      return {
+        ...state,
+        messagesOpen: action.payload,
+      };
+    }
     case SET_LOGIN_FORM:
       return {
         ...state,

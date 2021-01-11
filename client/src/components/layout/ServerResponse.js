@@ -129,9 +129,15 @@ const ServerResponse = (props) => {
       props.server.errors.forEach((element) => {
         setAlert(element.msg, 'error', 0);
       });
+    } else if (
+      props.server.msg === 'Token is not valid' ||
+      props.server.msg === 'No token, authorization denied'
+    ) {
+      setAlert(props.server.msg, 'error', 0);
     } else if (props.server === 'Internal Server Error') {
       setAlert(props.server, 'error', 0);
     }
+    // eslint-disable-next-line
   }, [props.server]);
 
   // console.log(alerts);

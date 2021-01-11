@@ -1,23 +1,19 @@
 const mongoose = require('mongoose');
 
-const BookingSchema = mongoose.Schema({
-  user_id: {
-    type: String,
-    required: true,
-  },
-  owner_id: {
-    type: String,
-    required: true,
-  },
+const MessageSchema = mongoose.Schema({
   rental_id: {
     type: String,
     required: true,
   },
-  checkIn: {
+  from: {
     type: String,
     required: true,
   },
-  checkOut: {
+  to: {
+    type: String,
+    required: true,
+  },
+  message: {
     type: String,
     required: true,
   },
@@ -27,4 +23,4 @@ const BookingSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('booking', BookingSchema);
+module.exports = mongoose.model('message', MessageSchema);

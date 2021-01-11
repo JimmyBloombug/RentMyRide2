@@ -217,6 +217,7 @@ const Offers = (props) => {
     if (rental) {
       getOwner(rental.user_id);
     }
+    // eslint-disable-next-line
   }, [rental]);
 
   useEffect(() => {
@@ -230,6 +231,7 @@ const Offers = (props) => {
       queryContext.clearValues();
       bookingContext.clearValues();
     };
+    // eslint-disable-next-line
   }, []);
 
   // Handle Click

@@ -117,6 +117,11 @@ router.post(
     // initial active status
     const active = false;
 
+    // set imagePath to default image if empty
+    if (imagePath.length === 0) {
+      imagePath.push('public/default/cars/default-car.jpg');
+    }
+
     // pictures = imagepath
     pictures = imagePath;
 
@@ -185,7 +190,7 @@ router.delete('/delete', auth, async (req, res) => {
     }
 
     // delete pictures
-    if (carExists.pictures.length > 0) {
+    if (carExists.pictures[0] !== 'public/default/cars/default-car.jpg') {
       carExists.pictures.forEach((element) => {
         storageEngine.unlink(element);
       });

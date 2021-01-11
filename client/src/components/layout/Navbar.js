@@ -30,6 +30,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Login from '../auth/Login';
 import Register from '../auth/Register';
 import MobileMenu from './MobileMenu';
+import Messages from './Messages';
 
 // Context
 import AuthContext from '../../context/auth/authContext';
@@ -94,7 +95,12 @@ const Navbar = () => {
   // ======= CONTEXT =======
   // Navbar Context
   const navbarContext = useContext(NavbarContext);
-  const { setMenu, setLoginForm, setRegisterForm } = navbarContext;
+  const {
+    setMenu,
+    setMessagesMenu,
+    setLoginForm,
+    setRegisterForm,
+  } = navbarContext;
 
   // Auth Context
   const authContext = useContext(AuthContext);
@@ -191,7 +197,13 @@ const Navbar = () => {
                 ) : (
                   <Fragment>
                     <Box ml={3} mr={2}>
-                      <IconButton edge='start' aria-label='messages'>
+                      <IconButton
+                        edge='start'
+                        aria-label='messages'
+                        onClick={() =>
+                          setMessagesMenu({ open: true, message: '' })
+                        }
+                      >
                         <EmailIcon />
                       </IconButton>
                     </Box>
@@ -261,6 +273,7 @@ const Navbar = () => {
       />
       <Login />
       <Register />
+      <Messages />
     </div>
   );
 };

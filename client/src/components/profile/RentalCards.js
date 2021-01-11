@@ -178,12 +178,7 @@ const RentalCards = (props) => {
                       >
                         <DeleteForeverIcon />
                       </IconButton>
-                      <IconButton
-                        color='primary'
-                        Edit='Edit rental offer'
-                        rental
-                        offer='Edit rental offer'
-                      >
+                      <IconButton color='primary' title='Edit rental offer'>
                         <EditIcon />
                       </IconButton>
                     </Fragment>

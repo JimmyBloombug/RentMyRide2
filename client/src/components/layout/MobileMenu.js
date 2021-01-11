@@ -59,10 +59,21 @@ const MobileMenu = (props) => {
 
   // Context
   const navbarContext = useContext(NavbarContext);
-  const { menuOpen, setMenu, setLoginForm, setRegisterForm } = navbarContext;
+  const {
+    menuOpen,
+    setMenu,
+    setMessagesMenu,
+    setLoginForm,
+    setRegisterForm,
+  } = navbarContext;
   const authContext = useContext(AuthContext);
 
   // Handle Click
+  const handleMessages = () => {
+    setMenu(false);
+    setMessagesMenu({ open: true, messages: '' });
+  };
+
   const handleLogout = () => {
     setMenu(false);
     authContext.logoutUser();
@@ -103,7 +114,7 @@ const MobileMenu = (props) => {
                 </ListItemIcon>
                 <ListItemText primary='Profile' />
               </ListItem>
-              <ListItem button onClick={() => setMenu(false)}>
+              <ListItem button onClick={handleMessages}>
                 <ListItemIcon>
                   <EmailIcon />
                 </ListItemIcon>
