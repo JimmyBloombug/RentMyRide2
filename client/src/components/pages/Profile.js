@@ -102,6 +102,15 @@ const Profile = (props) => {
   // State
   const [page, setPage] = useState();
 
+  useEffect(() => {
+    // get bookings/rentals/cars
+    getRentals();
+    getCars();
+    // Component Mount ScrollToTop
+    window.scrollTo(0, 0);
+    // eslint-disable-next-line
+  }, []);
+
   // router listener setPage
   useEffect(() => {
     switch (props.location.search.split('=')[1]) {
@@ -119,15 +128,6 @@ const Profile = (props) => {
     }
     // eslint-disable-next-line
   }, [props.location.search.split('=')[1]]);
-
-  // get bookings/rentals/cars
-  useEffect(() => {
-    getRentals();
-    getCars();
-    // eslint-disable-next-line
-  }, []);
-
-  //
 
   // Handle Tab
   const handleTab = (tab) => {

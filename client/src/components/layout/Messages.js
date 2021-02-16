@@ -12,7 +12,6 @@ import {
   makeStyles,
   useTheme,
   useMediaQuery,
-  Typography,
 } from '@material-ui/core';
 
 // Material UI Icons
@@ -147,26 +146,26 @@ const Messages = () => {
               </ButtonBase>
             </Grid>
             <Grid item xs={12} sm={9} className={classes.contentCont}>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
-              <div className={classes.messages}>diocncmo</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
+              <div className={classes.messages}>test</div>
             </Grid>
           </Grid>
         </div>

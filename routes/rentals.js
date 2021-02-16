@@ -63,6 +63,24 @@ router.get('/public', async (req, res) => {
         // response
         res.status(500).json({ errors: 'Internal Server Error' });
       }
+      break;
+    case 'search':
+      try {
+        // destructure
+        const { car, location, checkIn, checkOut, color, fueltype } = req.body;
+        console.log(fueltype);
+        // get matching rentals
+        let rentals = await Rental.find({
+          'car.label': { $regex: car },
+          'car.color': color,
+          'car.fueltype': fueltype,
+        });
+        // response
+        res.json(rentals);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ errors: 'Internal Server Error' });
+      }
   }
 });
 

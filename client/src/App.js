@@ -6,6 +6,7 @@ import SimpleReactLightBox from 'simple-react-lightbox';
 import Home from './components/pages/Home';
 import Offers from './components/pages/Offers';
 import Profile from './components/pages/Profile';
+import Search from './components/pages/Search';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import setAuthToken from './utils/setAuthToken';
@@ -42,6 +43,7 @@ function App() {
                           <Switch>
                             <Route exact path='/' component={Home} />
                             <Route exact path='/offers' component={Offers} />
+                            <Route exact path='/search' component={Search} />
                             <PrivateRoute
                               exact
                               path='/profile'

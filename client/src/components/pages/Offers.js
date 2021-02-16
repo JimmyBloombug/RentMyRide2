@@ -33,8 +33,6 @@ import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineNormal';
 
 // Components
-// import Slider from '../layout/Slider';
-// import Cards from '../layout/Cards';
 import ServerResponse from '../layout/ServerResponse';
 import Loading from '../layout/Loading';
 
@@ -155,6 +153,9 @@ const Offers = (props) => {
 
   const theme = useTheme();
 
+  // Media Queries
+  let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
+
   // Lightbox Settings
   const lightboxOptions = {
     settings: {
@@ -175,9 +176,6 @@ const Offers = (props) => {
       showThumbnails: false,
     },
   };
-
-  // Media Queries
-  let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
 
   // ====== CONTEXT =======
   const authContext = useContext(AuthContext);

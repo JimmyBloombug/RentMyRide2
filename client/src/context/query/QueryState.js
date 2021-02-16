@@ -14,9 +14,12 @@ import {
 
 const QueryState = (props) => {
   const initialState = {
+    car: '',
     location: {},
     checkIn: null,
     checkOut: null,
+    color: undefined,
+    fuelType: undefined,
     // rental owner,
     owner: undefined,
     ownerErr: undefined,
@@ -35,6 +38,8 @@ const QueryState = (props) => {
 
   // Set Value
   const setValue = (type, data) => {
+    console.log(type);
+    console.log(data);
     dispatch({
       type: type,
       payload: data,
@@ -50,8 +55,8 @@ const QueryState = (props) => {
 
   // get rentals
   const getRentals = async (id, route = 'user', type = 'all', limit = 10) => {
-    // GET SINGLE ENTRY
     if (type === 'single') {
+      // GET SINGLE ENTRY
       // set headers
       const config = {
         headers: {
@@ -64,6 +69,31 @@ const QueryState = (props) => {
       // set rental = server response
       dispatch({
         type: SET_RENTAL,
+        payload: res.data,
+      });
+    } else if (type === 'search') {
+      // GET QUERIED ENTRIES
+      // set headers
+      const config = {
+        headers: {
+          type: type,
+        },
+      };
+      // set query data
+      const formData = {
+        car: state.car,
+        location: state.location,
+        checkIn: state.checkIn,
+        checkOut: state.checkOut,
+        color: state.color,
+        fueltype: state.fuelType,
+      };
+
+      // server request
+      const res = await axios.get(`server/rentals/${route}`, formData, config);
+      // set rentals = server response
+      dispatch({
+        type: SET_RENTALS,
         payload: res.data,
       });
     } else {
@@ -118,9 +148,12 @@ const QueryState = (props) => {
   return (
     <QueryContext.Provider
       value={{
+        car: state.car,
         location: state.location,
         checkIn: state.checkIn,
         checkOut: state.checkOut,
+        color: state.color,
+        fuelType: state.fuelType,
         owner: state.owner,
         rental: state.rental,
         rentals: state.rentals,

@@ -38,7 +38,7 @@ const BookingState = (props) => {
 
   // Validate Input
   const validateInput = async (input, type) => {
-    if (input === null || input == 'Invalid Date') {
+    if (input === null || input === 'Invalid Date') {
       dispatch({
         type: type,
       });

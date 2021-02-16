@@ -9,11 +9,9 @@ import {
   TextField,
   CircularProgress,
   Grid,
-  IconButton,
   Button,
   Box,
-  useTheme,
-  useMediaQuery,
+  FormControl,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Autocomplete } from '@material-ui/lab';
@@ -22,12 +20,20 @@ import {
   KeyboardDateTimePicker,
 } from '@material-ui/pickers';
 
-// Material Icons
-import SearchIcon from '@material-ui/icons/Search';
+// Lists
+import fuelTypeList from '../../constants/fueltypes.json';
+import colorSelect from '../../constants/colorselect.json';
 
 // Context
 import QueryContext from '../../context/query/queryContext';
-import { SET_LOCATION, SET_CHECK_IN, SET_CHECK_OUT } from '../../context/types';
+import {
+  SET_CAR,
+  SET_LOCATION,
+  SET_CHECK_IN,
+  SET_CHECK_OUT,
+  SET_COLOR,
+  SET_FUELTYPE,
+} from '../../context/types';
 
 // Define Styles
 const useStyles = makeStyles((theme) => ({
@@ -41,10 +47,10 @@ const GEOCODE_API = process.env.REACT_APP_GEOCODE_API;
 // load RES_NUM of cities (default: 5, limit: 10)
 const RES_NUM = 5;
 
-const QuickSearch = () => {
+const FullSearch = () => {
   // ====== CONTEXT ======
   const queryContext = useContext(QueryContext);
-  const { checkIn, checkOut, setValue } = queryContext;
+  const { car, checkIn, checkOut, color, fuelType, setValue } = queryContext;
 
   // ====== STATES =======
 
@@ -100,14 +106,23 @@ const QuickSearch = () => {
 
   // ====== STYLE =======
   const classes = useStyles();
-  const theme = useTheme();
-  // Media Queries
-  let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
 
   return (
-    <form className='quickSearchCont'>
+    <form className='fullSearchCont'>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={5}>
+        <Grid item xs={12} sm={6}>
+          <FormControl variant='outlined' fullWidth color='primary'>
+            <TextField
+              id='searchCar'
+              label='Car'
+              variant='outlined'
+              fullWidth
+              onChange={(e) => setValue(SET_CAR, e.target.value)}
+              value={car}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <Autocomplete
             id='geolocation'
             className={classes.location}
@@ -148,7 +163,7 @@ const QuickSearch = () => {
         <Grid item xs={12} sm={6}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container spacing={1}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6}>
                 <KeyboardDateTimePicker
                   fullWidth
                   autoOk
@@ -168,7 +183,7 @@ const QuickSearch = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6}>
                 <KeyboardDateTimePicker
                   fullWidth
                   autoOk
@@ -191,27 +206,64 @@ const QuickSearch = () => {
             </Grid>
           </MuiPickersUtilsProvider>
         </Grid>
-        <Grid item xs={12} sm={1}>
+        <Grid item xs={12} sm={3}>
+          <FormControl variant='outlined' fullWidth color='primary'>
+            <Autocomplete
+              id='color'
+              options={colorSelect}
+              onChange={(e, value) => setValue(SET_COLOR, value)}
+              autoHighlight
+              getOptionLabel={(option) => option.color}
+              getOptionSelected={(option) => option.color === color}
+              renderOption={(option) => (
+                <Fragment>
+                  <div
+                    style={{
+                      width: 10,
+                      height: 10,
+                      marginRight: 10,
+                      backgroundColor: option.hex,
+                    }}
+                  ></div>
+                  {option.color}
+                </Fragment>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} label='Color' variant='outlined' />
+              )}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <FormControl variant='outlined' fullWidth color='primary'>
+            <Autocomplete
+              id='fuel-type'
+              options={fuelTypeList}
+              onChange={(e, value) => setValue(SET_FUELTYPE, value)}
+              autoHighlight
+              getOptionLabel={(option) => option.type}
+              getOptionSelected={(option) => option.type === fuelType}
+              renderInput={(params) => (
+                <TextField {...params} label='Fuel' variant='outlined' />
+              )}
+            />
+          </FormControl>
+        </Grid>
+        {/* <Grid item xs={12} sm={12}>
           <Box
             display='flex'
             alignItems='center'
-            justifyContent='center'
+            justifyContent='flex-end'
             height='100%'
           >
-            {!xsdown ? (
-              <IconButton>
-                <SearchIcon />
-              </IconButton>
-            ) : (
-              <Button variant='outlined' color='primary' size='large'>
-                Search
-              </Button>
-            )}
+            <Button variant='outlined' color='primary' size='large'>
+              Search
+            </Button>
           </Box>
-        </Grid>
+        </Grid> */}
       </Grid>
     </form>
   );
 };
 
-export default QuickSearch;
+export default FullSearch;

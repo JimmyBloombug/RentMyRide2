@@ -146,6 +146,12 @@ const Home = () => {
   const y1 = useTransform(scrollY, [0, 300], [0, -20]);
   const y2 = useTransform(scrollY, [0, 300], [0, -500]);
 
+  useEffect(() => {
+    // Component Mount ScrollToTop
+    window.scrollTo(0, 0);
+    // eslint-disable-next-line
+  }, []);
+
   // get rentals
   useEffect(() => {
     getRentals('', 'public', 'recent', 3);

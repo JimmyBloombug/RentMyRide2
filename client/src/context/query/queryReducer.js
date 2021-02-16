@@ -1,4 +1,5 @@
 import {
+  SET_CAR,
   SET_LOCATION,
   SET_CHECK_IN,
   SET_CHECK_OUT,
@@ -7,10 +8,18 @@ import {
   SET_CARS,
   SET_OWNER,
   CLEAR_VALUES,
+  SET_COLOR,
+  SET_FUELTYPE,
 } from '../types';
 
 const QueryReducer = (state, action) => {
   switch (action.type) {
+    case SET_CAR: {
+      return {
+        ...state,
+        car: action.payload,
+      };
+    }
     // open menu
     case SET_LOCATION:
       return {
@@ -31,6 +40,16 @@ const QueryReducer = (state, action) => {
       return {
         ...state,
         owner: action.payload,
+      };
+    case SET_COLOR:
+      return {
+        ...state,
+        color: action.payload !== null ? action.payload.color : undefined,
+      };
+    case SET_FUELTYPE:
+      return {
+        ...state,
+        fuelType: action.payload !== null ? action.payload.type : undefined,
       };
     case SET_RENTAL:
       return {
