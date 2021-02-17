@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
     marginTop: '64px',
     height: '100%',
-    width: '100%',
   },
   imgCont: {
     marginBottom: theme.spacing(2),
@@ -46,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(5),
   },
   resultsCont: {
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(2),
   },
   noContent: {
     display: 'flex',
@@ -84,13 +83,14 @@ const Search = (props) => {
   const {
     car,
     location,
-    checkIn,
-    checkOut,
-    color,
+    kmDriven,
     fuelType,
+    seats,
+    color,
     rentals,
     loading,
     getRentals,
+    searchRentals,
   } = queryContext;
 
   // ===== FUNCTIONS =====
@@ -102,8 +102,9 @@ const Search = (props) => {
 
   // Search
   useEffect(() => {
-    getRentals('', 'public', 'search');
-  }, [car, location, checkIn, checkOut, color, fuelType]);
+    // getRentals('', 'public', 'search');
+    searchRentals();
+  }, [car, location, kmDriven, fuelType, seats, color]);
 
   return (
     <Fragment>

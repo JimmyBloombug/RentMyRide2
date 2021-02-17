@@ -24,15 +24,8 @@ import AirlineSeatReclineNormalIcon from '@material-ui/icons/AirlineSeatReclineN
 
 // Style
 const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
   card: {
     height: 500,
-    position: 'relative',
-    margin: theme.spacing(0, 1),
-    width: 370,
   },
   media: {
     height: 200,
@@ -69,91 +62,89 @@ const ResultCards = (props) => {
   };
 
   return (
-    <div className={classes.container}>
-      <Grid container spacing={2}>
-        {props.array.map((rental, index) => {
-          return (
-            <Grid item xs={12} sm={6} md={4}>
-              <Card
-                className={classes.card}
-                key={rental._id}
-                onClick={() => handleClick(rental._id)}
-              >
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={rental.car.pictures[0]}
-                    title={rental.car.label}
-                  />
-                  <CardContent className={classes.cont}>
-                    <Typography
-                      gutterBottom
-                      variant='h5'
-                      component='h2'
-                      className={classes.carName}
-                      color='primary'
+    <Grid container spacing={2}>
+      {props.array.map((rental, index) => {
+        return (
+          <Grid item xs={12} sm={6} md={4}>
+            <Card
+              className={classes.card}
+              key={rental._id}
+              onClick={() => handleClick(rental._id)}
+            >
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image={rental.car.pictures[0]}
+                  title={rental.car.label}
+                />
+                <CardContent className={classes.cont}>
+                  <Typography
+                    gutterBottom
+                    variant='h5'
+                    component='h2'
+                    className={classes.carName}
+                    color='primary'
+                  >
+                    {rental.car.label}
+                  </Typography>
+                  <div className={classes.info}>
+                    <Box
+                      display='flex'
+                      alignItems='center'
+                      mr={2}
+                      lineHeight={3}
                     >
-                      {rental.car.label}
-                    </Typography>
-                    <div className={classes.info}>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        mr={2}
-                        lineHeight={3}
-                      >
-                        <AttachMoneyIcon />
-                        <Box ml={1}>{rental.price + ' ' + rental.billing}</Box>
-                      </Box>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        mr={2}
-                        lineHeight={3}
-                      >
-                        <RoomIcon />
-                        <Box ml={1}>{rental.location.label}</Box>
-                      </Box>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        mr={2}
-                        lineHeight={3}
-                      >
-                        <FastForwardIcon />
-                        <Box ml={1}>{rental.car.kmDriven}</Box>
-                      </Box>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        mr={2}
-                        lineHeight={3}
-                      >
-                        <LocalGasStationIcon />
-                        <Box ml={1}>{rental.car.fueltype}</Box>
-                      </Box>
-                      <Box
-                        display='flex'
-                        alignItems='center'
-                        mr={2}
-                        lineHeight={3}
-                      >
-                        <AirlineSeatReclineNormalIcon />
-                        <Box ml={1}>{rental.car.seats}</Box>
-                      </Box>
-                      <Box display='flex' alignItems='center' lineHeight={3}>
-                        <ColorLensIcon />
-                        <Box ml={1}>{rental.car.color}</Box>
-                      </Box>
-                    </div>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          );
-        })}
-      </Grid>
-    </div>
+                      <AttachMoneyIcon />
+                      <Box ml={1}>{rental.price + ' ' + rental.billing}</Box>
+                    </Box>
+                    <Box
+                      display='flex'
+                      alignItems='center'
+                      mr={2}
+                      lineHeight={3}
+                    >
+                      <RoomIcon />
+                      <Box ml={1}>{rental.location.label}</Box>
+                    </Box>
+                    <Box
+                      display='flex'
+                      alignItems='center'
+                      mr={2}
+                      lineHeight={3}
+                    >
+                      <FastForwardIcon />
+                      <Box ml={1}>{rental.car.kmDriven}</Box>
+                    </Box>
+                    <Box
+                      display='flex'
+                      alignItems='center'
+                      mr={2}
+                      lineHeight={3}
+                    >
+                      <LocalGasStationIcon />
+                      <Box ml={1}>{rental.car.fueltype}</Box>
+                    </Box>
+                    <Box
+                      display='flex'
+                      alignItems='center'
+                      mr={2}
+                      lineHeight={3}
+                    >
+                      <AirlineSeatReclineNormalIcon />
+                      <Box ml={1}>{rental.car.seats}</Box>
+                    </Box>
+                    <Box display='flex' alignItems='center' lineHeight={3}>
+                      <ColorLensIcon />
+                      <Box ml={1}>{rental.car.color}</Box>
+                    </Box>
+                  </div>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 };
 

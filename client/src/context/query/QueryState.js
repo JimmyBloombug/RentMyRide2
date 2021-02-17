@@ -17,10 +17,10 @@ const QueryState = (props) => {
   const initialState = {
     car: '',
     location: {},
-    checkIn: null,
-    checkOut: null,
-    color: undefined,
+    kmDriven: undefined,
     fuelType: undefined,
+    seats: undefined,
+    color: undefined,
     // rental owner,
     owner: undefined,
     ownerErr: undefined,
@@ -71,57 +71,6 @@ const QueryState = (props) => {
         type: SET_RENTAL,
         payload: res.data,
       });
-    } else if (type === 'search') {
-      // set loading
-      dispatch({
-        type: SET_LOADING,
-      });
-
-      // GET QUERIED ENTRIES
-      // set headers
-      let location = '';
-      let checkIn = '';
-      let checkOut = '';
-      let color = '';
-      let fueltype = '';
-
-      if (state.location.region !== undefined) {
-        location = state.location.region;
-      }
-      if (state.checkIn !== null) {
-        checkIn = state.checkIn;
-      }
-      if (state.checkOut !== null) {
-        checkOut = state.checkOut;
-      }
-      if (state.color !== undefined) {
-        color = state.color;
-      }
-      if (state.fuelType !== undefined) {
-        fueltype = state.fueltype;
-      }
-
-      const config = {
-        headers: {
-          type,
-          car: state.car,
-          location,
-          checkIn,
-          checkOut,
-          color,
-          fueltype,
-        },
-      };
-
-      console.log(config);
-
-      // server request
-      const res = await axios.get(`server/rentals/${route}`, config);
-      // set rentals = server response
-      dispatch({
-        type: SET_RENTALS,
-        payload: res.data,
-      });
     } else {
       // GET MULTIPLE ENTRIES
       // set headers
@@ -141,6 +90,63 @@ const QueryState = (props) => {
         payload: res.data,
       });
     }
+  };
+
+  // Search
+  const searchRentals = async () => {
+    // set loading
+    dispatch({
+      type: SET_LOADING,
+    });
+
+    // GET QUERIED ENTRIES
+    // set headers
+    let location = '';
+    let kmdriven = '';
+    let fueltype = '';
+    let color = '';
+    let seats = '';
+
+    if (state.location !== null) {
+      if (state.location.region !== undefined) {
+        location = state.location.region;
+      }
+    }
+    if (state.kmDriven !== undefined) {
+      kmdriven = state.kmDriven;
+    }
+    if (state.fuelType !== undefined) {
+      fueltype = state.fuelType;
+    }
+    if (state.seats !== undefined) {
+      seats = state.seats;
+    }
+    if (state.color !== undefined) {
+      color = state.color;
+    }
+
+    const config = {
+      headers: {
+        car: state.car,
+        location,
+        kmdriven,
+        fueltype,
+        seats,
+        color,
+      },
+    };
+
+    // console.log(config);
+
+    try {
+      // server request
+      const res = await axios.get(`server/rentals/search`, config);
+      // set rentals = server response
+      dispatch({
+        type: SET_RENTALS,
+        payload: res.data,
+      });
+    } catch (error) {}
   };
 
   // Get Cars
@@ -176,10 +182,10 @@ const QueryState = (props) => {
       value={{
         car: state.car,
         location: state.location,
-        checkIn: state.checkIn,
-        checkOut: state.checkOut,
-        color: state.color,
+        kmDriven: state.kmDriven,
         fuelType: state.fuelType,
+        seats: state.seats,
+        color: state.color,
         owner: state.owner,
         rental: state.rental,
         rentals: state.rentals,
@@ -187,6 +193,7 @@ const QueryState = (props) => {
         setValue,
         clearValues,
         getRentals,
+        searchRentals,
         getCars,
         getOwner,
       }}

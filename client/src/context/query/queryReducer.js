@@ -8,8 +8,10 @@ import {
   SET_CARS,
   SET_OWNER,
   CLEAR_VALUES,
-  SET_COLOR,
+  SET_KM_DRIVEN,
   SET_FUELTYPE,
+  SET_SEATS,
+  SET_COLOR,
   SET_LOADING,
 } from '../types';
 
@@ -42,15 +44,25 @@ const QueryReducer = (state, action) => {
         ...state,
         owner: action.payload,
       };
-    case SET_COLOR:
+    case SET_KM_DRIVEN:
       return {
         ...state,
-        color: action.payload !== null ? action.payload.color : undefined,
+        kmDriven: action.payload !== null ? action.payload.km : undefined,
       };
     case SET_FUELTYPE:
       return {
         ...state,
         fuelType: action.payload !== null ? action.payload.type : undefined,
+      };
+    case SET_SEATS:
+      return {
+        ...state,
+        seats: action.payload !== null ? action.payload.num : undefined,
+      };
+    case SET_COLOR:
+      return {
+        ...state,
+        color: action.payload !== null ? action.payload.color : undefined,
       };
     case SET_RENTAL:
       return {

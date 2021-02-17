@@ -64,27 +64,46 @@ router.get('/public', async (req, res) => {
         res.status(500).json({ errors: 'Internal Server Error' });
       }
       break;
-    case 'search':
-      try {
-        // destructure
-        let { car, location, checkIn, checkOut, color, fueltype } = req.headers;
-        // get matching rentals
-        let rentals = await Rental.find({
-          'car.label': { $regex: car },
-          'car.color': { $regex: color },
-          'car.fueltype': { $regex: fueltype },
-          'location.region': { $regex: location },
-        });
-        // response
-        console.log(rentals);
-        console.log('==================');
-        res.json(rentals);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ errors: 'Internal Server Error' });
-      }
   }
 });
+
+// @route   GET server/rentals
+// @desc    GET rentals user
+// @access  Public
+router.get(
+  '/search',
+  [
+    check('car').isString(),
+    check('location').isString(),
+    check('kmdriven').isString(),
+    check('fueltype').isString(),
+    check('seats').isString(),
+    check('color').isString(),
+  ],
+  async (req, res) => {
+    try {
+      // destructure
+      let { car, location, kmdriven, fueltype, seats, color } = req.headers;
+      // get matching rentals
+      let rentals = await Rental.find({
+        'car.label': { $regex: car, $options: 'i' },
+        'location.region': { $regex: location, $options: 'i' },
+        'car.kmDriven': { $regex: kmdriven },
+        'car.fueltype': { $regex: fueltype },
+        'car.seats': { $regex: seats },
+        'car.color': { $regex: color },
+      });
+      // console.log(seats);
+      // console.log(rentals);
+      // console.log('==================');
+      // response
+      res.json(rentals);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ errors: 'Internal Server Error' });
+    }
+  }
+);
 
 // @route   GET server/rentals
 // @desc    GET rentals user

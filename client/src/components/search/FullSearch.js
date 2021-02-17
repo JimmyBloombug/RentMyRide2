@@ -9,19 +9,15 @@ import {
   TextField,
   CircularProgress,
   Grid,
-  Button,
-  Box,
   FormControl,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Autocomplete } from '@material-ui/lab';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDateTimePicker,
-} from '@material-ui/pickers';
 
 // Lists
+import kmSelect from '../../constants/kmselect.json';
 import fuelTypeList from '../../constants/fueltypes.json';
+import numSelect from '../../constants/numselect.json';
 import colorSelect from '../../constants/colorselect.json';
 
 // Context
@@ -29,10 +25,10 @@ import QueryContext from '../../context/query/queryContext';
 import {
   SET_CAR,
   SET_LOCATION,
-  SET_CHECK_IN,
-  SET_CHECK_OUT,
-  SET_COLOR,
+  SET_KM_DRIVEN,
   SET_FUELTYPE,
+  SET_SEATS,
+  SET_COLOR,
 } from '../../context/types';
 
 // Define Styles
@@ -50,7 +46,7 @@ const RES_NUM = 5;
 const FullSearch = () => {
   // ====== CONTEXT ======
   const queryContext = useContext(QueryContext);
-  const { car, checkIn, checkOut, color, fuelType, setValue } = queryContext;
+  const { car, kmDriven, seats, color, fuelType, setValue } = queryContext;
 
   // ====== STATES =======
 
@@ -160,51 +156,50 @@ const FullSearch = () => {
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container spacing={1}>
-              <Grid item xs={6}>
-                <KeyboardDateTimePicker
-                  fullWidth
-                  autoOk
-                  ampm={false}
-                  variant='inline'
-                  inputVariant='outlined'
-                  disablePast
-                  format='MM/dd/yyyy HH:mm'
-                  id='dateFrom'
-                  label='Check In'
-                  value={checkIn}
-                  onChange={(date, value) =>
-                    handleDateChange(date, value, SET_CHECK_IN)
-                  }
-                  KeyboardButtonProps={{
-                    'aria-label': 'Check in day',
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <KeyboardDateTimePicker
-                  fullWidth
-                  autoOk
-                  ampm={false}
-                  variant='inline'
-                  inputVariant='outlined'
-                  disablePast
-                  format='MM/dd/yyyy HH:mm'
-                  id='dateTo'
-                  label='Check Out'
-                  value={checkOut}
-                  onChange={(date, value) =>
-                    handleDateChange(date, value, SET_CHECK_OUT)
-                  }
-                  KeyboardButtonProps={{
-                    'aria-label': 'Check out day',
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </MuiPickersUtilsProvider>
+        <Grid item xs={12} sm={3}>
+          <FormControl variant='outlined' fullWidth color='primary'>
+            <Autocomplete
+              id='km'
+              options={kmSelect}
+              onChange={(e, value) => setValue(SET_KM_DRIVEN, value)}
+              autoHighlight
+              getOptionLabel={(option) => option.km}
+              getOptionSelected={(option) => option.km === kmDriven}
+              renderInput={(params) => (
+                <TextField {...params} label='Kilometers' variant='outlined' />
+              )}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <FormControl variant='outlined' fullWidth color='primary'>
+            <Autocomplete
+              id='fuel-type'
+              options={fuelTypeList}
+              onChange={(e, value) => setValue(SET_FUELTYPE, value)}
+              autoHighlight
+              getOptionLabel={(option) => option.type}
+              getOptionSelected={(option) => option.type === fuelType}
+              renderInput={(params) => (
+                <TextField {...params} label='Fuel' variant='outlined' />
+              )}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <FormControl variant='outlined' fullWidth color='primary'>
+            <Autocomplete
+              id='seat-number'
+              options={numSelect}
+              onChange={(e, value) => setValue(SET_SEATS, value)}
+              autoHighlight
+              getOptionLabel={(option) => option.num}
+              getOptionSelected={(option) => option.num === seats}
+              renderInput={(params) => (
+                <TextField {...params} label='Seats' variant='outlined' />
+              )}
+            />
+          </FormControl>
         </Grid>
         <Grid item xs={12} sm={3}>
           <FormControl variant='outlined' fullWidth color='primary'>
@@ -230,21 +225,6 @@ const FullSearch = () => {
               )}
               renderInput={(params) => (
                 <TextField {...params} label='Color' variant='outlined' />
-              )}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <FormControl variant='outlined' fullWidth color='primary'>
-            <Autocomplete
-              id='fuel-type'
-              options={fuelTypeList}
-              onChange={(e, value) => setValue(SET_FUELTYPE, value)}
-              autoHighlight
-              getOptionLabel={(option) => option.type}
-              getOptionSelected={(option) => option.type === fuelType}
-              renderInput={(params) => (
-                <TextField {...params} label='Fuel' variant='outlined' />
               )}
             />
           </FormControl>
