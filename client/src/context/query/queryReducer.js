@@ -10,6 +10,7 @@ import {
   CLEAR_VALUES,
   SET_COLOR,
   SET_FUELTYPE,
+  SET_LOADING,
 } from '../types';
 
 const QueryReducer = (state, action) => {
@@ -60,12 +61,19 @@ const QueryReducer = (state, action) => {
       return {
         ...state,
         rentals: action.payload,
+        loading: true,
       };
     }
     case SET_CARS: {
       return {
         ...state,
         cars: action.payload,
+      };
+    }
+    case SET_LOADING: {
+      return {
+        ...state,
+        loading: false,
       };
     }
     case CLEAR_VALUES: {

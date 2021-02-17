@@ -67,15 +67,17 @@ router.get('/public', async (req, res) => {
     case 'search':
       try {
         // destructure
-        const { car, location, checkIn, checkOut, color, fueltype } = req.body;
-        console.log(fueltype);
+        let { car, location, checkIn, checkOut, color, fueltype } = req.headers;
         // get matching rentals
         let rentals = await Rental.find({
           'car.label': { $regex: car },
-          'car.color': color,
-          'car.fueltype': fueltype,
+          'car.color': { $regex: color },
+          'car.fueltype': { $regex: fueltype },
+          'location.region': { $regex: location },
         });
         // response
+        console.log(rentals);
+        console.log('==================');
         res.json(rentals);
       } catch (error) {
         console.error(error);

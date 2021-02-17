@@ -10,6 +10,7 @@ import {
   SET_CARS,
   SET_OWNER,
   CLEAR_VALUES,
+  SET_LOADING,
 } from '../types';
 
 const QueryState = (props) => {
@@ -32,14 +33,13 @@ const QueryState = (props) => {
     // cars
     cars: undefined,
     carsErr: undefined,
+    loading: true,
   };
 
   const [state, dispatch] = useReducer(QueryReducer, initialState);
 
   // Set Value
   const setValue = (type, data) => {
-    console.log(type);
-    console.log(data);
     dispatch({
       type: type,
       payload: data,
@@ -72,25 +72,51 @@ const QueryState = (props) => {
         payload: res.data,
       });
     } else if (type === 'search') {
+      // set loading
+      dispatch({
+        type: SET_LOADING,
+      });
+
       // GET QUERIED ENTRIES
       // set headers
+      let location = '';
+      let checkIn = '';
+      let checkOut = '';
+      let color = '';
+      let fueltype = '';
+
+      if (state.location.region !== undefined) {
+        location = state.location.region;
+      }
+      if (state.checkIn !== null) {
+        checkIn = state.checkIn;
+      }
+      if (state.checkOut !== null) {
+        checkOut = state.checkOut;
+      }
+      if (state.color !== undefined) {
+        color = state.color;
+      }
+      if (state.fuelType !== undefined) {
+        fueltype = state.fueltype;
+      }
+
       const config = {
         headers: {
-          type: type,
+          type,
+          car: state.car,
+          location,
+          checkIn,
+          checkOut,
+          color,
+          fueltype,
         },
       };
-      // set query data
-      const formData = {
-        car: state.car,
-        location: state.location,
-        checkIn: state.checkIn,
-        checkOut: state.checkOut,
-        color: state.color,
-        fueltype: state.fuelType,
-      };
+
+      console.log(config);
 
       // server request
-      const res = await axios.get(`server/rentals/${route}`, formData, config);
+      const res = await axios.get(`server/rentals/${route}`, config);
       // set rentals = server response
       dispatch({
         type: SET_RENTALS,

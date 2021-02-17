@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useContext } from 'react';
 
 // Material UI
 import {
@@ -15,9 +15,13 @@ import {
 
 // Components
 import FullSearch from '../search/FullSearch';
+import ResultCards from '../search/ResultCards';
 
 // Assets
-import TopImg from '../../assets/search/search.jpg';
+import NoResults from '../../assets/featback/no-bookings.svg';
+
+// Context
+import QueryContext from '../../context/query/queryContext';
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +45,31 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(5),
   },
+  resultsCont: {
+    marginTop: theme.spacing(5),
+  },
+  noContent: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  img: {
+    marginTop: theme.spacing(5),
+    maxWidth: 300,
+  },
+  h4: {
+    fontSize: '1.6em',
+    fontWeight: '500',
+    color: theme.palette.primary.main,
+    marginBottom: 0,
+  },
+  p: {
+    fontSize: '1.3em',
+    textAlign: 'center',
+  },
 }));
 
 const Search = (props) => {
@@ -51,6 +80,18 @@ const Search = (props) => {
   let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
 
   // ===== CONTEXT =====
+  const queryContext = useContext(QueryContext);
+  const {
+    car,
+    location,
+    checkIn,
+    checkOut,
+    color,
+    fuelType,
+    rentals,
+    loading,
+    getRentals,
+  } = queryContext;
 
   // ===== FUNCTIONS =====
   useEffect(() => {
@@ -58,6 +99,11 @@ const Search = (props) => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line
   }, []);
+
+  // Search
+  useEffect(() => {
+    getRentals('', 'public', 'search');
+  }, [car, location, checkIn, checkOut, color, fuelType]);
 
   return (
     <Fragment>
@@ -67,6 +113,17 @@ const Search = (props) => {
         </div> */}
         <Container maxWidth='lg'>
           <FullSearch />
+          <div className={classes.resultsCont}>
+            {rentals !== undefined && rentals.length !== 0 ? (
+              <ResultCards array={rentals} />
+            ) : (
+              <div className={classes.noContent}>
+                <img className={classes.img} src={NoResults} alt='no-results' />
+                <h4 className={classes.h4}>No cars found</h4>
+                <p className={classes.p}>No matching cars were found</p>
+              </div>
+            )}
+          </div>
         </Container>
       </div>
     </Fragment>
