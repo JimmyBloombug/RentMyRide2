@@ -3,10 +3,6 @@ import { Fragment, useEffect, useContext } from 'react';
 
 // Material UI
 import {
-  Grid,
-  CardContent,
-  Box,
-  Typography,
   Container,
   makeStyles,
   useMediaQuery,
@@ -16,6 +12,7 @@ import {
 // Components
 import FullSearch from '../search/FullSearch';
 import ResultCards from '../search/ResultCards';
+// import Loading from '../layout/Loading';
 
 // Assets
 import NoResults from '../../assets/featback/no-bookings.svg';
@@ -69,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.3em',
     textAlign: 'center',
   },
+  // loading: {
+  //   width: 500,
+  // },
 }));
 
 const Search = (props) => {
@@ -89,8 +89,8 @@ const Search = (props) => {
     color,
     rentals,
     loading,
-    getRentals,
     searchRentals,
+    clearValues,
   } = queryContext;
 
   // ===== FUNCTIONS =====
@@ -102,16 +102,19 @@ const Search = (props) => {
 
   // Search
   useEffect(() => {
-    // getRentals('', 'public', 'search');
     searchRentals();
   }, [car, location, kmDriven, fuelType, seats, color]);
+
+  // Clear Query when component.unmount
+  useEffect(() => {
+    return () => {
+      clearValues();
+    };
+  }, []);
 
   return (
     <Fragment>
       <div className={classes.searchCont}>
-        {/* <div className={classes.imgCont}>
-          <img src={TopImg} className={classes.topImg}></img>
-        </div> */}
         <Container maxWidth='lg'>
           <FullSearch />
           <div className={classes.resultsCont}>

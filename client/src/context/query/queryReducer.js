@@ -89,11 +89,28 @@ const QueryReducer = (state, action) => {
       };
     }
     case CLEAR_VALUES: {
+      console.log('reducer');
       return {
         ...state,
-        rental: undefined,
-        rentals: undefined,
+        // search
+        car: '',
+        location: {},
+        kmDriven: undefined,
+        fuelType: undefined,
+        seats: undefined,
+        color: undefined,
+        // owner
         owner: undefined,
+        ownerErr: undefined,
+        // rental
+        rental: undefined,
+        rentalErr: undefined,
+        // rentals
+        rentals: undefined,
+        rentalsErr: undefined,
+        // cars
+        cars: undefined,
+        carsErr: undefined,
       };
     }
     default:

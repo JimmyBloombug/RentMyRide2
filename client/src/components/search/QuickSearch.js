@@ -1,8 +1,5 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
-
-// Date
-import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
+import { withRouter } from 'react-router-dom';
 
 // Material UI
 import {
@@ -17,17 +14,13 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Autocomplete } from '@material-ui/lab';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDateTimePicker,
-} from '@material-ui/pickers';
 
 // Material Icons
 import SearchIcon from '@material-ui/icons/Search';
 
 // Context
 import QueryContext from '../../context/query/queryContext';
-import { SET_LOCATION, SET_CHECK_IN, SET_CHECK_OUT } from '../../context/types';
+import { SET_LOCATION } from '../../context/types';
 
 // Define Styles
 const useStyles = makeStyles((theme) => ({
@@ -41,10 +34,10 @@ const GEOCODE_API = process.env.REACT_APP_GEOCODE_API;
 // load RES_NUM of cities (default: 5, limit: 10)
 const RES_NUM = 5;
 
-const QuickSearch = () => {
+const QuickSearch = (props) => {
   // ====== CONTEXT ======
   const queryContext = useContext(QueryContext);
-  const { checkIn, checkOut, setValue } = queryContext;
+  const { setValue } = queryContext;
 
   // ====== STATES =======
 
@@ -94,8 +87,9 @@ const QuickSearch = () => {
     setlocationInput(element.target.value);
   };
 
-  const handleDateChange = (date, value, type) => {
-    setValue(type, date);
+  // Go to search
+  const handleSubmit = () => {
+    props.history.push('/search');
   };
 
   // ====== STYLE =======
@@ -105,13 +99,17 @@ const QuickSearch = () => {
   let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
 
   return (
-    <form className='quickSearchCont'>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={5}>
+    <form
+      className='quickSearchCont'
+      style={{ display: 'flex', justifyContent: 'center' }}
+      onSubmit={handleSubmit}
+    >
+      <Grid container spacing={2} style={{ width: 600 }}>
+        <Grid item xs={12} sm={11}>
           <Autocomplete
             id='geolocation'
             className={classes.location}
-            style={{ width: 300 }}
+            style={{ width: 400 }}
             open={open}
             onOpen={() => {
               setOpen(true);
@@ -145,52 +143,6 @@ const QuickSearch = () => {
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={6}>
-                <KeyboardDateTimePicker
-                  fullWidth
-                  autoOk
-                  ampm={false}
-                  variant='inline'
-                  inputVariant='outlined'
-                  disablePast
-                  format='MM/dd/yyyy HH:mm'
-                  id='dateFrom'
-                  label='Check In'
-                  value={checkIn}
-                  onChange={(date, value) =>
-                    handleDateChange(date, value, SET_CHECK_IN)
-                  }
-                  KeyboardButtonProps={{
-                    'aria-label': 'Check in day',
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <KeyboardDateTimePicker
-                  fullWidth
-                  autoOk
-                  ampm={false}
-                  variant='inline'
-                  inputVariant='outlined'
-                  disablePast
-                  format='MM/dd/yyyy HH:mm'
-                  id='dateTo'
-                  label='Check Out'
-                  value={checkOut}
-                  onChange={(date, value) =>
-                    handleDateChange(date, value, SET_CHECK_OUT)
-                  }
-                  KeyboardButtonProps={{
-                    'aria-label': 'Check out day',
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </MuiPickersUtilsProvider>
-        </Grid>
         <Grid item xs={12} sm={1}>
           <Box
             display='flex'
@@ -199,11 +151,16 @@ const QuickSearch = () => {
             height='100%'
           >
             {!xsdown ? (
-              <IconButton>
+              <IconButton onClick={handleSubmit}>
                 <SearchIcon />
               </IconButton>
             ) : (
-              <Button variant='outlined' color='primary' size='large'>
+              <Button
+                onClick={handleSubmit}
+                variant='outlined'
+                color='primary'
+                size='large'
+              >
                 Search
               </Button>
             )}
@@ -214,4 +171,4 @@ const QuickSearch = () => {
   );
 };
 
-export default QuickSearch;
+export default withRouter(QuickSearch);

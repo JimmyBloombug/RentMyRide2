@@ -1,9 +1,5 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
 
-// Date
-import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-
 // Material UI
 import {
   TextField,
@@ -96,10 +92,6 @@ const FullSearch = () => {
     setlocationInput(element.target.value);
   };
 
-  const handleDateChange = (date, value, type) => {
-    setValue(type, date);
-  };
-
   // ====== STYLE =======
   const classes = useStyles();
 
@@ -186,7 +178,7 @@ const FullSearch = () => {
             />
           </FormControl>
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={3}>
           <FormControl variant='outlined' fullWidth color='primary'>
             <Autocomplete
               id='seat-number'
@@ -229,18 +221,6 @@ const FullSearch = () => {
             />
           </FormControl>
         </Grid>
-        {/* <Grid item xs={12} sm={12}>
-          <Box
-            display='flex'
-            alignItems='center'
-            justifyContent='flex-end'
-            height='100%'
-          >
-            <Button variant='outlined' color='primary' size='large'>
-              Search
-            </Button>
-          </Box>
-        </Grid> */}
       </Grid>
     </form>
   );

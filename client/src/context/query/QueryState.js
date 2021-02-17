@@ -48,6 +48,7 @@ const QueryState = (props) => {
 
   // Clear Values
   const clearValues = () => {
+    console.log('test');
     dispatch({
       type: CLEAR_VALUES,
     });
