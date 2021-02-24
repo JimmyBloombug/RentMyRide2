@@ -13,6 +13,7 @@ import {
   SET_SEATS,
   SET_COLOR,
   SET_LOADING,
+  SET_SEARCH_RES,
 } from '../types';
 
 const QueryReducer = (state, action) => {
@@ -76,6 +77,13 @@ const QueryReducer = (state, action) => {
         loading: true,
       };
     }
+    case SET_SEARCH_RES: {
+      return {
+        ...state,
+        searchRes: action.payload,
+        loading: true,
+      };
+    }
     case SET_CARS: {
       return {
         ...state,
@@ -89,7 +97,6 @@ const QueryReducer = (state, action) => {
       };
     }
     case CLEAR_VALUES: {
-      console.log('reducer');
       return {
         ...state,
         // search
@@ -108,6 +115,8 @@ const QueryReducer = (state, action) => {
         // rentals
         rentals: undefined,
         rentalsErr: undefined,
+        // search
+        searchRes: undefined,
         // cars
         cars: undefined,
         carsErr: undefined,

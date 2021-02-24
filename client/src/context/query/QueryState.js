@@ -11,6 +11,7 @@ import {
   SET_OWNER,
   CLEAR_VALUES,
   SET_LOADING,
+  SET_SEARCH_RES,
 } from '../types';
 
 const QueryState = (props) => {
@@ -30,6 +31,8 @@ const QueryState = (props) => {
     // rentals
     rentals: undefined,
     rentalsErr: undefined,
+    // search results
+    searchRes: undefined,
     // cars
     cars: undefined,
     carsErr: undefined,
@@ -48,7 +51,6 @@ const QueryState = (props) => {
 
   // Clear Values
   const clearValues = () => {
-    console.log('test');
     dispatch({
       type: CLEAR_VALUES,
     });
@@ -144,7 +146,7 @@ const QueryState = (props) => {
       const res = await axios.get(`server/rentals/search`, config);
       // set rentals = server response
       dispatch({
-        type: SET_RENTALS,
+        type: SET_SEARCH_RES,
         payload: res.data,
       });
     } catch (error) {}
@@ -190,6 +192,7 @@ const QueryState = (props) => {
         owner: state.owner,
         rental: state.rental,
         rentals: state.rentals,
+        searchRes: state.searchRes,
         cars: state.cars,
         setValue,
         clearValues,

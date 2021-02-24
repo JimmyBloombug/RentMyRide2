@@ -23,19 +23,18 @@ import QueryContext from '../../context/query/queryContext';
 // Define Style
 const useStyles = makeStyles((theme) => ({
   searchCont: {
-    minHeight: '100vh',
+    minHeight: '80vh',
     marginTop: '64px',
-    height: '100%',
   },
   imgCont: {
     marginBottom: theme.spacing(2),
   },
-  topImg: {
-    width: '100vw',
-    height: '60vh',
-    objectFit: 'cover',
-    filter: 'blur(4px) brightness(1.3) hue-rotate(300deg)',
-  },
+  // topImg: {
+  //   width: '100vw',
+  //   height: '60vh',
+  //   objectFit: 'cover',
+  //   filter: 'blur(4px) brightness(1.3) hue-rotate(300deg)',
+  // },
   searchOptions: {
     borderRadius: 5,
     backgroundColor: theme.palette.background.paper,
@@ -87,7 +86,7 @@ const Search = (props) => {
     fuelType,
     seats,
     color,
-    rentals,
+    searchRes,
     loading,
     searchRentals,
     clearValues,
@@ -118,8 +117,8 @@ const Search = (props) => {
         <Container maxWidth='lg'>
           <FullSearch />
           <div className={classes.resultsCont}>
-            {rentals !== undefined && rentals.length !== 0 ? (
-              <ResultCards array={rentals} />
+            {searchRes !== undefined && searchRes.length !== 0 ? (
+              <ResultCards array={searchRes} />
             ) : (
               <div className={classes.noContent}>
                 <img className={classes.img} src={NoResults} alt='no-results' />

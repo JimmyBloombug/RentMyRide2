@@ -65,7 +65,7 @@ const ResultCards = (props) => {
     <Grid container spacing={2}>
       {props.array.map((rental, index) => {
         return (
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} key={rental._id}>
             <Card
               className={classes.card}
               key={rental._id}

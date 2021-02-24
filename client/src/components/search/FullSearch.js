@@ -42,7 +42,15 @@ const RES_NUM = 5;
 const FullSearch = () => {
   // ====== CONTEXT ======
   const queryContext = useContext(QueryContext);
-  const { car, kmDriven, seats, color, fuelType, setValue } = queryContext;
+  const {
+    car,
+    location,
+    kmDriven,
+    seats,
+    color,
+    fuelType,
+    setValue,
+  } = queryContext;
 
   // ====== STATES =======
 
@@ -92,6 +100,10 @@ const FullSearch = () => {
     setlocationInput(element.target.value);
   };
 
+  const handleLocationChange = (option) => {
+    setValue(SET_LOCATION, option);
+  };
+
   // ====== STYLE =======
   const classes = useStyles();
 
@@ -122,7 +134,7 @@ const FullSearch = () => {
             onClose={() => {
               setOpen(false);
             }}
-            onChange={(e, option) => setValue(SET_LOCATION, option)}
+            onChange={(e, option) => handleLocationChange(option)}
             getOptionSelected={(option, value) => option.label === value.label}
             getOptionLabel={(option) => option.label}
             options={options}

@@ -150,6 +150,12 @@ const Home = () => {
     // Component Mount ScrollToTop
     window.scrollTo(0, 0);
     // eslint-disable-next-line
+
+    var x = 4;
+    x *= 2;
+    x -= 3;
+    x++;
+    console.log(x);
   }, []);
 
   // get rentals

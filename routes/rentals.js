@@ -7,6 +7,8 @@ const auth = require('../middleware/auth');
 // Schema
 const Car = require('../models/Car');
 const Rental = require('../models/Rental');
+// Utils
+const Query = require('../utils/Query');
 
 // @route   GET server/rentals
 // @desc    GET rentals
@@ -84,8 +86,10 @@ router.get(
     try {
       // destructure
       let { car, location, kmdriven, fueltype, seats, color } = req.headers;
-      // get matching rentals
-      let rentals = await Rental.find({
+
+      // define query
+      Query.defineQuery({
+        booked: { $ne: true },
         'car.label': { $regex: car, $options: 'i' },
         'location.region': { $regex: location, $options: 'i' },
         'car.kmDriven': { $regex: kmdriven },
@@ -93,8 +97,17 @@ router.get(
         'car.seats': { $regex: seats },
         'car.color': { $regex: color },
       });
-      // console.log(seats);
-      // console.log(rentals);
+
+      // if kmdriven is +200k remove replace regex with eq
+      if (kmdriven === '+200.000 km') {
+        Query.changeQuery({
+          'car.kmDriven': { $eq: kmdriven },
+        });
+      }
+      // get matching rentals
+      let rentals = await Rental.find(Query.query);
+
+      // console.log(req.headers);
       // console.log('==================');
       // response
       res.json(rentals);
