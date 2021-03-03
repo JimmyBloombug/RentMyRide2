@@ -1,7 +1,9 @@
 <h1 align="center">RentMyRide</h1>
 
 <p align="center">
-  <a href="https://github.com/EchoProfileName/RentMyRide2"><img width="150" src="https://github.com/EchoProfileName/RentMyRide2/blob/master/client/src/assets/logo/logo.svg" alt="RentMyRide Logo"></a>
+  <a href="https://github.com/EchoProfileName/RentMyRide2">
+    <img width="150" src="https://github.com/EchoProfileName/RentMyRide2/blob/master/client/src/assets/logo/logo.svg" alt="RentMyRide Logo"/>
+  </a>
 </p>
 
 <div align="center">
@@ -9,6 +11,12 @@ RentMyRide is a private car sharing single page application, which was built wit
 <br>
 This application utilizes MERN Stack.
 </div>
+
+<p align="center">
+  <a href="">
+    <img width="600" src="https://github.com/EchoProfileName/readme_assets/blob/master/rent_my_ride/landing.gif"/>
+  </a>
+</p>
 
 ---
 
