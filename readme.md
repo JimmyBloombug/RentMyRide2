@@ -1,11 +1,13 @@
 <h1 align="center">RentMyRide</h1>
 
 <p align="center">
-  <img width="150" src="https://github.com/EchoProfileName/RentMyRide2/blob/master/client/src/assets/logo/logo.svg" alt="RentMyRide Logo">
+  <a href="https://github.com/EchoProfileName/RentMyRide2"><img width="150" src="https://github.com/EchoProfileName/RentMyRide2/blob/master/client/src/assets/logo/logo.svg" alt="RentMyRide Logo"></a>
 </p>
 
 <div align="center">
-RentMyRide is a private car sharing single page application, built with ReactJS.
+RentMyRide is a private car sharing single page application, which was built with ReactJS. This project may be used as an inspiration for everyone who wants to launch a sharing platform into a rapidly growing market.
+<br>
+This application utilizes MERN Stack.
 </div>
 
 ---
