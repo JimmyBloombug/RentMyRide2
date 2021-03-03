@@ -11,8 +11,8 @@ RentMyRide is a private car sharing single page application, which was built wit
 <br>
 This application utilizes MERN Stack.
 </div>
-
-<p align="center" marginTop="20px">
+<br>
+<p align="center">
   <a href="">
     <img width="100%" src="https://github.com/EchoProfileName/readme_assets/blob/master/rent_my_ride/landing.gif"/>
   </a>
