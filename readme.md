@@ -8,12 +8,12 @@ Quickly build beautiful [React](https://reactjs.org/) apps. RentMyRide is a priv
 
 ## Contents :file_folder:
 
-- [Features]()
-- [Installation]()
-- [Todos]()
-- [Support]()
+- [Features](https://github.com/EchoProfileName/RentMyRide2#features-gem)
+- [Installation](https://github.com/EchoProfileName/RentMyRide2#installation-wrench)
+- [Todos](https://github.com/EchoProfileName/RentMyRide2#todos-clipboard)
+- [Support](https://github.com/EchoProfileName/RentMyRide2#support-fireengine)
 - [Credits]()
-- [License]()
+- [License](https://github.com/EchoProfileName/RentMyRide2#license-page_facing_up)
 
 ---
 
@@ -69,7 +69,7 @@ $ npm run dev
 
 ---
 
-## Todos
+## Todos :clipboard:
 
 - Landing page company vision and info possibly with Three
 - How It Works page
@@ -80,12 +80,14 @@ $ npm run dev
 
 ---
 
-## Support
+## Support :fire_engine:
 
 Use the issue ticker to submit bugs or requests. <br>
-If you wish to contribute to this project, please feel free to do so.:octocat:
+If you wish to contribute to this project, please feel free to do so.:panda_face::wrench:
 
-## Credits
+---
+
+## Credits :pray:
 
 The backdrop of the landing page uses a video from [RoyaltyFreetube](https://royaltyfreetube.com/synthwave-animation-sunset-drive-loop-2-rain-creative-commons/).
 
@@ -93,6 +95,10 @@ The backdrop of the landing page uses a video from [RoyaltyFreetube](https://roy
 - A hue-rotation was performed
 - Brightness was adjusted
 
-All ownership of the video lies with (c) 2021 royaltyfreetube.com
+All ownership of the video lies with (c) 2021 [royaltyfreetube.com](https://royaltyfreetube.com/)
+
+---
 
 ## License :page_facing_up:
+
+This project is licensed under the [MIT License](LICENSE.md).
