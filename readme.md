@@ -1,7 +1,11 @@
 <h1 align="center">RentMyRide</h1>
 
+<p align="center">
+  <img width="150" src="https://github.com/EchoProfileName/RentMyRide2/blob/master/client/src/assets/logo/logo.svg" alt="RentMyRide Logo">
+</p>
+
 <div align="center">
-Quickly build beautiful [React](https://reactjs.org/) apps. RentMyRide is a private car sharing single page application, built with ReactJS.
+RentMyRide is a private car sharing single page application, built with ReactJS.
 </div>
 
 ---
@@ -11,8 +15,8 @@ Quickly build beautiful [React](https://reactjs.org/) apps. RentMyRide is a priv
 - [Features](https://github.com/EchoProfileName/RentMyRide2#features-gem)
 - [Installation](https://github.com/EchoProfileName/RentMyRide2#installation-wrench)
 - [Todos](https://github.com/EchoProfileName/RentMyRide2#todos-clipboard)
-- [Support](https://github.com/EchoProfileName/RentMyRide2#support-fireengine)
-- [Credits]()
+- [Support](https://github.com/EchoProfileName/RentMyRide2#support-fire_engine)
+- [Credits](https://github.com/EchoProfileName/RentMyRide2#credits-pray)
 - [License](https://github.com/EchoProfileName/RentMyRide2#license-page_facing_up)
 
 ---
@@ -48,10 +52,11 @@ $ npm clientinstall
 $ cd RentMyRide2/config
 $ touch default.json
 $ code default.json
--> add {
-  "mongoURI": "<Your Mongo DB Atlas database cluster link>",
-  "jwtSecret": "secret"
-}
+-> add
+  {
+    "mongoURI": "<Your Mongo DB Atlas database cluster link>",
+    "jwtSecret": "secret"
+  }
 
 # enable location search
 -> create free account on geocodeapi.com
