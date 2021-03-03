@@ -23,18 +23,12 @@ import QueryContext from '../../context/query/queryContext';
 // Define Style
 const useStyles = makeStyles((theme) => ({
   searchCont: {
-    minHeight: '80vh',
+    minHeight: '100vh',
     marginTop: '64px',
   },
   imgCont: {
     marginBottom: theme.spacing(2),
   },
-  // topImg: {
-  //   width: '100vw',
-  //   height: '60vh',
-  //   objectFit: 'cover',
-  //   filter: 'blur(4px) brightness(1.3) hue-rotate(300deg)',
-  // },
   searchOptions: {
     borderRadius: 5,
     backgroundColor: theme.palette.background.paper,
@@ -70,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
-const Search = (props) => {
+const Search = () => {
   // ===== STYLE =====
   const classes = useStyles();
   const theme = useTheme();
@@ -87,7 +81,6 @@ const Search = (props) => {
     seats,
     color,
     searchRes,
-    loading,
     searchRentals,
     clearValues,
   } = queryContext;
