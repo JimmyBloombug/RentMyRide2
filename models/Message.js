@@ -5,15 +5,15 @@ const MessageSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  from: {
+  owner_id: {
     type: String,
     required: true,
   },
-  to: {
+  user_id: {
     type: String,
     required: true,
   },
-  message: {
+  content: {
     type: String,
     required: true,
   },

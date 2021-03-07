@@ -7,6 +7,7 @@ const auth = require('../middleware/auth');
 // Schema
 const Rental = require('../models/Rental');
 const Booking = require('../models/Booking');
+const Message = require('../models/Message');
 
 // @route POST server/bookings
 // @desc POST rentals
@@ -70,6 +71,15 @@ router.post(
 
       // save booking
       await booking.save();
+
+      // create chatroom
+      const content = `Hello, I've just booked your car from ${checkIn} till ${checkOut}. I'm looking forward to discussing all the nesseccary details with you. Best wishes`;
+      message = new Message({
+        rental_id,
+        owner_id,
+        user_id,
+        content,
+      });
 
       // set rental booked
       rentalExists.booked = true;

@@ -23,6 +23,8 @@ router.get('/public', async (req, res) => {
 
   try {
     const user = await User.findById(user_id);
+    console.log(user_id);
+    console.log(user);
     const { username, image, country, city, date } = user;
     const resUser = {
       username,
@@ -73,7 +75,7 @@ router.get('/', async (req, res) => {
 });
 
 // @route POST server/users
-// @desc Register usern
+// @desc Register user
 // @access Public
 router.post(
   '/',

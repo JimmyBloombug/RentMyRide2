@@ -25,11 +25,6 @@ class Query {
       });
     });
   }
-
-  // // return query
-  // query() {
-  //   return this.query;
-  // }
 }
 
 module.exports = new Query();
