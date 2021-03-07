@@ -132,12 +132,14 @@ const AuthState = (props) => {
 
   // Validate Password
   const validatePassword = () => {
-    if (state.password === '' || !state.password.match(passwordReg)) {
+    if (state.password === '') {
       dispatch({
         type: SET_PW_ERR,
         payload: true,
       });
       return Promise.resolve(true);
+    } else if (!state.password.match(passwordReg)) {
+      dispatch({});
     } else {
       dispatch({
         type: SET_PW_ERR,
@@ -301,7 +303,7 @@ const AuthState = (props) => {
           payload: res.data.token,
         });
 
-        // loadUser();
+        loadUser();
       } catch (error) {
         dispatch({
           type: REGISTER_FAIL,

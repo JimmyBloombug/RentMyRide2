@@ -37,22 +37,22 @@ function App() {
                 <LoadUser>
                   <SimpleReactLightBox>
                     <Router>
-                      <Fragment>
-                        <div className='container'>
-                          <Navbar />
-                          <Switch>
-                            <Route exact path='/' component={Home} />
-                            <Route exact path='/offers' component={Offers} />
-                            <Route exact path='/search' component={Search} />
-                            <PrivateRoute
-                              exact
-                              path='/profile'
-                              component={Profile}
-                            />
-                          </Switch>
-                          <Footer />
-                        </div>
-                      </Fragment>
+                      <Navbar />
+                      <div className='body-wrapper'>
+                        <Switch>
+                          <Route exact path='/' component={Home} />
+                          <Route exact path='/offers' component={Offers} />
+                          <Route exact path='/search' component={Search} />
+                          <PrivateRoute
+                            exact
+                            path='/profile'
+                            component={Profile}
+                          />
+                        </Switch>
+                      </div>
+                      <div className='footer-wrapper'>
+                        <Footer />
+                      </div>
                     </Router>
                   </SimpleReactLightBox>
                 </LoadUser>

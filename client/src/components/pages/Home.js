@@ -33,17 +33,16 @@ import QueryContext from '../../context/query/queryContext';
 // Define Style
 const useStyles = makeStyles((theme) => ({
   heroBGCont: {
-    width: '100vw',
-    height: '100vh',
-    zIndex: -20,
+    width: '100%',
+    height: '100%',
     position: 'fixed',
+    zIndex: -20,
     left: 0,
     top: 0,
     filter: 'blur(5px) brightness(0.2) hue-rotate(260deg)',
     overflowX: 'hidden',
   },
   heroBG: {
-    position: 'absolute',
     minWidth: '100%',
     minHeight: '100%',
     width: 'auto',
@@ -141,21 +140,10 @@ const Home = () => {
   const { rentals, getRentals } = queryContext;
 
   // ======== FUNCTIONS ========
-  // Parallax
-  const { scrollY } = useViewportScroll();
-  const y1 = useTransform(scrollY, [0, 300], [0, -20]);
-  const y2 = useTransform(scrollY, [0, 300], [0, -500]);
-
   useEffect(() => {
     // Component Mount ScrollToTop
     window.scrollTo(0, 0);
     // eslint-disable-next-line
-
-    var x = 4;
-    x *= 2;
-    x -= 3;
-    x++;
-    console.log(x);
   }, []);
 
   // get rentals
@@ -173,10 +161,7 @@ const Home = () => {
 
   return (
     <Fragment>
-      <motion.section
-        className={classes.heroSection}
-        style={!xsdown ? { y: y1 } : null}
-      >
+      <section className={classes.heroSection}>
         <div className={classes.heroBGCont}>
           <video
             src={heroBG}
@@ -230,11 +215,8 @@ const Home = () => {
             </motion.div>
           </Box>
         </div>
-      </motion.section>
-      <motion.section
-        className={classes.homeCont}
-        style={!xsdown ? { y: y2 } : null}
-      >
+      </section>
+      <section className={classes.homeCont}>
         <section className={classes.homeContSection}>
           <Container maxWidth='lg'>
             <Box display='flex' justifyContent='center'>
@@ -361,8 +343,10 @@ const Home = () => {
             </Grid>
           </Container>
         </section>
-        <Footer />
-      </motion.section>
+        <div className='footer-wrapper'>
+          <Footer />
+        </div>
+      </section>
     </Fragment>
   );
 };

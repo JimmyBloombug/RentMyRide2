@@ -26,3 +26,9 @@ a {
 a:hover {
   color: inherit;
 }
+
+.body-wrapper,
+.footer-wrapper {
+  margin: 0 auto;
+  max-width: 1920px;
+}

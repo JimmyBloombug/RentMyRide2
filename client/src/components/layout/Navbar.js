@@ -1,5 +1,4 @@
 import React, { Fragment, useContext, useState } from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 // Material UI
@@ -138,135 +137,125 @@ const Navbar = () => {
 
   return (
     <div className={classes.root}>
-      <motion.div
-        transition={{
-          duration: 1,
-          type: 'tween',
-          damping: 100,
-        }}
-        initial={{ y: -30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-      >
-        <AppBar position='fixed' color='transparent' className={classes.navbar}>
-          <Toolbar>
-            <Link to='/'>
-              <img
-                src={logoPath}
-                alt='rent-my-ride_logo'
-                className={classes.logo}
-              />
-            </Link>
-            <Typography variant='h6' className={`${classes.title} title`}>
-              {mup && (
-                <Link to='/'>
-                  RentMy<span className={classes.titleSpan}>Ride</span>
-                </Link>
-              )}
-            </Typography>
-            {xsup ? (
-              <Fragment>
-                <Button component={Link} to='/how-does-it-work' color='inherit'>
-                  How it works
-                </Button>
-                <Button
-                  component={Link}
-                  to='/search'
-                  color='inherit'
-                  size='large'
-                >
-                  Search
-                </Button>
-                <Button component={Link} to='/about' color='inherit'>
-                  About
-                </Button>
-                {!isAuthenticated ? (
-                  <Fragment>
-                    <Button color='inherit' onClick={() => setLoginForm(true)}>
-                      Login
-                    </Button>
-                    <Box ml={3}>
-                      <Button
-                        onClick={() => setRegisterForm(true)}
-                        color='primary'
-                        variant='contained'
-                      >
-                        Register
-                      </Button>
-                    </Box>
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <Box ml={3} mr={2}>
-                      <IconButton
-                        edge='start'
-                        aria-label='messages'
-                        onClick={() =>
-                          setMessagesMenu({ open: true, message: '' })
-                        }
-                      >
-                        <EmailIcon />
-                      </IconButton>
-                    </Box>
+      <AppBar position='fixed' color='transparent' className={classes.navbar}>
+        <Toolbar>
+          <Link to='/'>
+            <img
+              src={logoPath}
+              alt='rent-my-ride_logo'
+              className={classes.logo}
+            />
+          </Link>
+          <Typography variant='h6' className={`${classes.title} title`}>
+            {mup && (
+              <Link to='/'>
+                RentMy<span className={classes.titleSpan}>Ride</span>
+              </Link>
+            )}
+          </Typography>
+          {xsup ? (
+            <Fragment>
+              <Button component={Link} to='/how-does-it-work' color='inherit'>
+                How it works
+              </Button>
+              <Button
+                component={Link}
+                to='/search'
+                color='inherit'
+                size='large'
+              >
+                Search
+              </Button>
+              <Button component={Link} to='/about' color='inherit'>
+                About
+              </Button>
+              {!isAuthenticated ? (
+                <Fragment>
+                  <Button color='inherit' onClick={() => setLoginForm(true)}>
+                    Login
+                  </Button>
+                  <Box ml={3}>
                     <Button
-                      aria-controls='profile'
-                      aria-haspopup='true'
-                      variant='contained'
+                      onClick={() => setRegisterForm(true)}
                       color='primary'
-                      onClick={handleClick}
-                      startIcon={<AccountCircleIcon />}
+                      variant='contained'
+                    >
+                      Register
+                    </Button>
+                  </Box>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Box ml={3} mr={2}>
+                    <IconButton
+                      edge='start'
+                      aria-label='messages'
+                      onClick={() =>
+                        setMessagesMenu({ open: true, message: '' })
+                      }
+                    >
+                      <EmailIcon />
+                    </IconButton>
+                  </Box>
+                  <Button
+                    aria-controls='profile'
+                    aria-haspopup='true'
+                    variant='contained'
+                    color='primary'
+                    onClick={handleClick}
+                    startIcon={<AccountCircleIcon />}
+                  >
+                    Profile
+                  </Button>
+                  <Menu
+                    id='profile-web'
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                    className={classes.profile}
+                  >
+                    <MenuItem
+                      component={Link}
+                      to='/settings'
+                      onClick={handleClose}
+                      className={classes.profileInfo}
+                    >
+                      Signed in as
+                      <span className={classes.profileInfoUser}>
+                        {user !== null && user.username}
+                      </span>
+                    </MenuItem>
+                    <Divider />
+                    <MenuItem
+                      component={Link}
+                      to='/profile?tab=bookings'
+                      onClick={handleClose}
                     >
                       Profile
-                    </Button>
-                    <Menu
-                      id='profile-web'
-                      anchorEl={anchorEl}
-                      keepMounted
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                      className={classes.profile}
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>Settings</MenuItem>
+                    <MenuItem
+                      onClick={handleLogout}
+                      className={classes.profileLogout}
                     >
-                      <MenuItem
-                        component={Link}
-                        to='/settings'
-                        onClick={handleClose}
-                        className={classes.profileInfo}
-                      >
-                        Signed in as
-                        <span className={classes.profileInfoUser}>
-                          {user !== null && user.username}
-                        </span>
-                      </MenuItem>
-                      <Divider />
-                      <MenuItem
-                        component={Link}
-                        to='/profile?tab=bookings'
-                        onClick={handleClose}
-                      >
-                        Profile
-                      </MenuItem>
-                      <MenuItem onClick={handleClose}>Settings</MenuItem>
-                      <MenuItem
-                        onClick={handleLogout}
-                        className={classes.profileLogout}
-                      >
-                        Logout
-                      </MenuItem>
-                    </Menu>
-                  </Fragment>
-                )}
-              </Fragment>
-            ) : (
-              <IconButton
-                edge='end'
-                aria-label='menu'
-                onClick={() => setMenu(true)}
-              >
-                <MenuIcon />
-              </IconButton>
-            )}
-          </Toolbar>
-        </AppBar>
-      </motion.div>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </Fragment>
+              )}
+            </Fragment>
+          ) : (
+            <IconButton
+              edge='end'
+              aria-label='menu'
+              onClick={() => setMenu(true)}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+        </Toolbar>
+      </AppBar>
       <MobileMenu
         menuItems={menuItems}
         loggedIn={isAuthenticated ? true : false}
