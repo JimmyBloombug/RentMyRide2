@@ -13,17 +13,17 @@ import {
   Typography,
   Grid,
   IconButton,
-  Icon,
 } from "@material-ui/core";
 
 // Material UI Icons
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
-import ColorLensIcon from "@material-ui/icons/ColorLens";
-import FastForwardIcon from "@material-ui/icons/FastForward";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import LocalGasStationIcon from "@material-ui/icons/LocalGasStation";
-import AirlineSeatReclineNormalIcon from "@material-ui/icons/AirlineSeatReclineNormal";
+import RoomIcon from "@material-ui/icons/Room";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import BlockIcon from "@material-ui/icons/Block";
+import ChatIcon from "@material-ui/icons/Chat";
 
 // Utils
 import hexToRGB from "../../utils/hexToRGB";
@@ -64,13 +64,14 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
   },
   cardEditInfo: {
+    zIndex: 1,
     position: "absolute",
     bottom: 0,
     left: 0,
     width: "100%",
     height: 50,
-    display: "flex",
     backgroundColor: hexToRGB(theme.palette.primary.main, 0.2),
+    display: "flex",
     justifyContent: "space-around",
     alignItems: "center",
     fontSize: "1.3em",
@@ -93,34 +94,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CarCards = (props) => {
+const BookingCards = (props) => {
   // ====== STYLE ======
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={3}>
-          <Card
-            className={clsx(classes.card, classes.addNew)}
-            onClick={() => props.handleModal({ open: true, type: "cars" })}
-          >
-            <CardActionArea>
-              <CardContent className={clsx(classes.cont, classes.addNewCont)}>
-                <AddIcon className={classes.addIcon} />
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-        {props.array.map((car, index) => {
+        {props.array.map((rental, index) => {
           return (
-            <Grid item xs={12} sm={6} md={3} key={car._id}>
+            <Grid item xs={12} sm={6} md={3} key={rental._id}>
               <Card className={classes.card}>
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    image={car.pictures[0]}
-                    title={car.label}
+                    image={rental.car.pictures[0]}
+                    title={rental.car.label}
                   />
                   <CardContent className={classes.cont}>
                     <Typography
@@ -130,7 +119,7 @@ const CarCards = (props) => {
                       className={classes.carName}
                       color="primary"
                     >
-                      {car.label}
+                      {rental.car.label}
                     </Typography>
                     <div className={classes.info}>
                       <Box
@@ -139,8 +128,8 @@ const CarCards = (props) => {
                         mr={2}
                         lineHeight={3}
                       >
-                        <FastForwardIcon />
-                        <Box ml={1}>{car.kmDriven}</Box>
+                        <AttachMoneyIcon />
+                        <Box ml={1}>{rental.price + " " + rental.billing}</Box>
                       </Box>
                       <Box
                         display="flex"
@@ -148,8 +137,8 @@ const CarCards = (props) => {
                         mr={2}
                         lineHeight={3}
                       >
-                        <LocalGasStationIcon />
-                        <Box ml={1}>{car.fueltype}</Box>
+                        <RoomIcon />
+                        <Box ml={1}>{rental.location.label}</Box>
                       </Box>
                       <Box
                         display="flex"
@@ -157,35 +146,20 @@ const CarCards = (props) => {
                         mr={2}
                         lineHeight={3}
                       >
-                        <AirlineSeatReclineNormalIcon />
-                        <Box ml={1}>{car.seats}</Box>
-                      </Box>
-                      <Box display="flex" alignItems="center" lineHeight={3}>
-                        <ColorLensIcon />
-                        <Box ml={1}>{car.color}</Box>
+                        <BookmarkIcon />
+                        <Box ml={1}>
+                          {rental.booked === true ? "booked" : "not booked"}
+                        </Box>
                       </Box>
                     </div>
                   </CardContent>
                 </CardActionArea>
                 <div className={classes.cardEditInfo}>
-                  {car.active ? (
-                    <div style={{ color: "white", fontWeight: 400 }}>
-                      Active in rentals
-                    </div>
-                  ) : (
-                    <Fragment>
-                      <IconButton
-                        color="inherit"
-                        title="Delete car"
-                        onClick={() => props.handleDelete(car._id, "cars")}
-                      >
-                        <DeleteForeverIcon />
-                      </IconButton>
-                      {/* <IconButton color='primary' title='Edit car'>
-                        <EditIcon />
-                      </IconButton> */}
-                    </Fragment>
-                  )}
+                  <Fragment>
+                    <IconButton color="primary" title="Message customer">
+                      <ChatIcon />
+                    </IconButton>
+                  </Fragment>
                 </div>
               </Card>
             </Grid>
@@ -196,10 +170,10 @@ const CarCards = (props) => {
   );
 };
 
-CarCards.propTypes = {
+BookingCards.propTypes = {
   array: PropTypes.array.isRequired,
   handleModal: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
 };
 
-export default CarCards;
+export default BookingCards;

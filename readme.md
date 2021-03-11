@@ -56,7 +56,7 @@ $ npm install
 
 # install dependencies client
 $ cd RentMyRide2
-$ npm clientinstall
+$ npm run clientinstall
 
 # connect your db and add jwt secret
 $ cd RentMyRide2/config

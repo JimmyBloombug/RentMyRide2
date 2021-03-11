@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
+import React from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
 
 // Material UI
 import {
@@ -13,21 +13,21 @@ import {
   Typography,
   Grid,
   IconButton,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 // Material UI Icons
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import RoomIcon from '@material-ui/icons/Room';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import BlockIcon from '@material-ui/icons/Block';
-import ChatIcon from '@material-ui/icons/Chat';
+import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import RoomIcon from "@material-ui/icons/Room";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import BlockIcon from "@material-ui/icons/Block";
+import ChatIcon from "@material-ui/icons/Chat";
 
 // Utils
-import hexToRGB from '../../utils/hexToRGB';
-import { Fragment } from 'react';
+import hexToRGB from "../../utils/hexToRGB";
+import { Fragment } from "react";
 
 // Style
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     height: 500,
-    position: 'relative',
+    position: "relative",
   },
   media: {
     height: 200,
@@ -45,19 +45,19 @@ const useStyles = makeStyles((theme) => ({
     height: 500,
   },
   info: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    fontSize: '1.2em',
+    display: "flex",
+    flexWrap: "wrap",
+    fontSize: "1.2em",
     fontWeight: 600,
-    position: 'relative',
+    position: "relative",
   },
   carName: {
     height: 80,
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   attributes: {
-    color: '#b9babd',
+    color: "#b9babd",
     fontWeight: 500,
   },
   attributesMargin: {
@@ -65,28 +65,28 @@ const useStyles = makeStyles((theme) => ({
   },
   cardEditInfo: {
     zIndex: 1,
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
-    width: '100%',
+    width: "100%",
     height: 50,
     backgroundColor: hexToRGB(theme.palette.primary.main, 0.2),
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    fontSize: '1.3em',
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    fontSize: "1.3em",
     fontWeight: 500,
-    color: '#DD3D31',
+    color: "#DD3D31",
   },
   addNew: {
-    background: 'rgb(61,108,125)',
+    background: "rgb(61,108,125)",
     background:
-      'linear-gradient(12deg, rgba(61,108,125,1) 0%, rgba(17,39,47,1) 100%)',
+      "linear-gradient(12deg, rgba(61,108,125,1) 0%, rgba(17,39,47,1) 100%)",
   },
   addNewCont: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   addIcon: {
     width: 50,
@@ -104,7 +104,7 @@ const RentalCards = (props) => {
         <Grid item xs={12} sm={6} md={3}>
           <Card
             className={clsx(classes.card, classes.addNew)}
-            onClick={() => props.handleModal({ open: true, type: 'rentals' })}
+            onClick={() => props.handleModal({ open: true, type: "rentals" })}
           >
             <CardActionArea>
               <CardContent className={clsx(classes.cont, classes.addNewCont)}>
@@ -126,26 +126,26 @@ const RentalCards = (props) => {
                   <CardContent className={classes.cont}>
                     <Typography
                       gutterBottom
-                      variant='h5'
-                      component='h2'
+                      variant="h5"
+                      component="h2"
                       className={classes.carName}
-                      color='primary'
+                      color="primary"
                     >
                       {rental.car.label}
                     </Typography>
                     <div className={classes.info}>
                       <Box
-                        display='flex'
-                        alignItems='center'
+                        display="flex"
+                        alignItems="center"
                         mr={2}
                         lineHeight={3}
                       >
                         <AttachMoneyIcon />
-                        <Box ml={1}>{rental.price + ' ' + rental.billing}</Box>
+                        <Box ml={1}>{rental.price + " " + rental.billing}</Box>
                       </Box>
                       <Box
-                        display='flex'
-                        alignItems='center'
+                        display="flex"
+                        alignItems="center"
                         mr={2}
                         lineHeight={3}
                       >
@@ -153,14 +153,14 @@ const RentalCards = (props) => {
                         <Box ml={1}>{rental.location.label}</Box>
                       </Box>
                       <Box
-                        display='flex'
-                        alignItems='center'
+                        display="flex"
+                        alignItems="center"
                         mr={2}
                         lineHeight={3}
                       >
                         <BookmarkIcon />
                         <Box ml={1}>
-                          {rental.booked === true ? 'booked' : 'not booked'}
+                          {rental.booked === true ? "booked" : "not booked"}
                         </Box>
                       </Box>
                     </div>
@@ -170,24 +170,24 @@ const RentalCards = (props) => {
                   {rental.booked === false ? (
                     <Fragment>
                       <IconButton
-                        color='inherit'
-                        title='Delete rental offer'
+                        color="inherit"
+                        title="Delete rental offer"
                         onClick={() =>
-                          props.handleDelete(rental._id, 'rentals')
+                          props.handleDelete(rental._id, "rentals")
                         }
                       >
                         <DeleteForeverIcon />
                       </IconButton>
-                      <IconButton color='primary' title='Edit rental offer'>
+                      {/* <IconButton color='primary' title='Edit rental offer'>
                         <EditIcon />
-                      </IconButton>
+                      </IconButton> */}
                     </Fragment>
                   ) : (
                     <Fragment>
-                      <IconButton color='inherit' title='Close offer'>
+                      <IconButton color="inherit" title="Close offer">
                         <BlockIcon />
                       </IconButton>
-                      <IconButton color='primary' title='Message customer'>
+                      <IconButton color="primary" title="Message customer">
                         <ChatIcon />
                       </IconButton>
                     </Fragment>

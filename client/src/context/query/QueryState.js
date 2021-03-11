@@ -1,8 +1,8 @@
-import React, { useReducer } from 'react';
-import axios from 'axios';
+import React, { useReducer } from "react";
+import axios from "axios";
 
-import QueryContext from './queryContext';
-import QueryReducer from './queryReducer';
+import QueryContext from "./queryContext";
+import QueryReducer from "./queryReducer";
 
 import {
   SET_RENTALS,
@@ -12,11 +12,13 @@ import {
   CLEAR_VALUES,
   SET_LOADING,
   SET_SEARCH_RES,
-} from '../types';
+  SET_BOOKINGS,
+  SET_BOOKINGS_ERR,
+} from "../types";
 
 const QueryState = (props) => {
   const initialState = {
-    car: '',
+    car: "",
     location: {},
     kmDriven: undefined,
     fuelType: undefined,
@@ -28,13 +30,16 @@ const QueryState = (props) => {
     // rental
     rental: undefined,
     rentalErr: undefined,
+    // bookings
+    bookings: [],
+    // bookingsErr: undefined,
     // rentals
-    rentals: undefined,
+    rentals: [],
     rentalsErr: undefined,
     // search results
     searchRes: undefined,
     // cars
-    cars: undefined,
+    cars: [],
     carsErr: undefined,
     loading: true,
   };
@@ -56,9 +61,21 @@ const QueryState = (props) => {
     });
   };
 
+  // get bookings
+  const getBookings = async () => {
+    try {
+      // server request
+      const res = await axios.get("server/bookings/user");
+      dispatch({
+        type: SET_BOOKINGS,
+        payload: res.data,
+      });
+    } catch (error) {}
+  };
+
   // get rentals
-  const getRentals = async (id, route = 'user', type = 'all', limit = 10) => {
-    if (type === 'single') {
+  const getRentals = async (id, route = "user", type = "all", limit = 10) => {
+    if (type === "single") {
       // GET SINGLE ENTRY
       // set headers
       const config = {
@@ -104,11 +121,11 @@ const QueryState = (props) => {
 
     // GET QUERIED ENTRIES
     // set headers
-    let location = '';
-    let kmdriven = '';
-    let fueltype = '';
-    let color = '';
-    let seats = '';
+    let location = "";
+    let kmdriven = "";
+    let fueltype = "";
+    let color = "";
+    let seats = "";
 
     if (state.location !== null) {
       if (state.location.region !== undefined) {
@@ -155,7 +172,7 @@ const QueryState = (props) => {
   // Get Cars
   const getCars = async () => {
     // server request
-    const res = await axios.get('server/cars/user');
+    const res = await axios.get("server/cars/user");
 
     // set cars = server response
     dispatch({
@@ -172,7 +189,7 @@ const QueryState = (props) => {
       },
     };
     // server request
-    const res = await axios.get('server/users/public', config);
+    const res = await axios.get("server/users/public", config);
 
     dispatch({
       type: SET_OWNER,
@@ -191,11 +208,13 @@ const QueryState = (props) => {
         color: state.color,
         owner: state.owner,
         rental: state.rental,
+        bookings: state.bookings,
         rentals: state.rentals,
         searchRes: state.searchRes,
         cars: state.cars,
         setValue,
         clearValues,
+        getBookings,
         getRentals,
         searchRentals,
         getCars,

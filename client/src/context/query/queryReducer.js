@@ -14,7 +14,8 @@ import {
   SET_COLOR,
   SET_LOADING,
   SET_SEARCH_RES,
-} from '../types';
+  SET_BOOKINGS,
+} from "../types";
 
 const QueryReducer = (state, action) => {
   switch (action.type) {
@@ -70,6 +71,12 @@ const QueryReducer = (state, action) => {
         ...state,
         rental: action.payload,
       };
+    case SET_BOOKINGS: {
+      return {
+        ...state,
+        bookings: action.payload,
+      };
+    }
     case SET_RENTALS: {
       return {
         ...state,
@@ -100,7 +107,7 @@ const QueryReducer = (state, action) => {
       return {
         ...state,
         // search
-        car: '',
+        car: "",
         location: {},
         kmDriven: undefined,
         fuelType: undefined,
@@ -112,13 +119,15 @@ const QueryReducer = (state, action) => {
         // rental
         rental: undefined,
         rentalErr: undefined,
+        // bookings
+        bookings: [],
         // rentals
-        rentals: undefined,
+        rentals: [],
         rentalsErr: undefined,
         // search
         searchRes: undefined,
         // cars
-        cars: undefined,
+        cars: [],
         carsErr: undefined,
       };
     }

@@ -1,23 +1,60 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
+const { check, validationResult } = require("express-validator");
 
 // Middleware
-const auth = require('../middleware/auth');
+const auth = require("../middleware/auth");
 // Schema
-const Rental = require('../models/Rental');
-const Booking = require('../models/Booking');
-const Message = require('../models/Message');
+const Rental = require("../models/Rental");
+const Booking = require("../models/Booking");
+const Message = require("../models/Message");
 
 // @route POST server/bookings
-// @desc POST rentals
+// @desc GET bookings
+// @access Private
+router.get("/user", auth, async (req, res) => {
+  // get user id
+  const { id } = req.user;
+
+  // search bookings
+  try {
+    // find cars with matching user_id
+    let bookings = await Booking.find({ user_id: id });
+
+    // no cars were found
+    if (!bookings) {
+      res.status(400).json({ errors: "No bookings found" });
+    }
+    let bookingsNew = [];
+
+    for (let i = 0; i < bookings.length; i++) {
+      const element = bookings[i];
+      let rentalMatch = await Rental.findById(element.rental_id);
+      bookingsNew.push(rentalMatch);
+    }
+
+    // bookings.forEach(element => {
+    //   let rentalMatch = await Rental.findById(element.rental_id)
+    //   bookingsNew.push(rentalMatch)
+    // });
+
+    // response
+    res.json(bookingsNew);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ errors: "Internal Server Error" });
+  }
+});
+
+// @route POST server/bookings
+// @desc POST bookings
 // @access Private
 router.post(
-  '/user',
+  "/user",
   auth,
   [
-    check('checkIn', 'Please enter a check in date').notEmpty(),
-    check('checkOut', 'Please enter a check out date').notEmpty(),
+    check("checkIn", "Please enter a check in date").notEmpty(),
+    check("checkOut", "Please enter a check out date").notEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -46,7 +83,7 @@ router.post(
       // error if rental is already booked
       if (rentalExists.booked === true) {
         return res.status(400).json({
-          errors: [{ msg: 'The offer has already been booked' }],
+          errors: [{ msg: "The offer has already been booked" }],
         });
       }
 
@@ -87,10 +124,10 @@ router.post(
       await rentalExists.save();
 
       // response
-      res.json({ msg: 'Your offer has been saved successfully' });
+      res.json({ msg: "Your offer has been saved successfully" });
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal Server Error');
+      res.status(500).send("Internal Server Error");
     }
   }
 );
