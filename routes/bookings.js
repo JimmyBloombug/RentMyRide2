@@ -8,7 +8,6 @@ const auth = require("../middleware/auth");
 const Rental = require("../models/Rental");
 const Booking = require("../models/Booking");
 const Message = require("../models/Message");
-const e = require("express");
 
 // @route POST server/bookings
 // @desc GET bookings
@@ -128,5 +127,54 @@ router.post(
     }
   }
 );
+
+// @route DELETE server/bookings
+// @desc DELETE bookings
+// @access Private
+router.delete("/delete", auth, async (req, res) => {
+  // user id
+  const user_id = req.user.id;
+
+  // destructure
+  const { id } = req.headers;
+
+  try {
+    // check if rental offer exists
+    let bookingExists = await Booking.findOne({ rental_id: id });
+
+    // rental offer doesn't exist
+    if (!bookingExists) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "The booking wasn't found" }] });
+    }
+
+    // find rental
+    let rentalExists = await Rental.findById(bookingExists.rental_id);
+
+    console.log(bookingExists);
+
+    // user doesn't own rental offer
+    if (user_id !== bookingExists.owner_id) {
+      return res
+        .status(401)
+        .json({ errors: [{ msg: "Authorization denied" }] });
+    }
+
+    // update rental
+    rentalExists.booked = false;
+
+    // save rental
+    await rentalExists.save();
+
+    // delete
+    await Booking.findByIdAndDelete({ _id: bookingExists._id });
+    // response
+    res.json({ msg: "Your booking has been deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 module.exports = router;

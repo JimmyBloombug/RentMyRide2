@@ -184,7 +184,13 @@ const RentalCards = (props) => {
                     </Fragment>
                   ) : (
                     <Fragment>
-                      <IconButton color="inherit" title="Close offer">
+                      <IconButton
+                        color="inherit"
+                        title="Close offer"
+                        onClick={() =>
+                          props.handleDelete(rental._id, "bookings")
+                        }
+                      >
                         <BlockIcon />
                       </IconButton>
                       <IconButton color="primary" title="Message customer">

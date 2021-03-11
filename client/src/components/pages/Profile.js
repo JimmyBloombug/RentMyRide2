@@ -288,7 +288,7 @@ const Profile = (props) => {
         modalOpen={serverModalOpen}
         server={server}
         close={resetForm}
-        reload={{ getRentals, getCars }}
+        reload={{ getBookings, getRentals, getCars }}
       />
     </Fragment>
   );
