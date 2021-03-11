@@ -8,6 +8,7 @@ const auth = require("../middleware/auth");
 const Rental = require("../models/Rental");
 const Booking = require("../models/Booking");
 const Message = require("../models/Message");
+const e = require("express");
 
 // @route POST server/bookings
 // @desc GET bookings
@@ -30,13 +31,9 @@ router.get("/user", auth, async (req, res) => {
     for (let i = 0; i < bookings.length; i++) {
       const element = bookings[i];
       let rentalMatch = await Rental.findById(element.rental_id);
+
       bookingsNew.push(rentalMatch);
     }
-
-    // bookings.forEach(element => {
-    //   let rentalMatch = await Rental.findById(element.rental_id)
-    //   bookingsNew.push(rentalMatch)
-    // });
 
     // response
     res.json(bookingsNew);

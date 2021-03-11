@@ -1,6 +1,6 @@
-import React, { Fragment, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, useViewportScroll, useTransform } from 'framer-motion';
+import React, { Fragment, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 // Material Ui
 import {
@@ -12,112 +12,112 @@ import {
   useTheme,
   useMediaQuery,
   makeStyles,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 // Components
-import QuickSearch from '../search/QuickSearch';
-import Cards from '../layout/Cards';
-import Slider from '../layout/Slider';
-import Footer from '../layout/Footer';
+import QuickSearch from "../search/QuickSearch";
+import Cards from "../layout/Cards";
+import Slider from "../layout/Slider";
+import Footer from "../layout/Footer";
 
 // Assets
-import heroBG from '../../assets/landing/carbg.mp4';
-import Car1 from '../../assets/home/car1.jpg';
-import Car2 from '../../assets/home/car2.jpg';
+import heroBG from "../../assets/landing/carbg.mp4";
+import Car1 from "../../assets/home/car1.jpg";
+import Car2 from "../../assets/home/car2.jpg";
 
 // Context
-import AuthContext from '../../context/auth/authContext';
-import NavbarContext from '../../context/navbar/navbarContext';
-import QueryContext from '../../context/query/queryContext';
+import AuthContext from "../../context/auth/authContext";
+import NavbarContext from "../../context/navbar/navbarContext";
+import QueryContext from "../../context/query/queryContext";
 
 // Define Style
 const useStyles = makeStyles((theme) => ({
   heroBGCont: {
-    width: '100%',
-    height: '100%',
-    position: 'fixed',
+    width: "100%",
+    height: "100%",
+    position: "fixed",
     zIndex: -20,
     left: 0,
     top: 0,
-    filter: 'blur(5px) brightness(0.2) hue-rotate(260deg)',
-    overflowX: 'hidden',
+    filter: "blur(5px) brightness(0.2) hue-rotate(260deg)",
+    overflowX: "hidden",
   },
   heroBG: {
-    minWidth: '100%',
-    minHeight: '100%',
-    width: 'auto',
-    height: 'auto',
+    minWidth: "100%",
+    minHeight: "100%",
+    width: "auto",
+    height: "auto",
   },
   heroSection: {
-    width: '100vw',
-    height: '100vh',
-    position: 'relative',
+    width: "100vw",
+    height: "100vh",
+    position: "relative",
   },
   heroCont: {
     // marginTop: theme.spacing(10),
     padding: theme.spacing(0, 5, 10, 5),
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    textAlign: 'center',
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    textAlign: "center",
   },
   h1: {
     color: theme.palette.primary.main,
-    fontSize: '3.6em',
+    fontSize: "3.6em",
     fontWeight: 500,
     marginBottom: theme.spacing(2),
   },
   heroP: {
-    fontSize: '2em',
+    fontSize: "2em",
     fontWeight: 400,
     marginTop: theme.spacing(0),
   },
   homeCont: {
     backgroundColor: theme.palette.background.default,
     zIndex: 200,
-    width: '100vw',
-    position: 'absolute',
-    boxShadow: '0 0 10px 10px #000c0f',
+    width: "100vw",
+    position: "absolute",
+    boxShadow: "0 0 10px 10px #000c0f",
   },
   homeContSection: {
     padding: theme.spacing(10, 5, 0, 5),
   },
   img: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   h3: {
-    fontSize: '2.1em',
+    fontSize: "2.1em",
     fontWeight: 500,
     marginTop: 0,
   },
   h4: {
-    fontSize: '1.6em',
-    fontWeight: '500',
+    fontSize: "1.6em",
+    fontWeight: "500",
     color: theme.palette.primary.main,
   },
   span: {
     color: theme.palette.primary.main,
   },
   p: {
-    fontSize: '1.3em',
+    fontSize: "1.3em",
   },
   h1Mobile: {
-    fontSize: '3em',
+    fontSize: "3em",
     color: theme.palette.primary.main,
     fontWeight: 500,
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(10),
   },
   heroPMobile: {
-    fontSize: '1.7em',
+    fontSize: "1.7em",
     fontWeight: 400,
     marginTop: theme.spacing(1),
   },
   imgMobile: {
-    width: '100%',
+    width: "100%",
   },
 }));
 
@@ -129,9 +129,9 @@ const Home = () => {
   const theme = useTheme();
 
   // Media Queries
-  let mdup = useMediaQuery(theme.breakpoints.up('md'));
-  let mddown = useMediaQuery(theme.breakpoints.down('md'));
-  let xsdown = useMediaQuery(theme.breakpoints.down('xs'));
+  let mdup = useMediaQuery(theme.breakpoints.up("md"));
+  let mddown = useMediaQuery(theme.breakpoints.down("md"));
+  let xsdown = useMediaQuery(theme.breakpoints.down("xs"));
 
   // ======== CONTEXT =======
   const authContext = useContext(AuthContext);
@@ -148,12 +148,12 @@ const Home = () => {
 
   // get rentals
   useEffect(() => {
-    getRentals('', 'public', 'recent', 3);
+    getRentals("", "public", "recent", 3);
 
     if (mddown && !xsdown) {
-      getRentals('', 'public', 'recent', 2);
+      getRentals("", "public", "recent", 2);
     } else if (xsdown) {
-      getRentals('', 'public', 'recent', 3);
+      getRentals("", "public", "recent", 3);
     }
 
     // eslint-disable-next-line
@@ -175,11 +175,11 @@ const Home = () => {
           <motion.h1
             transition={{
               duration: 0.3,
-              type: 'spring',
+              type: "spring",
               damping: 10,
               stiffness: 60,
             }}
-            initial={{ y: '-50px', opacity: 0 }}
+            initial={{ y: "-50px", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             className={xsdown ? classes.h1Mobile : classes.h1}
           >
@@ -189,22 +189,22 @@ const Home = () => {
             transition={{
               duration: 0.3,
               delay: 0.3,
-              type: 'spring',
+              type: "spring",
               damping: 10,
               stiffness: 60,
             }}
-            initial={{ y: '-50px', opacity: 0 }}
+            initial={{ y: "-50px", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             className={xsdown ? classes.heroPMobile : classes.heroP}
           >
             Cars from private lenders up to 60% cheaper
           </motion.p>
-          <Box mt={6} width={mdup ? '900px' : '100%'}>
+          <Box mt={6} width={mdup ? "900px" : "100%"}>
             <motion.div
               transition={{
                 duration: 0.4,
                 delay: 0.6,
-                type: 'tween',
+                type: "tween",
                 damping: 12,
                 stiffness: 10,
               }}
@@ -218,10 +218,10 @@ const Home = () => {
       </section>
       <section className={classes.homeCont}>
         <section className={classes.homeContSection}>
-          <Container maxWidth='lg'>
-            <Box display='flex' justifyContent='center'>
+          <Container maxWidth="lg">
+            <Box display="flex" justifyContent="center">
               <h3 className={classes.h3}>
-                Choose from a{' '}
+                Choose from a{" "}
                 <span className={classes.span}>varity of cars</span>
               </h3>
             </Box>
@@ -232,12 +232,12 @@ const Home = () => {
                 <Cards array={rentals} />
               )
             ) : (
-              ''
+              ""
             )}
           </Container>
         </section>
         <section className={classes.homeContSection}>
-          <Container maxWidth='lg'>
+          <Container maxWidth="lg">
             <Grid container spacing={xsdown ? 2 : 10}>
               <Grid item xs={12} md={6}>
                 {!mdup && (
@@ -249,7 +249,7 @@ const Home = () => {
                 <img
                   className={xsdown ? classes.imgMobile : classes.img}
                   src={Car1}
-                  alt='car-landing-1'
+                  alt="car-landing-1"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -272,9 +272,9 @@ const Home = () => {
                 <Box mt={4}>
                   <Button
                     component={Link}
-                    to='how-does-it-work'
-                    variant='outlined'
-                    color='primary'
+                    to="how-does-it-work"
+                    variant="outlined"
+                    color="primary"
                   >
                     How does it work
                   </Button>
@@ -284,7 +284,7 @@ const Home = () => {
           </Container>
         </section>
         <section className={classes.homeContSection}>
-          <Container maxWidth='lg'>
+          <Container maxWidth="lg">
             <Grid container spacing={xsdown ? 7 : 10}>
               <Grid item xs={12} md={6}>
                 <h3 className={classes.h3}>
@@ -314,9 +314,9 @@ const Home = () => {
                   <Box mt={4}>
                     <Button
                       component={Link}
-                      to='profile'
-                      variant='outlined'
-                      color='primary'
+                      to="profile"
+                      variant="outlined"
+                      color="primary"
                     >
                       Add car
                     </Button>
@@ -324,8 +324,8 @@ const Home = () => {
                 ) : (
                   <Box mt={4}>
                     <Button
-                      variant='outlined'
-                      color='primary'
+                      variant="outlined"
+                      color="primary"
                       onClick={() => navbarContext.setRegisterForm(true)}
                     >
                       Register
@@ -337,13 +337,13 @@ const Home = () => {
                 <img
                   className={xsdown ? classes.imgMobile : classes.img}
                   src={Car2}
-                  alt='car-landing-1'
+                  alt="car-landing-1"
                 />
               </Grid>
             </Grid>
           </Container>
         </section>
-        <div className='footer-wrapper'>
+        <div className="footer-wrapper">
           <Footer />
         </div>
       </section>

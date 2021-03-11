@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
 
 // Material UI
 import {
@@ -16,13 +15,13 @@ import {
 } from "@material-ui/core";
 
 // Material UI Icons
-import AddIcon from "@material-ui/icons/Add";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+// import AddIcon from "@material-ui/icons/Add";
+// import EditIcon from "@material-ui/icons/Edit";
+// import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import RoomIcon from "@material-ui/icons/Room";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import BlockIcon from "@material-ui/icons/Block";
+// import BlockIcon from "@material-ui/icons/Block";
 import ChatIcon from "@material-ui/icons/Chat";
 
 // Utils
@@ -79,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#DD3D31",
   },
   addNew: {
-    background: "rgb(61,108,125)",
+    // background: "rgb(61,108,125)",
     background:
       "linear-gradient(12deg, rgba(61,108,125,1) 0%, rgba(17,39,47,1) 100%)",
   },
@@ -101,15 +100,15 @@ const BookingCards = (props) => {
   return (
     <div className={classes.container}>
       <Grid container spacing={2}>
-        {props.array.map((rental, index) => {
+        {props.array.map((booking, index) => {
           return (
-            <Grid item xs={12} sm={6} md={3} key={rental._id}>
+            <Grid item xs={12} sm={6} md={3} key={booking._id}>
               <Card className={classes.card}>
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    image={rental.car.pictures[0]}
-                    title={rental.car.label}
+                    image={booking.car.pictures[0]}
+                    title={booking.car.label}
                   />
                   <CardContent className={classes.cont}>
                     <Typography
@@ -119,7 +118,7 @@ const BookingCards = (props) => {
                       className={classes.carName}
                       color="primary"
                     >
-                      {rental.car.label}
+                      {booking.car.label}
                     </Typography>
                     <div className={classes.info}>
                       <Box
@@ -129,7 +128,9 @@ const BookingCards = (props) => {
                         lineHeight={3}
                       >
                         <AttachMoneyIcon />
-                        <Box ml={1}>{rental.price + " " + rental.billing}</Box>
+                        <Box ml={1}>
+                          {booking.price + " " + booking.billing}
+                        </Box>
                       </Box>
                       <Box
                         display="flex"
@@ -138,7 +139,7 @@ const BookingCards = (props) => {
                         lineHeight={3}
                       >
                         <RoomIcon />
-                        <Box ml={1}>{rental.location.label}</Box>
+                        <Box ml={1}>{booking.location.label}</Box>
                       </Box>
                       <Box
                         display="flex"
@@ -147,9 +148,6 @@ const BookingCards = (props) => {
                         lineHeight={3}
                       >
                         <BookmarkIcon />
-                        <Box ml={1}>
-                          {rental.booked === true ? "booked" : "not booked"}
-                        </Box>
                       </Box>
                     </div>
                   </CardContent>

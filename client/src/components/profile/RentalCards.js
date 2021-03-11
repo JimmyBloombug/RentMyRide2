@@ -17,7 +17,7 @@ import {
 
 // Material UI Icons
 import AddIcon from "@material-ui/icons/Add";
-import EditIcon from "@material-ui/icons/Edit";
+// import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import RoomIcon from "@material-ui/icons/Room";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#DD3D31",
   },
   addNew: {
-    background: "rgb(61,108,125)",
+    // background: "rgb(61,108,125)",
     background:
       "linear-gradient(12deg, rgba(61,108,125,1) 0%, rgba(17,39,47,1) 100%)",
   },

@@ -13,7 +13,6 @@ import {
   SET_LOADING,
   SET_SEARCH_RES,
   SET_BOOKINGS,
-  SET_BOOKINGS_ERR,
 } from "../types";
 
 const QueryState = (props) => {
