@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 
 // Material UI
 import {
@@ -6,18 +6,18 @@ import {
   CircularProgress,
   Grid,
   FormControl,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
-import { Autocomplete } from "@material-ui/lab";
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import { Autocomplete } from '@material-ui/lab';
 
 // Lists
-import kmSelect from "../../constants/kmselect.json";
-import fuelTypeList from "../../constants/fueltypes.json";
-import numSelect from "../../constants/numselect.json";
-import colorSelect from "../../constants/colorselect.json";
+import kmSelect from '../../constants/kmselect.json';
+import fuelTypeList from '../../constants/fueltypes.json';
+import numSelect from '../../constants/numselect.json';
+import colorSelect from '../../constants/colorselect.json';
 
 // Context
-import QueryContext from "../../context/query/queryContext";
+import QueryContext from '../../context/query/queryContext';
 import {
   SET_CAR,
   SET_LOCATION,
@@ -25,12 +25,12 @@ import {
   SET_FUELTYPE,
   SET_SEATS,
   SET_COLOR,
-} from "../../context/types";
+} from '../../context/types';
 
 // Define Styles
 const useStyles = makeStyles((theme) => ({
   location: {
-    width: "100% !important",
+    width: '100% !important',
   },
 }));
 
@@ -57,7 +57,7 @@ const FullSearch = () => {
   // Geolocation
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
-  const [locationInput, setlocationInput] = useState("");
+  const [locationInput, setlocationInput] = useState('');
   const loading = open && options.length === 0;
 
   // ====== FUNCTIONS ======
@@ -66,7 +66,7 @@ const FullSearch = () => {
   useEffect(() => {
     let active = true;
 
-    if (locationInput !== "") {
+    if (locationInput !== '') {
       (async () => {
         // get city
         const res = await fetch(
@@ -77,8 +77,9 @@ const FullSearch = () => {
         const result = resJson.features;
 
         // set options
-        if (active) {
+        if (active && result) {
           setOptions(Object.keys(result).map((key) => result[key].properties));
+          console.log(result);
         }
       })();
 
@@ -108,14 +109,14 @@ const FullSearch = () => {
   const classes = useStyles();
 
   return (
-    <form className="fullSearchCont">
+    <form className='fullSearchCont'>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <FormControl variant="outlined" fullWidth color="primary">
+          <FormControl variant='outlined' fullWidth color='primary'>
             <TextField
-              id="searchCar"
-              label="Car"
-              variant="outlined"
+              id='searchCar'
+              label='Car'
+              variant='outlined'
               fullWidth
               onChange={(e) => setValue(SET_CAR, e.target.value)}
               value={car}
@@ -124,7 +125,7 @@ const FullSearch = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Autocomplete
-            id="geolocation"
+            id='geolocation'
             className={classes.location}
             style={{ width: 300 }}
             open={open}
@@ -142,15 +143,15 @@ const FullSearch = () => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Your location"
-                variant="outlined"
+                label='Your location'
+                variant='outlined'
                 onChange={handleChange}
                 InputProps={{
                   ...params.InputProps,
                   endAdornment: (
                     <Fragment>
                       {loading ? (
-                        <CircularProgress color="inherit" size={20} />
+                        <CircularProgress color='inherit' size={20} />
                       ) : null}
                       {params.InputProps.endAdornment}
                     </Fragment>
@@ -161,54 +162,54 @@ const FullSearch = () => {
           />
         </Grid>
         <Grid item xs={12} sm={3}>
-          <FormControl variant="outlined" fullWidth color="primary">
+          <FormControl variant='outlined' fullWidth color='primary'>
             <Autocomplete
-              id="km"
+              id='km'
               options={kmSelect}
               onChange={(e, value) => setValue(SET_KM_DRIVEN, value)}
               autoHighlight
               getOptionLabel={(option) => option.km}
               getOptionSelected={(option) => option.km === kmDriven}
               renderInput={(params) => (
-                <TextField {...params} label="Kilometers" variant="outlined" />
+                <TextField {...params} label='Kilometers' variant='outlined' />
               )}
             />
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={3}>
-          <FormControl variant="outlined" fullWidth color="primary">
+          <FormControl variant='outlined' fullWidth color='primary'>
             <Autocomplete
-              id="fuel-type"
+              id='fuel-type'
               options={fuelTypeList}
               onChange={(e, value) => setValue(SET_FUELTYPE, value)}
               autoHighlight
               getOptionLabel={(option) => option.type}
               getOptionSelected={(option) => option.type === fuelType}
               renderInput={(params) => (
-                <TextField {...params} label="Fuel" variant="outlined" />
+                <TextField {...params} label='Fuel' variant='outlined' />
               )}
             />
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={3}>
-          <FormControl variant="outlined" fullWidth color="primary">
+          <FormControl variant='outlined' fullWidth color='primary'>
             <Autocomplete
-              id="seat-number"
+              id='seat-number'
               options={numSelect}
               onChange={(e, value) => setValue(SET_SEATS, value)}
               autoHighlight
               getOptionLabel={(option) => option.num}
               getOptionSelected={(option) => option.num === seats}
               renderInput={(params) => (
-                <TextField {...params} label="Seats" variant="outlined" />
+                <TextField {...params} label='Seats' variant='outlined' />
               )}
             />
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={3}>
-          <FormControl variant="outlined" fullWidth color="primary">
+          <FormControl variant='outlined' fullWidth color='primary'>
             <Autocomplete
-              id="color"
+              id='color'
               options={colorSelect}
               onChange={(e, value) => setValue(SET_COLOR, value)}
               autoHighlight
@@ -228,7 +229,7 @@ const FullSearch = () => {
                 </Fragment>
               )}
               renderInput={(params) => (
-                <TextField {...params} label="Color" variant="outlined" />
+                <TextField {...params} label='Color' variant='outlined' />
               )}
             />
           </FormControl>

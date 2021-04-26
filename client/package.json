@@ -9,9 +9,8 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
     "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "clsx": "^1.1.1",
     "date-fns": "^2.16.1",
     "framer-motion": "^2.9.4",
@@ -49,5 +48,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "devDependencies": {
+    "@testing-library/react": "^11.2.6"
+  }
 }

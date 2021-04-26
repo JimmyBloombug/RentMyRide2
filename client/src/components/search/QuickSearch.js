@@ -64,7 +64,7 @@ const QuickSearch = (props) => {
         const result = resJson.features;
 
         // set options
-        if (active) {
+        if (active && result) {
           setOptions(Object.keys(result).map((key) => result[key].properties));
         }
       })();
