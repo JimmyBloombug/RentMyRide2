@@ -4,3 +4,4 @@ privateReadme.md
 package-lock.json
 client/node_modules
 client/.env.local
+.DS_Store
